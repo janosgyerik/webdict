@@ -30,6 +30,7 @@ App.Form = Backbone.View.extend({
     },
     initialize: function() {
         this.input = this.$('.search-query');
+        this.results = this.$('.results');
     },
     resetBtn: function(e) {
         e.preventDefault();
@@ -45,31 +46,12 @@ App.Form = Backbone.View.extend({
         }
         if (!keyword) return;
         this.input.val('');
-        var results = this.$('.results');
-        var success = function(data, textStatus, jqXHR) {
-            results.empty();
-            _.each(data, function(bundle) {
-                results.append($('<h3/>').append(bundle.word));
-                var dl = $('<dl/>');
-                _.each(bundle.dl, function(item) {
-                    var tag = item[0];
-                    var value = item[1];
-                    dl.append($('<' + tag + '/>').append(value));
-                });
-                results.append(dl);
-            });
-            results.find('a').each(function(i, item) {
-                $(this).click(function(e) {
-                    e.preventDefault();
-                    console.log('hello');
-                });
-            });
+        var _this = this;
+        var success = function(json) {
+            _this.onLookupSuccess(json);
         };
         var error = function(jqXHR, textStatus, errorThrown) {
-            console.log('error');
-        };
-        var complete = function(jqXHR, textStatus) {
-            console.log('complete');
+            _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
         $.ajax({
             url: App.searchURL,
@@ -85,6 +67,27 @@ App.Form = Backbone.View.extend({
         if (e.keyCode != 13) return;
         e.preventDefault();
         this.search();
+    },
+    onLookupSuccess: function(json) {
+        var results = this.results;
+        results.empty();
+        _.each(json, function(bundle) {
+            results.append($('<h3/>').append(bundle.word));
+            var dl = $('<dl/>');
+            _.each(bundle.dl, function(item) {
+                var tag = item[0];
+                var value = item[1];
+                dl.append($('<' + tag + '/>').append(value));
+            });
+            results.append(dl);
+        });
+        results.find('a').each(function(i, item) {
+            console.log($(this).attr('href'));
+            $(this).click(function(e) {
+                e.preventDefault();
+                console.log('hello');
+            });
+        });
     }
 });
 
