@@ -1,0 +1,4 @@
+# Install required python packages using pip:
+# pip install -r pip.txt
+Flask==0.9
+simplejson==2.6.2

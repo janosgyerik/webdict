@@ -1,0 +1,43 @@
+/* 
+ * File: css/english.css
+ * Purpose: Custom stylesheet for English-English
+ *
+ * */
+
+.results {
+    max-width: 600px;
+}
+
+#keyword-list li.editing .edit {
+    display: block;
+}
+
+#keyword-list li.editing .view {
+    display: none;
+}
+
+#keyword-list li .edit {
+    display: none;
+}
+
+#keyword-list .keyword {
+    font-size: larger;
+}
+
+.destroy {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: url(../images/destroy.png) no-repeat center center;
+    display: block;
+}
+
+#keyword-list .destroy {
+    display: none;
+}
+
+#keyword-list tr:hover .destroy {
+    display: block;
+}
+
+/* eof */
