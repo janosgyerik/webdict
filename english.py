@@ -8,7 +8,7 @@ from settings import dictonary_path
 index_path = os.path.join(dictonary_path, 'index.dat')
 
 re_dt = re.compile('[A-Z]{2,}')
-re_filename = re.compile('^[0-9]{2}/[A-Z][0-9]+\.html$')
+re_filename = re.compile('^([0-9]{2}|roots)/[A-Z]+[0-9]+\.html$')
 
 
 def repack_entry(filename):
@@ -23,7 +23,7 @@ def repack_entry(filename):
                 word = line.strip().split(':')[1]
             cnt += 1
             continue
-        line = line.strip().replace('!!DICTIONARY!!', '')
+        line = line.strip().replace('!!DICTIONARY!!', '#')
         if re_dt.match(line):
             dl.append(('dt', line))
         else:

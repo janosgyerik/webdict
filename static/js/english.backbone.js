@@ -35,6 +35,7 @@ App.Form = Backbone.View.extend({
     resetBtn: function(e) {
         e.preventDefault();
         this.input.val('');
+        this.input.focus();
     },
     searchBtn: function(e) {
         e.preventDefault();
@@ -68,7 +69,27 @@ App.Form = Backbone.View.extend({
         e.preventDefault();
         this.search();
     },
+    getfile: function(filename) {
+        this.input.focus();
+        var _this = this;
+        var success = function(json) {
+            _this.onLookupSuccess(json);
+        };
+        var error = function(jqXHR, textStatus, errorThrown) {
+            _this.onLookupError(jqXHR, textStatus, errorThrown);
+        };
+        $.ajax({
+            url: App.queryURL,
+            dataType: 'json',
+            data: {
+                file: filename
+            },
+            success: success,
+            error: error
+        });
+    },
     onLookupSuccess: function(json) {
+        var _this = this;
         var results = this.results;
         results.empty();
         _.each(json, function(bundle) {
@@ -82,10 +103,12 @@ App.Form = Backbone.View.extend({
             results.append(dl);
         });
         results.find('a').each(function(i, item) {
-            console.log($(this).attr('href'));
+            var href = $(this).attr('href');
+            var key = 'file=';
+            var filename = href.substr(href.indexOf(key) + key.length);
             $(this).click(function(e) {
                 e.preventDefault();
-                console.log('hello');
+                _this.getfile(filename);
             });
         });
     }
