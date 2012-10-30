@@ -19,7 +19,7 @@ _.templateSettings = { interpolate: /\{\{(.+?)\}\}/g };
 // TODO: put in app/*.js
 
 
-App.searchURL = 'http://localhost:5000/query';
+App.queryURL = '/query';
 
 App.Form = Backbone.View.extend({
     el: '#main-content',
@@ -54,7 +54,7 @@ App.Form = Backbone.View.extend({
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
         $.ajax({
-            url: App.searchURL,
+            url: App.queryURL,
             dataType: 'json',
             data: {
                 keyword: keyword

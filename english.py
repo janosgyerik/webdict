@@ -4,7 +4,7 @@ from optparse import OptionParser
 import os
 import re
 
-dictonary_path = '/Users/janos/dictionaries/English'
+from settings import dictonary_path
 index_path = os.path.join(dictonary_path, 'index.dat')
 
 re_dt = re.compile('[A-Z]{2,}')
