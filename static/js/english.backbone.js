@@ -97,11 +97,12 @@ function onDomReady() {
     // TODO: put in setup.js
     // 
     App.form = new App.Form();
+    App.form.search('hello');
     App.form.input.focus();
 
     // debugging
-    App.form.input.val('indignation');
-    App.form.search();
+    //App.form.input.val('indignation');
+    //App.form.search();
 }
 
 $(function() {
