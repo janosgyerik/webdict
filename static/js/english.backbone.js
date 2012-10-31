@@ -95,30 +95,44 @@ App.Form = Backbone.View.extend({
     onLookupSuccess: function(json, quiet) {
         var _this = this;
         var results = this.results;
-        results.empty();
         var recentList = this.recentList;
-        _.each(json, function(bundle) {
-            if (!quiet) {
-                recentList.addCustom({word: bundle.word, filename: bundle.filename});
-            }
-            results.append($('<h3/>').append(bundle.word));
-            var dl = $('<dl/>');
-            _.each(bundle.dl, function(item) {
-                var tag = item[0];
-                var value = item[1];
-                dl.append($('<' + tag + '/>').append(value));
+        var words = json.words;
+        var similar = json.similar;
+        if (words.length) {
+            results.empty();
+            _.each(words, function(bundle) {
+                if (!quiet) {
+                    recentList.addCustom({word: bundle.word, filename: bundle.filename});
+                }
+                results.append($('<h3/>').append(bundle.word));
+                var dl = $('<dl/>');
+                _.each(bundle.dl, function(item) {
+                    var tag = item[0];
+                    var value = item[1];
+                    dl.append($('<' + tag + '/>').append(value));
+                });
+                results.append(dl);
             });
-            results.append(dl);
-        });
-        results.find('a').each(function(i, item) {
-            var href = $(this).attr('href');
-            var key = 'file=';
-            var filename = href.substr(href.indexOf(key) + key.length);
-            $(this).click(function(e) {
-                e.preventDefault();
-                _this.getfile(filename);
+            results.find('a').each(function(i, item) {
+                var href = $(this).attr('href');
+                var key = 'file=';
+                var filename = href.substr(href.indexOf(key) + key.length);
+                $(this).click(function(e) {
+                    e.preventDefault();
+                    _this.getfile(filename);
+                });
             });
-        });
+        }
+        if (similar.length) {
+            var items = [];
+            _.each(similar, function(item) {
+                items.push(new App.Word({
+                    filename: item[0],
+                    word: item[1]
+                }));
+            });
+            App.similarList.reset(items);
+        }
     }
 });
 
@@ -147,6 +161,10 @@ App.RecentList = Backbone.Collection.extend({
         }
         this.trigger('updated');
     }
+});
+
+App.SimilarList = Backbone.Collection.extend({
+    model: App.Word
 });
 
 App.WordView = Backbone.View.extend({
@@ -196,6 +214,25 @@ App.RecentListView = Backbone.View.extend({
     }
 });
 
+App.SimilarListView = Backbone.View.extend({
+    el: '#similar',
+    initialize: function(options) {
+        this.list = options.list;
+        this.list.bind('reset', this.render, this);
+    },
+    render: function() {
+        this.$('.list').empty();
+        this.list.each(this.add);
+        if (this.list.length) {
+            this.$el.removeClass('hidden');
+        }
+    },
+    add: function(word) {
+        var view = new App.WordView({model: word});
+        this.$('.list').append(view.render().el);
+    }
+});
+
 function onDomReady() {
     // instances
     // TODO: put in setup.js
@@ -205,6 +242,11 @@ function onDomReady() {
         list: App.recentList
     });
 
+    App.similarList = new App.SimilarList();
+    App.similarListView = new App.SimilarListView({
+        list: App.similarList
+    });
+
     App.form = new App.Form({
         recentList: App.recentList
     });
@@ -212,7 +254,7 @@ function onDomReady() {
     App.form.input.focus();
 
     // debugging
-    //App.form.search('indignation');
+    App.form.search('indignationla');
 }
 
 $(function() {

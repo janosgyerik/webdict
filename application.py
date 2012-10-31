@@ -15,7 +15,15 @@ def query():
     keyword = request.args.get('keyword', '')
     filename = request.args.get('file', '')
     if keyword:
-        return json.dumps([x for x in english.find(keyword)])
+        words = [x for x in english.find(keyword)]
+        if len(words):
+            similar = []
+        else:
+            similar = english.similar(keyword)
+        return json.dumps({
+            'words': words,
+            'similar': similar,
+            }, indent=4)
     elif filename:
         return json.dumps([english.get(filename)])
 
