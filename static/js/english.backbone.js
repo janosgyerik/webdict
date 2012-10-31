@@ -13,13 +13,16 @@
 // TODO: put in app.js
 window.App = {};
 
-_.templateSettings = { interpolate: /\{\{(.+?)\}\}/g };
+//conflicts with Flask
+//_.templateSettings = { interpolate: /\{\{(.+?)\}\}/g };
 
 // classes
 // TODO: put in app/*.js
 
 
-App.queryURL = '/query';
+// app constants
+App.QUERY_URL = '/query';
+App.MAX_RECENT = 15;
 
 App.Form = Backbone.View.extend({
     el: '#main-content',
@@ -28,7 +31,8 @@ App.Form = Backbone.View.extend({
         'click .search': 'searchBtn',
         'click .reset': 'resetBtn'
     },
-    initialize: function() {
+    initialize: function(options) {
+        this.recentList = options.recentList;
         this.input = this.$('.search-query');
         this.results = this.$('.results');
     },
@@ -55,7 +59,7 @@ App.Form = Backbone.View.extend({
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
         $.ajax({
-            url: App.queryURL,
+            url: App.QUERY_URL,
             dataType: 'json',
             data: {
                 keyword: keyword
@@ -79,7 +83,7 @@ App.Form = Backbone.View.extend({
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
         $.ajax({
-            url: App.queryURL,
+            url: App.QUERY_URL,
             dataType: 'json',
             data: {
                 file: filename
@@ -88,11 +92,15 @@ App.Form = Backbone.View.extend({
             error: error
         });
     },
-    onLookupSuccess: function(json) {
+    onLookupSuccess: function(json, quiet) {
         var _this = this;
         var results = this.results;
         results.empty();
+        var recentList = this.recentList;
         _.each(json, function(bundle) {
+            if (!quiet) {
+                recentList.addCustom({word: bundle.word, filename: bundle.filename});
+            }
             results.append($('<h3/>').append(bundle.word));
             var dl = $('<dl/>');
             _.each(bundle.dl, function(item) {
@@ -114,13 +122,93 @@ App.Form = Backbone.View.extend({
     }
 });
 
+App.Word = Backbone.Model.extend({
+    defaults: {
+        word: null,
+        file: null
+    }
+});
+
+App.RecentList = Backbone.Collection.extend({
+    model: App.Word,
+    localStorage: new Store('english-backbone'),
+    addCustom: function(obj) {
+        var filter = function(item) {
+            return item.get('filename') == obj.filename;
+        };
+        var remove = function(item) {
+            item.destroy();
+        };
+        _.each(this.filter(filter), remove);
+        this.create(obj);
+        var itemsToSlice = this.length - App.MAX_RECENT;
+        if (itemsToSlice > 0) {
+            _.each(this.toArray().slice(itemsToSlice), remove);
+        }
+        this.trigger('updated');
+    }
+});
+
+App.WordView = Backbone.View.extend({
+    tagName: 'li',
+    template: _.template($('#word-template').html()),
+    events: {
+        'click a.destroy': 'clear'
+    },
+    initialize: function() {
+        this.model.bind('destroy', this.remove, this);
+    },
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        var filename = this.model.get('filename');
+        this.$el.find('a').click(function(e) {
+            e.preventDefault();
+            App.form.getfile(filename);
+        });
+        return this;
+    },
+    clear: function() {
+        this.model.clear();
+    }
+});
+
+App.RecentListView = Backbone.View.extend({
+    el: '#recent',
+    initialize: function(options) {
+        this.list = options.list;
+        this.list.bind('reset', this.render, this);
+        this.list.bind('updated', this.render, this);
+        this.list.fetch();
+    },
+    render: function() {
+        this.$('.list').empty();
+        this.list.each(this.add);
+        if (this.list.length) {
+            this.$el.removeClass('hidden');
+        }
+        else {
+            this.$el.addClass('hidden');
+        }
+    },
+    add: function(word) {
+        var view = new App.WordView({model: word});
+        this.$('.list').prepend(view.render().el);
+    }
+});
 
 function onDomReady() {
     // instances
     // TODO: put in setup.js
     // 
-    App.form = new App.Form();
-    App.form.onLookupSuccess(window.hello);
+    App.recentList = new App.RecentList();
+    App.recentListView = new App.RecentListView({
+        list: App.recentList
+    });
+
+    App.form = new App.Form({
+        recentList: App.recentList
+    });
+    App.form.onLookupSuccess(window.hello, true);
     App.form.input.focus();
 
     // debugging

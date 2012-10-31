@@ -30,6 +30,7 @@ def repack_entry(filename):
             dl.append(('dd', line))
     return {
             'word': word,
+            'filename': filename,
             'dl': dl,
             }
 

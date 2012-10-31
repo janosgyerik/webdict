@@ -61,7 +61,14 @@
           <div class="row-fluid">
               <div class="results span9">
               </div>
-              <div class="similar span3">
+              <div class="sidebar span3">
+                  <div id="similar">
+                  </div>
+                  <div id="recent" class="hidden">
+                      <strong>Recent</strong>
+                      <ul class="list">
+                      </ul>
+                  </div>
               </div>
           </div>
       </div>
@@ -83,9 +90,13 @@
         </div>
     </script>
 
+    <script type="text/template" id="word-template">
+        <a href="#?file=<%= filename %>"><%= word %></a>
+    </script>
+
     <script type="text/javascript" id="hello">
 window.hello = 
-[{"dl": [["dt", "SYLLABICATION"], ["dd", "hel-lo"], ["dt", "INTERJECTION"], ["dd", "Used to greet someone, answer the telephone, or express surprise."], ["dt", "NOUN"], ["dd", "Inflected forms: pl. <B>hel-los</B> A calling or greeting of \"hello.\""], ["dt", "INTRANSITIVE VERB"], ["dd", "Inflected forms: <B>hel-loed</B>, <B>hel-lo-ing</B>, <B>hel-loes</B> To call \"hello.\""], ["dt", "ETYMOLOGY"], ["dd", "Alteration of <I>hallo</I>, alteration of obsolete <I>holla</I>, stop!, perhaps from Old French <I>hola</I> : <I>ho</I>, ho! + <I>la</I>, there (from Latin <I>illac</I>, that way)."]], "word": "hello"}]
+[{"dl": [["dt", "SYLLABICATION"], ["dd", "hel-lo"], ["dt", "INTERJECTION"], ["dd", "Used to greet someone, answer the telephone, or express surprise."], ["dt", "NOUN"], ["dd", "Inflected forms: pl. <B>hel-los</B> A calling or greeting of \"hello.\""], ["dt", "INTRANSITIVE VERB"], ["dd", "Inflected forms: <B>hel-loed</B>, <B>hel-lo-ing</B>, <B>hel-loes</B> To call \"hello.\""], ["dt", "ETYMOLOGY"], ["dd", "Alteration of <I>hallo</I>, alteration of obsolete <I>holla</I>, stop!, perhaps from Old French <I>hola</I> : <I>ho</I>, ho! + <I>la</I>, there (from Latin <I>illac</I>, that way)."]], "word": "hello", "filename": "60/H0136000.html"}]
     </script>
 
     <!-- Le javascript
@@ -96,7 +107,6 @@ window.hello =
     <script src="static/js/underscore-min.js"></script>
     <script src="static/js/backbone-min.js"></script>
     <script src="static/js/backbone-localstorage.js"></script>
-    <script src="static/js/jquery.cookie.js"></script>
     <script src="static/js/english.backbone.js"></script>
 
   </body>
