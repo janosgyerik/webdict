@@ -58,6 +58,7 @@ App.Form = Backbone.View.extend({
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
+        $('.searching').removeClass('customhidden');
         $.ajax({
             url: App.QUERY_URL,
             dataType: 'json',
@@ -98,6 +99,7 @@ App.Form = Backbone.View.extend({
         var recentList = this.recentList;
         var words = json.words;
         var similar = json.similar;
+        $('.searching').addClass('customhidden');
         if (words.length) {
             results.empty();
             _.each(words, function(bundle) {

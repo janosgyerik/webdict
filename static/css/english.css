@@ -4,6 +4,10 @@
  *
  * */
 
+.customhidden {
+    display: none ! important;
+}
+
 #main-content {
     max-width: 960px;
     margin: auto;
