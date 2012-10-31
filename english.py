@@ -10,6 +10,9 @@ index_path = os.path.join(dictonary_path, 'index.dat')
 re_dt = re.compile('[A-Z]{2,}')
 re_filename = re.compile('^([0-9]{2}|roots)/[A-Z]+[0-9]+\.html$')
 
+MIN_SIMILAR = 3
+MIN_TERM_LENGTH = 4
+
 
 def repack_entry(filename):
     path = os.path.join(dictonary_path, filename)
@@ -43,6 +46,31 @@ def find(term):
             yield repack_entry(filename)
 
 
+def find_similar(term):
+    index_file = open(index_path)
+    matches = []
+    for entry in index_file.readlines():
+        entry = entry.strip()
+        (filename, word) = entry.split(':')
+        if word.startswith(term):
+            matches.append((filename, word))
+    return matches
+
+
+def similar(term0):
+    term = term0
+    results = []
+    while True:
+        results = find_similar(term)
+        if len(results) > MIN_SIMILAR:
+            break
+        if len(term) > MIN_TERM_LENGTH:
+            term = term[:len(term)-1]
+        else:
+            break
+    return results
+
+
 def get(filename):
     if re_filename.match(filename):
         return repack_entry(filename)
@@ -66,6 +94,8 @@ if __name__ == '__main__':
             help='only list matches',)
     parser.add_option('--get', action='store_true', default=False,
             help='get specified filenames instead of word lookup',)
+    parser.add_option('--similar', action='store_true', default=False,
+            help='find similar words by shortening the prefix',)
     parser.set_description('Lookup words in the American Heritage Dictionary')
     (options, args) = parser.parse_args()
 
@@ -73,6 +103,10 @@ if __name__ == '__main__':
         if options.get:
             for filename in args:
                 print_entry(get(filename))
+        elif options.similar:
+            for term in args:
+                for result in similar(term):
+                    print result
         else:
             for term in args:
                 for entry in find(term):
