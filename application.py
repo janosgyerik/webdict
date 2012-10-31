@@ -25,7 +25,10 @@ def query():
             'similar': similar,
             }, indent=4)
     elif filename:
-        return json.dumps([english.get(filename)])
+        return json.dumps({
+            'words': [english.get(filename)],
+            'similar': [],
+            }, indent=4)
 
 @app.route('/st')
 def st():

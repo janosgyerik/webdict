@@ -199,7 +199,7 @@ App.RecentListView = Backbone.View.extend({
         this.list.fetch();
     },
     render: function() {
-        this.$('.list').empty();
+        this.$('.recent-list').empty();
         this.list.each(this.add);
         if (this.list.length) {
             this.$el.removeClass('hidden');
@@ -210,7 +210,7 @@ App.RecentListView = Backbone.View.extend({
     },
     add: function(word) {
         var view = new App.WordView({model: word});
-        this.$('.list').prepend(view.render().el);
+        this.$('.recent-list').prepend(view.render().el);
     }
 });
 
@@ -221,7 +221,7 @@ App.SimilarListView = Backbone.View.extend({
         this.list.bind('reset', this.render, this);
     },
     render: function() {
-        this.$('.list').empty();
+        this.$('.similar-list').empty();
         this.list.each(this.add);
         if (this.list.length) {
             this.$el.removeClass('hidden');
@@ -229,7 +229,7 @@ App.SimilarListView = Backbone.View.extend({
     },
     add: function(word) {
         var view = new App.WordView({model: word});
-        this.$('.list').append(view.render().el);
+        this.$('.similar-list').append(view.render().el);
     }
 });
 
@@ -254,7 +254,7 @@ function onDomReady() {
     App.form.input.focus();
 
     // debugging
-    App.form.search('indignationla');
+    //App.form.search('indignationla');
 }
 
 $(function() {
