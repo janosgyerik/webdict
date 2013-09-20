@@ -211,8 +211,10 @@ App.RecentListView = Backbone.View.extend({
         }
     },
     add: function(word) {
-        var view = new App.WordView({model: word});
-        this.$('.recent-list').prepend(view.render().el);
+        if (word.get('filename')) {
+            var view = new App.WordView({model: word});
+            this.$('.recent-list').prepend(view.render().el);
+        }
     }
 });
 
