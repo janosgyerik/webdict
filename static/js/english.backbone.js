@@ -50,6 +50,7 @@ App.Form = Backbone.View.extend({
             keyword = this.input.val();
         }
         if (!keyword) return;
+        App.router.navigate('lookup/' + keyword);
         this.input.val('');
         var _this = this;
         var success = function(json) {
@@ -237,6 +238,15 @@ App.SimilarListView = Backbone.View.extend({
     }
 });
 
+App.Router = Backbone.Router.extend({
+    routes: {
+        "lookup/:word": "lookup"
+    },
+    lookup: function(word) {
+        App.form.search(word);
+    }
+})
+
 function onDomReady() {
     // instances
     // TODO: put in setup.js
@@ -257,12 +267,11 @@ function onDomReady() {
     App.form.onLookupSuccess(window.hello, true);
     App.form.input.focus();
 
-    // debugging
-    //App.form.search('indignationla');
+    App.router = new App.Router;
+
+    Backbone.history.start();
 }
 
 $(function() {
     onDomReady();
 });
-
-// eof
