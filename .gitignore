@@ -52,5 +52,12 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# PyCharm
+.idea/
+
+# project
+virtualenv/
+settings.py
+
 # misc
-tmp
+tmp/
