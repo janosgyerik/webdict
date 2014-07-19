@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 
-from flask import Flask, request, url_for, redirect, render_template
+from flask import Flask, request, render_template
+
 app = Flask(__name__)
 
 import simplejson as json
 import english
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/query', methods=['GET'])
 def query():
@@ -20,22 +23,10 @@ def query():
             similar = []
         else:
             similar = english.similar(keyword)
-        return json.dumps({
-            'words': words,
-            'similar': similar,
-            }, indent=4)
+        return json.dumps({'words': words, 'similar': similar, }, indent=4)
     elif filename:
-        return json.dumps({
-            'words': [english.get(filename)],
-            'similar': [],
-            }, indent=4)
+        return json.dumps({'words': [english.get(filename)], 'similar': [], }, indent=4)
 
-@app.route('/st')
-def st():
-    return redirect(url_for('static', filename='css/english.css'))
 
 if __name__ == '__main__':
     app.run()
-
-
-# eof
