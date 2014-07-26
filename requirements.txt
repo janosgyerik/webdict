@@ -1,4 +1,11 @@
-# Install required python packages using pip:
-# pip install -r requirements.txt
-Flask==0.9
+Flask==0.10.1
+Flask-RESTful==0.2.12
+Jinja2==2.7.3
+MarkupSafe==0.23
+Werkzeug==0.9.6
+aniso8601==0.82
+itsdangerous==0.24
+pytz==2014.4
 simplejson==2.6.2
+six==1.7.3
+wsgiref==0.1.2
