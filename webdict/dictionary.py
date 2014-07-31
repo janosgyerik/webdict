@@ -15,11 +15,9 @@ class Entry(object):
 
 
 class Match(object):
-    def __init__(self, query, entry, list_only=True):
+    def __init__(self, query, entry):
         self.query = query
         self.entry = entry
-        if not list_only:
-            self.entry.load_value()
 
     def __repr__(self):
         return '%s: %s' % (self.query, self.entry)
@@ -33,36 +31,36 @@ class Dictionary(object):
         self.load_index()
         print('Loaded index with {} items'.format(len(self.index)))
 
-    def lookup(self, word, list_only=True):
+    def lookup(self, word):
         matches = self.items.get(word)
         if matches:
-            return [Match(word, x, list_only) for x in matches]
+            return [Match(word, x) for x in matches]
         return []
 
-    def lookup_by_prefix(self, prefix, list_only=True):
+    def lookup_by_prefix(self, prefix):
         matches = []
         for k in self.index:
             if k.startswith(prefix):
                 for entry in self.items[k]:
-                    matches.append(Match(prefix, entry, list_only))
+                    matches.append(Match(prefix, entry))
             elif matches:
                 break
         return matches
 
-    def lookup_by_suffix(self, suffix, list_only=True):
+    def lookup_by_suffix(self, suffix):
         matches = []
         for k in self.index:
             if k.endswith(suffix):
                 for entry in self.items[k]:
-                    matches.append(Match(suffix, entry, list_only))
+                    matches.append(Match(suffix, entry))
         return matches
 
-    def lookup_by_fragment(self, fragment, list_only=True):
+    def lookup_by_fragment(self, fragment):
         matches = []
         for k in self.index:
             if fragment in k:
                 for entry in self.items[k]:
-                    matches.append(Match(fragment, entry, list_only))
+                    matches.append(Match(fragment, entry))
         return matches
 
     def get(self, entry_id):
