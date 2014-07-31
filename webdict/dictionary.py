@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+import abc
+
 
 class Entry(object):
     def __init__(self, entry_id, name, value=None):
@@ -10,7 +12,12 @@ class Entry(object):
     def __repr__(self):
         return '%s: %s -> %s' % (self.entry_id, self.name, self.value)
 
-    def load_value(self):
+    @abc.abstractmethod
+    def get_value(self):
+        """
+        Load the actual Entry to represent the dictionary entry
+        :return:
+        """
         pass
 
 
@@ -25,7 +32,7 @@ class Match(object):
 
 class Dictionary(object):
     def __init__(self):
-        self.index = []
+        self.index = {}
         self.items = defaultdict(list)
         self.items_by_id = {}
         self.load_index()
@@ -66,5 +73,12 @@ class Dictionary(object):
     def get(self, entry_id):
         return self.items_by_id.get(entry_id)
 
+    @abc.abstractmethod
     def load_index(self):
+        """
+        - Populate self.items with {word: [Entry, ...]}
+        - Populate self.items_by_id with {id: Entry}
+        - Populate self.index with {id: Entry}
+        :return:
+        """
         pass
