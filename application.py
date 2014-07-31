@@ -42,8 +42,6 @@ class SearchByExact(Resource):
 
 class GetEntry(Resource):
     def get(self, entry_id):
-        # TODO: doesn't work, route doesn't match due to "/" in it
-        # print 'entry id=', entry_id
         return json.dumps({'words': [english.get(entry_id)], 'similar': [], }, indent=4)
 
 
@@ -51,7 +49,7 @@ api.add_resource(SearchByExact, '/search/exact/<string:keyword>')
 # api.add_resource(SearchByPrefix, '/search/prefix/<string:keyword>')
 # api.add_resource(SearchBySuffix, '/search/suffix/<string:keyword>')
 # api.add_resource(SearchByPartial, '/search/partial/<string:keyword>')
-api.add_resource(GetEntry, '/entry/<string:entry_id>')
+api.add_resource(GetEntry, '/entry/<path:entry_id>')
 
 
 if __name__ == '__main__':
