@@ -74,6 +74,8 @@ RESTful API server
     - /api/<version>/find/exact/<dict>/similar/<query>
     - /api/<version>/find/exact/<dict>/list/<query>
     - /api/<version>/find/exact/<dict>/max/<max>/<query>
+    - /api/<version>/find/exact/<dict>/format/dl-md/<query>
+    - /api/<version>/find/exact/<dict>/format/raw/<query>
     - ...
     - /api/<version>/find/exact/<dict>/similar/list/max/<max>/<query>
     - /api/<version>/find/prefix/<dict>/simple/<query>
@@ -102,6 +104,7 @@ RESTful API server
         'query': '/api/v1/...',
         'matches': [{
             'dict': 'ahd',
+            'format': 'dl-md',  // definition list + markdown
             'entries': [
                 {
                     'id': '60/H0136000.html',

@@ -164,6 +164,10 @@ Non-functional quality requirements
         - no significant changes expected
     - Non-text input, for example image search
         - too different concept, won't support
+    - Non-markdown output
+        - for dictionaries that are hard to normalize but produce reasonably good
+          html output, the markdown output requirement might be harsh.
+          -> allow raw output
 - Definition of success?
     - easy to use web interface
     - easy to use api
