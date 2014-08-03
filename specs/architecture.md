@@ -20,6 +20,7 @@ Dictionary library
     - default indexing logic, plugin may override
     - plugin testing framework
     - documentation
+    - handle gracefully if plugin cannot be loaded (missing data files)
 - methods
     - find
     - find_by_prefix
