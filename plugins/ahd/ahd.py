@@ -2,7 +2,7 @@ import os
 import re
 
 from settings import dictonary_path
-from webdict.dictionary import Dictionary, Entry
+from dictionary.dictionary import Dictionary, Entry
 
 re_dt = re.compile('[A-Z]{2,}')
 re_filename = re.compile('^([0-9]{2}|roots)/[A-Z]+[0-9]+\.html$')
