@@ -36,7 +36,7 @@ class Dictionary(object):
         self.items = defaultdict(list)
         self.items_by_id = {}
         self.load_index()
-        print('Loaded index with {} items'.format(len(self.index)))
+        # print('Loaded index with {} items'.format(len(self.index)))
 
     def lookup(self, word):
         matches = self.items.get(word)
