@@ -1,0 +1,173 @@
+Overview
+--------
+- dictionary library -- core functionality
+- restful api
+    - server
+    - client
+- user interface
+    - web interface
+    - native command line interface
+    - restful command line interface
+- interactive api documentation
+
+
+Dictionary library
+------------------
+- implementation of core functionality
+- unit tests
+- plugin support
+    - interface to implement
+    - default indexing logic, plugin may override
+    - plugin testing framework
+    - documentation
+- methods
+    - find
+    - find_by_prefix
+    - find_by_suffix
+    - find_by_fragment
+- mandatory params
+    - query string
+- optional params
+    - find similar
+        - only if no match or always
+        - shorten term by max N characters
+    - max results to return
+    - list only, don't load content
+- python modules
+    - dictionary.py
+        Dictionary
+        Entry
+        Match -- wrapper of:
+            - query params
+            - list of Entries
+    - test_dictionary.py
+        DictionaryTest
+    - plugins/id/id.py
+        PxDictionary(Dictionary)
+        PxEntry(Entry)
+    - plugins/id/test_id.py
+        PxTest(DictionaryTest)
+            - run general tests for plugin conformity
+            - run specialized tests with real examples for given dictionary
+- Discover plugins
+    - standalone mode
+        - load a specified plugin
+    - multi-user mode
+        - load all available plugins
+    - loading a plugin
+        - import python module
+        - load index
+    - no need for global settings, only per-plugin settings 
+
+
+RESTful API server
+------------------
+- client of dictionary library
+    - native calls to dictionary library
+    - output as json
+- methods
+    - /api/<version>/dictionaries/
+        - id
+        - name
+        - description
+    - /api/<version>/find/exact/<dict>/simple/<query>
+    - /api/<version>/find/exact/<dict>/similar/<query>
+    - /api/<version>/find/exact/<dict>/list/<query>
+    - /api/<version>/find/exact/<dict>/max/<max>/<query>
+    - ...
+    - /api/<version>/find/exact/<dict>/similar/list/max/<max>/<query>
+    - /api/<version>/find/prefix/<dict>/simple/<query>
+    - /api/<version>/find/suffix/<dict>/simple/<query>
+    - /api/<version>/find/fragment/<dict>/simple/<query>
+    - ...
+- example param values
+    - version: v1
+    - dict: ahd (american heritage dictionary)
+    - max: 10
+- possible changes
+    - search multiple dictionaries: comma separated ids
+        - don't allow commas in ids
+    - implement different api
+- error response example
+    {
+        'version': 'v1',
+        'success': 0,
+        'query': '/api/v1/...',
+        'message': 'no such method'
+    }
+- success response example
+    {
+        'version': 'v1',
+        'success': 1,
+        'query': '/api/v1/...',
+        'matches': [{
+            'dict': 'ahd',
+            'entries': [
+                {
+                    'id': '60/H0136000.html',
+                    'name': 'hello',
+                    'content': [
+                        {'dt': 'syllabication', 'dd': 'hel-lo'},
+                        {'dt': 'noun', 'dd': 'A calling or greeting of "hello"'}
+                    ]
+                }
+            ]
+        }]
+    }
+
+
+RESTful API client
+------------------
+- inherits from Dictionary
+- overrides interface methods to delegate to RESTful API server
+
+
+Web interface
+-------------
+- Responsive grid: bootstrap
+- Web 2.0: ajax via jquery
+- Single-page app: backbone with router
+    - hashtag routes to cross references
+    - list of recent searches
+        - hashtag routes to recent entries
+    - bookmarkable search results
+- Options
+    - checkboxes for dictionaries to use
+        - hide if only one dictionary
+    - search type radio buttons
+        - exact match
+        - find by prefix, suffix, fragment
+    - find similar
+    - no need to expose more
+- Sensible default options
+    - default max results = 10
+    - default history size = 25
+    - list-only = false
+- Store user selections and user data in local storage or cookies
+    - selected dictionaries
+    - recent searches
+    - last query
+
+
+Native command line interface
+-----------------------------
+- import dictionary modules
+- run in standalone mode
+- output results formatted as markdown
+
+
+Restful command line interface
+------------------------------
+- import restful api client
+- run in standalone mode
+- output results formatted as markdown
+
+
+Interactive api documentation
+-----------------------------
+- Similar to web interface
+    - no recent searches
+- Query examples
+    - editable URL field
+    - live results below
+    - example code below
