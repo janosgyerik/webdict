@@ -3,7 +3,7 @@
 import unittest
 from test.test_support import run_unittest
 
-from dictionary import Dictionary
+from base import Dictionary
 
 
 class DictionaryTestCase(unittest.TestCase):
