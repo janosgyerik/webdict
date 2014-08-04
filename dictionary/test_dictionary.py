@@ -16,7 +16,7 @@ class DictionaryTestCase(unittest.TestCase):
         self.dict = DummyDictionary()
 
     def find(self, word):
-        return self.dict.lookup(word)
+        return self.dict.find(word)
 
     def assert_matched_count(self, count, word):
         self.assertEqual(count, len(self.find(word)))

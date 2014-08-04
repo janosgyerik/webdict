@@ -38,13 +38,13 @@ class Dictionary(object):
         self.load_index()
         # print('Loaded index with {} items'.format(len(self.index)))
 
-    def lookup(self, word):
+    def find(self, word):
         matches = self.items.get(word)
         if matches:
             return [Match(word, x) for x in matches]
         return []
 
-    def lookup_by_prefix(self, prefix):
+    def find_by_prefix(self, prefix):
         matches = []
         for k in self.index:
             if k.startswith(prefix):
@@ -54,7 +54,7 @@ class Dictionary(object):
                 break
         return matches
 
-    def lookup_by_suffix(self, suffix):
+    def find_by_suffix(self, suffix):
         matches = []
         for k in self.index:
             if k.endswith(suffix):
@@ -62,7 +62,7 @@ class Dictionary(object):
                     matches.append(Match(suffix, entry))
         return matches
 
-    def lookup_by_fragment(self, fragment):
+    def find_by_fragment(self, fragment):
         matches = []
         for k in self.index:
             if fragment in k:
