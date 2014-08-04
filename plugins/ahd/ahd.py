@@ -46,14 +46,3 @@ class AmericanHeritage(Dictionary):
 class AmericanHeritageEntry(Entry):
     def load_value(self):
         self.value = repack_entry(self.entry_id)
-
-
-dictionary = AmericanHeritage()
-print(dictionary.lookup('sound'))
-print(dictionary.lookup('soundx'))
-print(dictionary.lookup_by_prefix('knee'))
-print(dictionary.lookup_by_suffix('sound'))
-print(dictionary.lookup_by_fragment('hello'))
-for item in dictionary.lookup('sound'):
-    print(item)
-print(dictionary.lookup('hello'))
