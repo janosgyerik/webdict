@@ -32,7 +32,7 @@ def repack_entry(filename):
     }
 
 
-class AmericanHeritage(Dictionary):
+class AmericanHeritageDictionary(Dictionary):
     def load_index(self):
         with open('tmp/index.dat') as fh:
             for line in fh:

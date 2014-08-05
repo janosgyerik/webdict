@@ -3,9 +3,9 @@
 import unittest
 from test.test_support import run_unittest
 
-from ahd import AmericanHeritage
+from ahd import AmericanHeritageDictionary
 
-test_dict = AmericanHeritage()
+test_dict = AmericanHeritageDictionary()
 
 
 class AmericanHeritageDictionaryTestCase(unittest.TestCase):
