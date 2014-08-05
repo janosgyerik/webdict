@@ -5,11 +5,11 @@ from test.test_support import run_unittest
 
 from ahd import AmericanHeritageDictionary
 
+
 test_dict = AmericanHeritageDictionary()
 
 
 class TestSearchResultCounts(unittest.TestCase):
-
     def setUp(self):
         self.dict = test_dict
 
@@ -53,8 +53,35 @@ class TestSearchResultCounts(unittest.TestCase):
         self.assert_matched_count(3, self.dict.find_by_fragment("hello"))
 
 
+class TestSearchOutput(unittest.TestCase):
+    def setUp(self):
+        self.dict = test_dict
+
+    def test_lo(self):
+        # TODO this is not strict markdown: see the <I>la</I>
+        entry = self.dict.find('lo')[0]
+        self.assertEqual(
+            {
+                'id': '48/L0214800.html',
+                'name': 'lo',
+                'content': [('dt', 'INTERJECTION'),
+                            ('dd',
+                             'Used to attract attention or to show surprise.'),
+                            ('dt', 'ETYMOLOGY'),
+                            ('dd',
+                             'Middle English, from Old English <I>la</I>.')]
+            }, entry.content)
+
+    def test_cross_references(self):
+        pass
+
+
 def test_main():
-    run_unittest(TestSearchResultCounts)
+    run_unittest(
+        TestSearchResultCounts,
+        TestSearchOutput
+    )
+
 
 if __name__ == '__main__':
     test_main()

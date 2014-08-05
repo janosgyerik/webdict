@@ -2,7 +2,7 @@ import os
 import re
 
 from settings import dictonary_path
-from dictionary.base import Dictionary, Entry
+from dictionary.base import Dictionary, Entry, lazy_property
 
 re_dt = re.compile('[A-Z]{2,}')
 re_filename = re.compile('^([0-9]{2}|roots)/[A-Z]+[0-9]+\.html$')
@@ -26,9 +26,9 @@ def repack_entry(filename):
         else:
             dl.append(('dd', line))
     return {
-        'word': word,
-        'filename': filename,
-        'dl': dl,
+        'id': filename,
+        'name': word,
+        'content': dl,
     }
 
 
@@ -44,5 +44,6 @@ class AmericanHeritageDictionary(Dictionary):
 
 
 class AmericanHeritageEntry(Entry):
-    def load_value(self):
-        self.value = repack_entry(self.entry_id)
+    @lazy_property
+    def content(self):
+        return repack_entry(self.entry_id)

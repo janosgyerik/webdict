@@ -20,21 +20,12 @@ class Entry(object):
         self.entry_id = entry_id
         self.name = name
 
-    @lazy_property
     @abc.abstractmethod
     def content(self):
         pass
 
     def __repr__(self):
         return '%s: %s' % (self.entry_id, self.name)
-
-    @abc.abstractmethod
-    def get_value(self):
-        """
-        Load the actual Entry to represent the dictionary entry
-        :return:
-        """
-        pass
 
 
 class Dictionary(object):
