@@ -58,7 +58,6 @@ class TestSearchOutput(unittest.TestCase):
         self.dict = test_dict
 
     def test_lo(self):
-        # TODO this is not strict markdown: see the <I>la</I>
         entry = self.dict.find('lo')[0]
         self.assertEqual(
             {
@@ -71,6 +70,12 @@ class TestSearchOutput(unittest.TestCase):
                             ('dd',
                              'Middle English, from Old English *la*.')]
             }, entry.content)
+
+    def test_behold_verb(self):
+        entry = self.dict.find('behold')[0]
+        self.assertEqual(
+            "Inflected forms: **be-held** (-held'), **be-hold-ing**, **be-holds**",
+            entry.content['content'][3][1])
 
     def test_cross_references(self):
         pass

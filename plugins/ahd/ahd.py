@@ -7,6 +7,8 @@ from dictionary.base import Dictionary, Entry, lazy_property
 re_dt = re.compile(r'[A-Z]{2,}')
 re_filename = re.compile(r'^([0-9]{2}|roots)/[A-Z]+[0-9]+\.html$')
 re_em = re.compile(r'<I>(.*?)</I>')
+re_strong = re.compile(r'<[bB]>(.*?)</[bB]>')
+re_other_html = re.compile(r'<[^>]+>')
 
 
 def repack_entry(filename):
@@ -23,6 +25,7 @@ def repack_entry(filename):
             continue
         line = line.strip().replace('!!DICTIONARY!!', '#')
         line = re_em.sub(r'*\1*', line)
+        line = re_strong.sub(r'**\1**', line)
         if re_dt.match(line):
             dl.append(('dt', line))
         else:
