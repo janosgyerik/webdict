@@ -3,14 +3,30 @@ from collections import defaultdict
 import abc
 
 
+def lazy_property(fn):
+    attr_name = '_lazy_' + fn.__name__
+
+    @property
+    def _lazy_property(self):
+        if not hasattr(self, attr_name):
+            setattr(self, attr_name, fn(self))
+        return getattr(self, attr_name)
+
+    return _lazy_property
+
+
 class Entry(object):
-    def __init__(self, entry_id, name, value=None):
+    def __init__(self, entry_id, name):
         self.entry_id = entry_id
         self.name = name
-        self.value = value
+
+    @lazy_property
+    @abc.abstractmethod
+    def content(self):
+        pass
 
     def __repr__(self):
-        return '%s: %s -> %s' % (self.entry_id, self.name, self.value)
+        return '%s: %s' % (self.entry_id, self.name)
 
     @abc.abstractmethod
     def get_value(self):
@@ -19,15 +35,6 @@ class Entry(object):
         :return:
         """
         pass
-
-
-class Match(object):
-    def __init__(self, query, entry):
-        self.query = query
-        self.entry = entry
-
-    def __repr__(self):
-        return '%s: %s' % (self.query, self.entry)
 
 
 class Dictionary(object):
@@ -41,15 +48,14 @@ class Dictionary(object):
     def find(self, word):
         matches = self.items.get(word)
         if matches:
-            return [Match(word, x) for x in matches]
+            return matches
         return []
 
     def find_by_prefix(self, prefix):
         matches = []
         for k in self.index:
             if k.startswith(prefix):
-                for entry in self.items[k]:
-                    matches.append(Match(prefix, entry))
+                matches.extend(self.items[k])
             elif matches:
                 break
         return matches
@@ -58,16 +64,14 @@ class Dictionary(object):
         matches = []
         for k in self.index:
             if k.endswith(suffix):
-                for entry in self.items[k]:
-                    matches.append(Match(suffix, entry))
+                matches.extend(self.items[k])
         return matches
 
     def find_by_fragment(self, fragment):
         matches = []
         for k in self.index:
             if fragment in k:
-                for entry in self.items[k]:
-                    matches.append(Match(fragment, entry))
+                matches.extend(self.items[k])
         return matches
 
     def get(self, entry_id):

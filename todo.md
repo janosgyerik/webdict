@@ -2,7 +2,7 @@ markdown cross references
     ref:entry-id:name
 
 unit tests for ahd
-    basic search / sanity test
+    + basic search / sanity test
     comply with specs
         markdown output
         correct markdown cross references
