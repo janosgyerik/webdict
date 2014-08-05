@@ -69,7 +69,7 @@ class TestSearchOutput(unittest.TestCase):
                              'Used to attract attention or to show surprise.'),
                             ('dt', 'ETYMOLOGY'),
                             ('dd',
-                             'Middle English, from Old English <I>la</I>.')]
+                             'Middle English, from Old English *la*.')]
             }, entry.content)
 
     def test_cross_references(self):
