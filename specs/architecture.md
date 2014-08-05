@@ -94,15 +94,13 @@ RESTful API server
 - error response example
     {
         'version': 'v1',
-        'success': 0,
-        'query': '/api/v1/...',
+        'success': false,
         'message': 'no such method'
     }
 - success response example
     {
         'version': 'v1',
-        'success': 1,
-        'query': '/api/v1/...',
+        'success': true,
         'matches': [{
             'dict': 'ahd',
             'format': 'dl-md',  // definition list + markdown
@@ -111,8 +109,8 @@ RESTful API server
                     'id': '60/H0136000.html',
                     'name': 'hello',
                     'content': [
-                        {'dt': 'syllabication', 'dd': 'hel-lo'},
-                        {'dt': 'noun', 'dd': 'A calling or greeting of "hello"'}
+                        ['syllabication', 'hel-lo'],
+                        ['noun', 'A calling or greeting of "hello"']
                     ]
                 }
             ]

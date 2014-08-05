@@ -63,19 +63,17 @@ class TestSearchOutput(unittest.TestCase):
             {
                 'id': '48/L0214800.html',
                 'name': 'lo',
-                'content': [('dt', 'INTERJECTION'),
-                            ('dd',
-                             'Used to attract attention or to show surprise.'),
-                            ('dt', 'ETYMOLOGY'),
-                            ('dd',
-                             'Middle English, from Old English *la*.')]
+                'content': [['INTERJECTION',
+                             'Used to attract attention or to show surprise.'],
+                            ['ETYMOLOGY',
+                             'Middle English, from Old English *la*.']]
             }, entry.content)
 
     def test_behold_verb(self):
         entry = self.dict.find('behold')[0]
         self.assertEqual(
             "Inflected forms: **be-held** (-held'), **be-hold-ing**, **be-holds**",
-            entry.content['content'][3][1])
+            entry.content['content'][1][1])
 
     def test_cross_references(self):
         pass

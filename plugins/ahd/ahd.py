@@ -17,6 +17,7 @@ def repack_entry(filename):
     dl = []
     cnt = 0
     word = '?'
+    dt = None
     for line in content:
         if cnt < 3:
             if cnt == 0:
@@ -27,9 +28,9 @@ def repack_entry(filename):
         line = re_em.sub(r'*\1*', line)
         line = re_strong.sub(r'**\1**', line)
         if re_dt.match(line):
-            dl.append(('dt', line))
+            dt = line
         else:
-            dl.append(('dd', line))
+            dl.append([dt, line])
     return {
         'id': filename,
         'name': word,
