@@ -8,7 +8,7 @@ from ahd import AmericanHeritageDictionary
 test_dict = AmericanHeritageDictionary()
 
 
-class AmericanHeritageDictionaryTestCase(unittest.TestCase):
+class TestSearchResultCounts(unittest.TestCase):
 
     def setUp(self):
         self.dict = test_dict
@@ -54,7 +54,7 @@ class AmericanHeritageDictionaryTestCase(unittest.TestCase):
 
 
 def test_main():
-    run_unittest(AmericanHeritageDictionaryTestCase)
+    run_unittest(TestSearchResultCounts)
 
 if __name__ == '__main__':
     test_main()
