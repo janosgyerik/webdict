@@ -57,6 +57,9 @@ class TestSearchOutput(unittest.TestCase):
     def setUp(self):
         self.dict = test_dict
 
+    def get_first_entry(self, word):
+        return dict(self.dict.find('behold')[0].content['content'])
+
     def test_lo(self):
         entry = self.dict.find('lo')[0]
         self.assertEqual(
@@ -70,10 +73,10 @@ class TestSearchOutput(unittest.TestCase):
             }, entry.content)
 
     def test_behold_verb(self):
-        entry = self.dict.find('behold')[0]
+        entry = self.get_first_entry('behold')
         self.assertEqual(
             "Inflected forms: **be-held** (-held'), **be-hold-ing**, **be-holds**",
-            entry.content['content'][1][1])
+            entry['VERB'])
 
     def test_cross_references(self):
         pass
