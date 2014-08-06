@@ -1,13 +1,16 @@
 #!/usr/bin/env python
 
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 from flask.ext.restful import Resource, Api
+
+import simplejson as json
+
+from plugins.ahd.ahd import AmericanHeritageDictionary
 
 app = Flask(__name__)
 api = Api(app)
 
-import simplejson as json
-import english
+dictionary = AmericanHeritageDictionary()
 
 
 @app.route('/')
@@ -15,42 +18,57 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/query', methods=['GET'])
-def query():
-    keyword = request.args.get('keyword', '')
-    filename = request.args.get('file', '')
-    if keyword:
-        words = [x for x in english.find(keyword)]
-        if len(words):
-            similar = []
-        else:
-            similar = english.similar(keyword)
-        return json.dumps({'words': words, 'similar': similar, }, indent=4)
-    elif filename:
-        return json.dumps({'words': [english.get(filename)], 'similar': [], }, indent=4)
+class AmericanHeritageDictionaryResults(Resource):
+    def get_serializable_entries(self, entries):
+        return [x.content for x in entries]
+
+    def get_response(self, entries):
+        return json.dumps({
+            'version': 'v1',
+            'success': True,
+            'matches': [{
+                'dict': 'ahd',
+                'format': 'dl-md',
+                'entries': self.get_serializable_entries(entries)
+            }]
+        }, indent=4)
 
 
-class SearchByExact(Resource):
+class SearchByExact(AmericanHeritageDictionaryResults):
     def get(self, keyword):
-        words = [x for x in english.find(keyword)]
-        if len(words):
-            similar = []
-        else:
-            similar = english.similar(keyword)
-        return json.dumps({'words': words, 'similar': similar, }, indent=4)
+        entries = dictionary.find(keyword, find_similar=True)
+        return self.get_response(entries)
 
 
-class GetEntry(Resource):
+class SearchByPrefix(AmericanHeritageDictionaryResults):
+    def get(self, keyword):
+        entries = dictionary.find_by_prefix(keyword, find_similar=True)
+        return self.get_response(entries)
+
+
+class SearchBySuffix(AmericanHeritageDictionaryResults):
+    def get(self, keyword):
+        entries = dictionary.find_by_suffix(keyword)
+        return self.get_response(entries)
+
+
+class SearchByFragment(AmericanHeritageDictionaryResults):
+    def get(self, keyword):
+        entries = dictionary.find_by_fragment(keyword)
+        return self.get_response(entries)
+
+
+class GetEntry(AmericanHeritageDictionaryResults):
     def get(self, entry_id):
-        return json.dumps({'words': [english.get(entry_id)], 'similar': [], }, indent=4)
+        entries = [dictionary.get(entry_id)]
+        return self.get_response(entries)
 
 
 api.add_resource(SearchByExact, '/search/exact/<string:keyword>')
-# api.add_resource(SearchByPrefix, '/search/prefix/<string:keyword>')
-# api.add_resource(SearchBySuffix, '/search/suffix/<string:keyword>')
-# api.add_resource(SearchByPartial, '/search/partial/<string:keyword>')
+api.add_resource(SearchByPrefix, '/search/prefix/<string:keyword>')
+api.add_resource(SearchBySuffix, '/search/suffix/<string:keyword>')
+api.add_resource(SearchByFragment, '/search/partial/<string:keyword>')
 api.add_resource(GetEntry, '/entry/<path:entry_id>')
-
 
 if __name__ == '__main__':
     app.run()
