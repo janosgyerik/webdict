@@ -116,7 +116,7 @@ App.Form = Backbone.View.extend({
                 });
                 results.append(dl);
             });
-            results.find('a').each(function(i, item) {
+            results.find('a').each(function() {
                 var href = $(this).attr('href');
                 var key = 'file=';
                 var filename = href.substr(href.indexOf(key) + key.length);
@@ -245,7 +245,7 @@ App.Router = Backbone.Router.extend({
     lookup: function(word) {
         App.form.search(word);
     }
-})
+});
 
 function onDomReady() {
     // instances
