@@ -8,15 +8,19 @@
         + correct markdown cross references
     + all example cases
 
-unit tests for framework
-    basic search / sanity test
-    all example cases
++ unit tests for framework
+    + basic search / sanity test
+    + all example cases
+    
+cleaning up
+    encapsulate indexing logic: dictionary.add method
+    clean up repack_word in ahd
+
+create native cli
 
 unit tests for restful api
     basic search / sanity test
     all example cases
-
-create native cli
 
 migrate ui to restful api
     correct search
@@ -33,5 +37,7 @@ create restful cli
 
 create example dict
     find creative commons data
+
+move ahd to git submodule
 
 create interactive api doc
