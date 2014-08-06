@@ -16,7 +16,7 @@ cleaning up
     encapsulate indexing logic: dictionary.add method
     clean up repack_word in ahd
 
-create native cli
++ create native cli
 
 unit tests for restful api
     basic search / sanity test
