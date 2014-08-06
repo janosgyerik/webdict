@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask.ext.restful import Resource, Api
-
-import simplejson as json
 
 from plugins.ahd.ahd import AmericanHeritageDictionary
 
@@ -23,7 +21,7 @@ class AmericanHeritageDictionaryResults(Resource):
         return [x.content for x in entries]
 
     def get_response(self, entries):
-        return json.dumps({
+        return jsonify({
             'version': 'v1',
             'success': True,
             'matches': [{
@@ -31,7 +29,7 @@ class AmericanHeritageDictionaryResults(Resource):
                 'format': 'dl-md',
                 'entries': self.get_serializable_entries(entries)
             }]
-        }, indent=4)
+        })
 
 
 class SearchByExact(AmericanHeritageDictionaryResults):
