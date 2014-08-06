@@ -57,8 +57,11 @@ class TestSearchOutput(unittest.TestCase):
     def setUp(self):
         self.dict = test_dict
 
+    def get_entry_n(self, word, n):
+        return dict(self.dict.find(word)[n].content['content'])
+
     def get_first_entry(self, word):
-        return dict(self.dict.find('behold')[0].content['content'])
+        return self.get_entry_n(word, 0)
 
     def test_lo(self):
         entry = self.dict.find('lo')[0]
@@ -76,10 +79,30 @@ class TestSearchOutput(unittest.TestCase):
         entry = self.get_first_entry('behold')
         self.assertEqual(
             "Inflected forms: **be-held** (-held'), **be-hold-ing**, **be-holds**",
-            entry['VERB'])
+            entry['VERB']
+        )
 
     def test_cross_references(self):
-        pass
+        entry = self.get_first_entry('behold')
+        self.assertEqual(
+            "Middle English *biholden*, from Old English *behaldan* : *be-*, be- + *healdan*, to hold; see [hold-1][2].",
+            entry['ETYMOLOGY']
+        )
+        self.assertEqual(
+            ['ref:33/S0213300.html:see-1', 'ref:73/H0237300.html:hold-1'],
+            entry['REFERENCES']
+        )
+
+    def test_cross_references_multiple(self):
+        entry = self.get_entry_n('sound', 1)
+        self.assertEqual(
+            "**sound\'ly** ---ADVERB; **sound\'ness** ---NOUN; ",
+            entry['OTHER FORMS']
+        )
+        self.assertEqual(
+            ['ref:65/H0106500.html:healthy', 'ref:25/V0012500.html:valid'],
+            entry['REFERENCES']
+        )
 
 
 def test_main():

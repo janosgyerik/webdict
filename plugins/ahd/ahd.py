@@ -10,6 +10,20 @@ re_em = re.compile(r'<I>(.*?)</I>')
 re_strong = re.compile(r'<[bB]>(.*?)</[bB]>')
 re_other_html = re.compile(r'<[^>]+>')
 
+#<A HREF="#?file=73/H0237300.html">hold<SUP><FONT SIZE="-1">1</FONT></SUP></A>
+re_ref = re.compile(r'<A HREF="([^"]*)">(.*?)</A>')
+re_word_index = re.compile(r'(\d+)$')
+
+#<B>sound'ly</B> ---<FONT SIZE="-2">ADVERB</FONT><B>sound'ness</B> ---<FONT SIZE="-2">NOUN</FONT>
+re_em_caps = re.compile(r'---<FONT SIZE="-2">([A-Z ]+)</FONT>')
+
+
+def to_ref(raw_href, raw_word):
+    word = re_other_html.sub('', raw_word)
+    word = re_word_index.sub(r'-\1', word)
+    ref = 'ref:{}:{}'.format(raw_href.replace('!!DICTIONARY!!?file=', ''), word)
+    return ref, word
+
 
 def repack_entry(filename):
     path = os.path.join(dictonary_path, filename)
@@ -18,19 +32,30 @@ def repack_entry(filename):
     cnt = 0
     word = '?'
     dt = None
+    refs = []
     for line in content:
         if cnt < 3:
             if cnt == 0:
                 word = line.strip().split(':')[1]
             cnt += 1
             continue
-        line = line.strip().replace('!!DICTIONARY!!', '#')
+        line = line.strip()
+        for raw_href, raw_word in re_ref.findall(line):
+            ref, word = to_ref(raw_href, raw_word)
+            if ref not in refs:
+                refs.append(ref)
+            line = line.replace('<A HREF="{}">{}</A>'.format(raw_href, raw_word),
+                                '[{}][{}]'.format(word, refs.index(ref) + 1))
         line = re_em.sub(r'*\1*', line)
         line = re_strong.sub(r'**\1**', line)
+        line = re_em_caps.sub(r'---\1; ', line)
+        line = re_other_html.sub('', line)
         if re_dt.match(line):
             dt = line
         else:
             dl.append([dt, line])
+    if refs:
+        dl.append(['REFERENCES', refs])
     return {
         'id': filename,
         'name': word,

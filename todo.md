@@ -1,12 +1,12 @@
-markdown cross references
-    ref:entry-id:name
++ markdown cross references
+    + ref:entry-id:name
 
-unit tests for ahd
++ unit tests for ahd
     + basic search / sanity test
-    comply with specs
-        markdown output
-        correct markdown cross references
-    all example cases
+    + comply with specs
+        + markdown output
+        + correct markdown cross references
+    + all example cases
 
 unit tests for framework
     basic search / sanity test
