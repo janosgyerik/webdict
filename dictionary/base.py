@@ -36,19 +36,23 @@ class Dictionary(object):
         self.load_index()
         # print('Loaded index with {} items'.format(len(self.index)))
 
-    def find(self, word):
+    def find(self, word, find_similar=False):
         matches = self.items.get(word)
         if matches:
             return matches
+        if find_similar:
+            return self.find_by_prefix(word, find_similar=True)
         return []
 
-    def find_by_prefix(self, prefix):
+    def find_by_prefix(self, prefix, find_similar=False):
         matches = []
         for k in self.index:
             if k.startswith(prefix):
                 matches.extend(self.items[k])
             elif matches:
                 break
+        if find_similar and not matches and len(prefix) > 1:
+            return self.find_by_prefix(prefix[:-1], find_similar=True)
         return matches
 
     def find_by_suffix(self, suffix):

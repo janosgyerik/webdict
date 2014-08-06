@@ -23,12 +23,12 @@ def get_and_print(entry_id):
     print_entry(dictionary.get(entry_id))
 
 
-def find_and_print(keyword, similar=False, list_only=False):
-    print_many(dictionary.find(keyword), list_only)
+def find_and_print(keyword, find_similar=False, list_only=False):
+    print_many(dictionary.find(keyword, find_similar), list_only)
 
 
-def find_by_prefix_and_print(keyword, similar=False, list_only=False):
-    print_many(dictionary.find_by_prefix(keyword), list_only)
+def find_by_prefix_and_print(keyword, find_similar=False, list_only=False):
+    print_many(dictionary.find_by_prefix(keyword, find_similar), list_only)
 
 
 def find_by_suffix_and_print(keyword, list_only=False):
@@ -92,7 +92,7 @@ def main():
                 get_and_print(entry_id)
         elif options.prefix:
             for keyword in args:
-                find_by_prefix_and_print(keyword, similar=options.similar, list_only=options.list)
+                find_by_prefix_and_print(keyword, find_similar=options.similar, list_only=options.list)
         elif options.suffix:
             for keyword in args:
                 find_by_suffix_and_print(keyword, list_only=options.list)
@@ -101,7 +101,7 @@ def main():
                 find_by_fragment_and_print(keyword, list_only=options.list)
         else:
             for keyword in args:
-                find_and_print(keyword, similar=options.similar, list_only=options.list)
+                find_and_print(keyword, find_similar=options.similar, list_only=options.list)
     else:
         parser.print_help()
 
