@@ -82,6 +82,17 @@ class TestSearchOutput(unittest.TestCase):
             entry['VERB']
         )
 
+    def test_indignation_name(self):
+        word = 'indignation'
+        self.assertEqual(
+            word,
+            self.dict.find(word)[0].name
+        )
+        self.assertEqual(
+            word,
+            self.dict.find(word)[0].content['name']
+        )
+
     def test_cross_references(self):
         entry = self.get_first_entry('behold')
         self.assertEqual(

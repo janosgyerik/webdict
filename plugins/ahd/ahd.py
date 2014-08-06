@@ -30,7 +30,7 @@ def repack_entry(filename):
     content = open(path)
     dl = []
     cnt = 0
-    word = '?'
+    word = None
     dt = None
     refs = []
     for line in content:
@@ -41,11 +41,11 @@ def repack_entry(filename):
             continue
         line = line.strip()
         for raw_href, raw_word in re_ref.findall(line):
-            ref, word = to_ref(raw_href, raw_word)
+            ref, ref_word = to_ref(raw_href, raw_word)
             if ref not in refs:
                 refs.append(ref)
             line = line.replace('<A HREF="{}">{}</A>'.format(raw_href, raw_word),
-                                '[{}][{}]'.format(word, refs.index(ref) + 1))
+                                '[{}][{}]'.format(ref_word, refs.index(ref) + 1))
         line = re_em.sub(r'*\1*', line)
         line = re_strong.sub(r'**\1**', line)
         line = re_em_caps.sub(r'---\1; ', line)
