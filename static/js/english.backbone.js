@@ -297,15 +297,15 @@ function onDomReady() {
     App.form = new App.Form({
         recentList: App.recentList
     });
-//    App.form.onLookupSuccess(window.hello, true);
     App.form.input.focus();
 
     App.router = new App.Router;
 
     Backbone.history.start();
 
-    // debugging
-    //App.form.search('indignationla');
+    if (!window.location.hash) {
+        App.form.search('hello');
+    }
 }
 
 $(function() {
