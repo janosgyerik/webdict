@@ -21,7 +21,8 @@ window.App = {};
 
 
 // app constants
-App.QUERY_URL = '/query';
+App.QUERY_URL = '/search/exact';
+App.ENTRY_URL = '/entry';
 App.MAX_RECENT = 15;
 
 App.Form = Backbone.View.extend({
@@ -61,11 +62,24 @@ App.Form = Backbone.View.extend({
         };
         $('.searching').removeClass('customhidden');
         $.ajax({
-            url: App.QUERY_URL,
-            dataType: 'json',
-            data: {
-                keyword: keyword
-            },
+            url: App.QUERY_URL + "/" + keyword,
+            success: success,
+            error: error
+        });
+    },
+    entry: function(entry_id) {
+        App.router.navigate('entry/' + entry_id);
+        this.input.val('');
+        var _this = this;
+        var success = function(json) {
+            _this.onLookupSuccess(json);
+        };
+        var error = function(jqXHR, textStatus, errorThrown) {
+            _this.onLookupError(jqXHR, textStatus, errorThrown);
+        };
+        $('.searching').removeClass('customhidden');
+        $.ajax({
+            url: App.ENTRY_URL + "/" + entry_id,
             success: success,
             error: error
         });
@@ -76,6 +90,7 @@ App.Form = Backbone.View.extend({
         this.search();
     },
     getfile: function(filename) {
+        App.router.navigate('entry/' + filename);
         this.input.focus();
         var _this = this;
         var success = function(json) {
@@ -85,11 +100,7 @@ App.Form = Backbone.View.extend({
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
         $.ajax({
-            url: App.QUERY_URL,
-            dataType: 'json',
-            data: {
-                file: filename
-            },
+            url: App.ENTRY_URL + "/" + filename,
             success: success,
             error: error
         });
@@ -98,31 +109,49 @@ App.Form = Backbone.View.extend({
         var _this = this;
         var results = this.results;
         var recentList = this.recentList;
-        var words = json.words;
-        var similar = json.similar;
+        var words = json.matches[0].entries;
+        var similar = [];
         $('.searching').addClass('customhidden');
         if (words.length) {
             results.empty();
             _.each(words, function(bundle) {
                 if (!quiet) {
-                    recentList.addCustom({word: bundle.word, filename: bundle.filename});
+                    recentList.addCustom({word: bundle.name, filename: bundle.id});
                 }
-                results.append($('<h3/>').append(bundle.word));
+                results.append($('<h3/>').append(bundle.name));
                 var dl = $('<dl/>');
-                _.each(bundle.dl, function(item) {
-                    var tag = item[0];
-                    var value = item[1];
-                    dl.append($('<' + tag + '/>').append(value));
+                var refs = [];
+                var refs_links = {};
+                if (bundle.content[bundle.content.length - 1][0] == 'REFERENCES') {
+                    refs = bundle.content.pop()[1];
+                    for (var i in refs) {
+                        var ref = refs[i];
+                        var parts = ref.split(':');
+                        refs_links[ref] = '<a href="#entry/' + parts[1] + '">' + parts[2] + '</a>';
+                    }
+                }
+                _.each(bundle.content, function(item) {
+                    var dt = item[0];
+                    var dd = item[1];
+                    dd = dd.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    dd = dd.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                    for (var i in refs) {
+                        var ref = refs[i];
+                        var pattern = "\\[.*?\\]\\[" + (parseInt(i) + 1) + "\\]";
+                        dd = dd.replace(new RegExp(pattern, "g"), refs_links[ref]);
+                    }
+                    dl.append($('<dt/>').append(dt));
+                    dl.append($('<dd/>').append(dd));
                 });
                 results.append(dl);
             });
             results.find('a').each(function() {
                 var href = $(this).attr('href');
-                var key = 'file=';
-                var filename = href.substr(href.indexOf(key) + key.length);
+                var key = 'entry/';
+                var entry_id = href.substr(href.indexOf(key) + key.length);
                 $(this).click(function(e) {
                     e.preventDefault();
-                    _this.getfile(filename);
+                    _this.getfile(entry_id);
                 });
             });
         }
@@ -240,10 +269,14 @@ App.SimilarListView = Backbone.View.extend({
 
 App.Router = Backbone.Router.extend({
     routes: {
-        "lookup/:word": "lookup"
+        "lookup/:word": "lookup",
+        "entry/*entry_id": "entry"
     },
     lookup: function(word) {
         App.form.search(word);
+    },
+    entry: function(entry_id) {
+        App.form.entry(entry_id);
     }
 });
 
@@ -264,12 +297,15 @@ function onDomReady() {
     App.form = new App.Form({
         recentList: App.recentList
     });
-    App.form.onLookupSuccess(window.hello, true);
+//    App.form.onLookupSuccess(window.hello, true);
     App.form.input.focus();
 
     App.router = new App.Router;
 
     Backbone.history.start();
+
+    // debugging
+    //App.form.search('indignationla');
 }
 
 $(function() {
