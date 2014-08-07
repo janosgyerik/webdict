@@ -7,9 +7,6 @@ cleaning up library
 cleaning up ui
     default options
         history size = 25
-    try to lookup hello on load
-        show "loading 'hello'" message while loading
-        remove hardcoded window.hello
     fix root entries, like entry/roots/IE77.html
     fix superscripts in cross refs
     fix error handling on non-existent entries
