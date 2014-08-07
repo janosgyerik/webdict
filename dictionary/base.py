@@ -72,12 +72,20 @@ class Dictionary(object):
     def get(self, entry_id):
         return self.items_by_id.get(entry_id)
 
+    def add(self, entry):
+        self.items[entry.name].append(entry)
+        self.items_by_id[entry.entry_id] = entry
+
+    def reindex(self):
+        self.index = sorted(self.items)
+
     @abc.abstractmethod
     def load_index(self):
         """
-        - Populate self.items with {word: [Entry, ...]}
-        - Populate self.items_by_id with {id: Entry}
-        - Populate self.index with {id: Entry}
+        Populate the index. Implement like this:
+            for entry in entries:
+                self.add(entry)
+            self.reindex()
         :return:
         """
         pass

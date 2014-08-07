@@ -69,9 +69,8 @@ class AmericanHeritageDictionary(Dictionary):
             for line in fh:
                 (entry_id, name) = line.strip().split(':')
                 entry = AmericanHeritageEntry(entry_id, name)
-                self.items[name].append(entry)
-                self.items_by_id[entry_id] = entry
-        self.index = sorted(self.items)
+                self.add(entry)
+        self.reindex()
 
 
 class AmericanHeritageEntry(Entry):
