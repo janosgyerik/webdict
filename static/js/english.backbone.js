@@ -51,7 +51,7 @@ App.Form = Backbone.View.extend({
             keyword = this.input.val();
         }
         if (!keyword) return;
-        App.router.navigate('lookup/' + keyword);
+        App.router.navigate('search/exact/' + keyword);
         this.input.val('');
         var _this = this;
         var success = function(json) {
@@ -89,8 +89,8 @@ App.Form = Backbone.View.extend({
         e.preventDefault();
         this.search();
     },
-    getfile: function(filename) {
-        App.router.navigate('entry/' + filename);
+    getfile: function(entry_id) {
+        App.router.navigate('entry/' + entry_id);
         this.input.focus();
         var _this = this;
         var success = function(json) {
@@ -100,7 +100,7 @@ App.Form = Backbone.View.extend({
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
         $.ajax({
-            url: App.ENTRY_URL + "/" + filename,
+            url: App.ENTRY_URL + "/" + entry_id,
             success: success,
             error: error
         });
@@ -116,7 +116,7 @@ App.Form = Backbone.View.extend({
             results.empty();
             _.each(words, function(bundle) {
                 if (!quiet) {
-                    recentList.addCustom({word: bundle.name, filename: bundle.id});
+                    recentList.addCustom({word: bundle.name, entry_id: bundle.id});
                 }
                 results.append($('<h3/>').append(bundle.name));
                 var dl = $('<dl/>');
@@ -159,7 +159,7 @@ App.Form = Backbone.View.extend({
             var items = [];
             _.each(similar, function(item) {
                 items.push(new App.Word({
-                    filename: item[0],
+                    entry_id: item[0],
                     word: item[1]
                 }));
             });
@@ -171,7 +171,7 @@ App.Form = Backbone.View.extend({
 App.Word = Backbone.Model.extend({
     defaults: {
         word: null,
-        file: null
+        entry_id: null
     }
 });
 
@@ -180,7 +180,7 @@ App.RecentList = Backbone.Collection.extend({
     localStorage: new Store('english-backbone'),
     addCustom: function(obj) {
         var filter = function(item) {
-            return item.get('filename') == obj.filename;
+            return item.get('entry_id') == obj.entry_id;
         };
         var remove = function(item) {
             item.destroy();
@@ -210,10 +210,10 @@ App.WordView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
-        var filename = this.model.get('filename');
+        var entry_id = this.model.get('entry_id');
         this.$el.find('a').click(function(e) {
             e.preventDefault();
-            App.form.getfile(filename);
+            App.form.getfile(entry_id);
         });
         return this;
     },
@@ -241,7 +241,7 @@ App.RecentListView = Backbone.View.extend({
         }
     },
     add: function(word) {
-        if (word.get('filename')) {
+        if (word.get('entry_id')) {
             var view = new App.WordView({model: word});
             this.$('.recent-list').prepend(view.render().el);
         }
@@ -269,10 +269,10 @@ App.SimilarListView = Backbone.View.extend({
 
 App.Router = Backbone.Router.extend({
     routes: {
-        "lookup/:word": "lookup",
+        "search/exact/:word": "search_exact",
         "entry/*entry_id": "entry"
     },
-    lookup: function(word) {
+    search_exact: function(word) {
         App.form.search(word);
     },
     entry: function(entry_id) {

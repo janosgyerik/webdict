@@ -10,8 +10,6 @@ cleaning up ui
     fix root entries, like entry/roots/IE77.html
     fix superscripts in cross refs
     fix error handling on non-existent entries
-    fix mouseover on recent items
-    replace old api keywords with new
     use 'similar' list for non-exact matches
     clean up js code, especially duplication
 
