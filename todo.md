@@ -6,18 +6,14 @@ cleaning up library
 cleaning up ui
     default options
         history size = 25
-    fix root entries, like entry/roots/IE77.html
     fix superscripts in cross refs
+        sound: <font size="+1"><sup>3</sup></font>
     fix error handling on non-existent entries
     use 'similar' list for non-exact matches
     clean up js code, especially duplication
 
 install on server
 
-unit tests for restful api
-    basic search / sanity test
-    all example cases
-    
 create restful cli
 
 create example dict

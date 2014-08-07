@@ -72,6 +72,14 @@ class AmericanHeritageDictionary(Dictionary):
                 self.add(entry)
         self.reindex()
 
+    def get(self, entry_id):
+        entry = super(AmericanHeritageDictionary, self).get(entry_id)
+        if not entry:
+            entry = AmericanHeritageEntry(entry_id, '')
+            entry.name = entry.content['name']
+            self.add(entry)
+        return entry
+
 
 class AmericanHeritageEntry(Entry):
     @lazy_property
