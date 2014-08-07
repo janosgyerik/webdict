@@ -3,28 +3,28 @@
 import unittest
 from test.test_support import run_unittest
 
-from base import Dictionary
+from base import Dictionary, Entry
 
 
 class DummyDictionary(Dictionary):
     def load_index(self):
-        pass
+        self.add('hello')
+        self.add('xhelloy')
+        self.add('xhelloz')
+        self.add('vanguard')
+        self.add('sound', 4)
+        for i in range(4):
+            self.add(str(i) + 'sound')
+        for i in range(14):
+            self.add('knee' + str(i))
+        self.reindex()
 
-    def put(self, word, values=('dummy',)):
-        self.items[word] = values
-        self.index = sorted(self.items)
+    def add(self, name, num=1):
+        for _ in range(num):
+            super(DummyDictionary, self).add(Entry(name, name))
 
 
 test_dict = DummyDictionary()
-test_dict.put('hello')
-test_dict.put('xhelloy')
-test_dict.put('xhelloz')
-test_dict.put('vanguard')
-test_dict.put('sound', ['x' for _ in range(4)])
-for i in range(4):
-    test_dict.put(str(i) + 'sound')
-for i in range(14):
-    test_dict.put('knee' + str(i))
 
 
 class DictionaryTestCase(unittest.TestCase):
