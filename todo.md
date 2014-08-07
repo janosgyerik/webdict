@@ -1,37 +1,28 @@
-+ markdown cross references
-    + ref:entry-id:name
-
-+ unit tests for ahd
-    + basic search / sanity test
-    + comply with specs
-        + markdown output
-        + correct markdown cross references
-    + all example cases
-
-+ unit tests for framework
-    + basic search / sanity test
-    + all example cases
-    
-cleaning up
+cleaning up library
     encapsulate indexing logic: dictionary.add method
     clean up repack_word in ahd
+    default options
+        max results for non-exact searches = 10
 
-+ create native cli
+cleaning up ui
+    default options
+        history size = 25
+    try to lookup hello on load
+        show "loading 'hello'" message while loading
+        remove hardcoded window.hello
+    fix root entries, like entry/roots/IE77.html
+    fix superscripts in cross refs
+    fix error handling on non-existent entries
+    fix mouseover on recent items
+    replace old api keywords with new
+    use 'similar' list for non-exact matches
+    clean up js code, especially duplication
+
+install on server
 
 unit tests for restful api
     basic search / sanity test
     all example cases
-
-migrate ui to restful api
-    correct search
-    default options
-        find exact
-        find similar
-        max results = 10
-        history size = 25
-    correct cross ref link routes
-    correct recent entry link routes
-    remove old api
     
 create restful cli
 
