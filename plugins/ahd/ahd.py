@@ -8,6 +8,7 @@ re_dt = re.compile(r'[A-Z]{2,}')
 re_filename = re.compile(r'^([0-9]{2}|roots)/[A-Z]+[0-9]+\.html$')
 re_em = re.compile(r'<I>(.*?)</I>')
 re_strong = re.compile(r'<[bB]>(.*?)</[bB]>')
+re_sub_n = re.compile(r'<SUB>.*?(\d+).*?</SUB>')
 re_other_html = re.compile(r'<[^>]+>')
 
 # <A HREF="#?file=73/H0237300.html">hold<SUP><FONT SIZE="-1">1</FONT></SUP></A>
@@ -59,6 +60,7 @@ def load_entry_content(filename):
             line = re_em.sub(r'*\1*', line)
             line = re_strong.sub(r'**\1**', line)
             line = re_em_caps.sub(r'---\1; ', line)
+            line = re_sub_n.sub(r'-\1', line)
             line = re_other_html.sub('', line)
             if re_dt.match(line):
                 definition_title = line

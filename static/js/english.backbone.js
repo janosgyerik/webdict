@@ -99,10 +99,10 @@ App.Form = Backbone.View.extend({
         if (words.length) {
             results.empty();
             _.each(words, function(bundle) {
-                function get_display_name(word) {
-                    return word.replace(/-(\d+)/, '<sub>$1</sub>');
+                function re_subscripts(str) {
+                    return str.replace(/-(\d+)/, '<sub>$1</sub>');
                 }
-                var display_name = get_display_name(bundle.name);
+                var display_name = re_subscripts(bundle.name);
                 if (!quiet) {
                     recentList.addCustom({
                         word: bundle.name,
@@ -119,7 +119,7 @@ App.Form = Backbone.View.extend({
                     for (var i in refs) {
                         var ref = refs[i];
                         var parts = ref.split(':');
-                        var ref_display_name = get_display_name(parts[2]);
+                        var ref_display_name = re_subscripts(parts[2]);
                         refs_links[ref] = '<a href="#entry/' + parts[1] + '">' + ref_display_name + '</a>';
                     }
                 }
@@ -128,6 +128,7 @@ App.Form = Backbone.View.extend({
                     var dd = item[1];
                     dd = dd.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                     dd = dd.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                    dd = re_subscripts(dd);
                     for (var i in refs) {
                         var ref = refs[i];
                         var pattern = "\\[.*?\\]\\[" + (parseInt(i) + 1) + "\\]";
