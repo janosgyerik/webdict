@@ -18,9 +18,14 @@ re_word_index = re.compile(r'(\d+)$')
 re_em_caps = re.compile(r'---<FONT SIZE="-2">([A-Z ]+)</FONT>')
 
 
-def to_ref(raw_href, raw_word):
+def to_word(raw_word):
     word = re_other_html.sub('', raw_word)
     word = re_word_index.sub(r'-\1', word)
+    return word
+
+
+def to_ref(raw_href, raw_word):
+    word = to_word(raw_word)
     ref = 'ref:{}:{}'.format(raw_href.replace('!!DICTIONARY!!?file=', ''), word)
     return ref, word
 
@@ -38,7 +43,7 @@ def load_entry_content(filename):
         for line in fh:
             if count < 3:
                 if count == 0:
-                    word = line.strip().split(':')[1]
+                    word = to_word(line.strip().split(':')[1])
                 count += 1
                 continue
             line = line.strip()

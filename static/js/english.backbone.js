@@ -99,10 +99,18 @@ App.Form = Backbone.View.extend({
         if (words.length) {
             results.empty();
             _.each(words, function(bundle) {
-                if (!quiet) {
-                    recentList.addCustom({word: bundle.name, entry_id: bundle.id});
+                function get_display_name(word) {
+                    return word.replace(/-(\d+)/, '<sub>$1</sub>');
                 }
-                results.append($('<h3/>').append(bundle.name));
+                var display_name = get_display_name(bundle.name);
+                if (!quiet) {
+                    recentList.addCustom({
+                        word: bundle.name,
+                        entry_id: bundle.id,
+                        display_name: display_name
+                    });
+                }
+                results.append($('<h3/>').append(display_name));
                 var dl = $('<dl/>');
                 var refs = [];
                 var refs_links = {};
@@ -111,7 +119,8 @@ App.Form = Backbone.View.extend({
                     for (var i in refs) {
                         var ref = refs[i];
                         var parts = ref.split(':');
-                        refs_links[ref] = '<a href="#entry/' + parts[1] + '">' + parts[2] + '</a>';
+                        var ref_display_name = get_display_name(parts[2]);
+                        refs_links[ref] = '<a href="#entry/' + parts[1] + '">' + ref_display_name + '</a>';
                     }
                 }
                 _.each(bundle.content, function(item) {
@@ -155,7 +164,8 @@ App.Form = Backbone.View.extend({
 App.Word = Backbone.Model.extend({
     defaults: {
         word: null,
-        entry_id: null
+        entry_id: null,
+        display_name: null
     }
 });
 

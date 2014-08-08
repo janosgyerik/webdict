@@ -1,10 +1,10 @@
 cleaning up ui
-    fix superscripts in cross refs
-        sound: <font size="+1"><sup>3</sup></font>
-        entry.name contains in json
     use 'similar' list for non-exact matches
     clean up js code, especially duplication
+    use entry id as key in word list, not the word itself
     replace "english" with "webdict"
+    rename all "english" to "webdict", or other
+    rename "word" to "entry" or "name"
 
 install on server
 

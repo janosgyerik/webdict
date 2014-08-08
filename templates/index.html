@@ -89,17 +89,8 @@
 
     </div><!--/.fluid-container-->
 
-    <script type="text/template" id="result-template">
-        <div class="view">
-            <h3>{{ word }}</h3>
-            <dl>
-                {{ dl_body }}
-            </dl>
-        </div>
-    </script>
-
     <script type="text/template" id="word-template">
-        <a href="#entry/<%= entry_id %>"><%= word %></a>
+        <a href="#entry/<%= entry_id %>"><%= display_name %></a>
     </script>
 
     <!-- Le javascript
