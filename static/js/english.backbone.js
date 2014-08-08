@@ -67,29 +67,12 @@ App.Form = Backbone.View.extend({
             error: error
         });
     },
-    entry: function(entry_id) {
-        App.router.navigate('entry/' + entry_id);
-        this.input.val('');
-        var _this = this;
-        var success = function(json) {
-            _this.onLookupSuccess(json);
-        };
-        var error = function(jqXHR, textStatus, errorThrown) {
-            _this.onLookupError(jqXHR, textStatus, errorThrown);
-        };
-        $('.searching').removeClass('customhidden');
-        $.ajax({
-            url: App.ENTRY_URL + "/" + entry_id,
-            success: success,
-            error: error
-        });
-    },
     searchOnEnter: function(e) {
         if (e.keyCode != 13) return;
         e.preventDefault();
         this.search();
     },
-    getfile: function(entry_id) {
+    getEntry: function(entry_id) {
         App.router.navigate('entry/' + entry_id);
         this.input.focus();
         var _this = this;
@@ -99,6 +82,7 @@ App.Form = Backbone.View.extend({
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
+        $('.searching').removeClass('customhidden');
         $.ajax({
             url: App.ENTRY_URL + "/" + entry_id,
             success: success,
@@ -151,7 +135,7 @@ App.Form = Backbone.View.extend({
                 var entry_id = href.substr(href.indexOf(key) + key.length);
                 $(this).click(function(e) {
                     e.preventDefault();
-                    _this.getfile(entry_id);
+                    _this.getEntry(entry_id);
                 });
             });
         }
@@ -213,7 +197,7 @@ App.WordView = Backbone.View.extend({
         var entry_id = this.model.get('entry_id');
         this.$el.find('a').click(function(e) {
             e.preventDefault();
-            App.form.getfile(entry_id);
+            App.form.getEntry(entry_id);
         });
         return this;
     },
@@ -276,7 +260,7 @@ App.Router = Backbone.Router.extend({
         App.form.search(word);
     },
     entry: function(entry_id) {
-        App.form.entry(entry_id);
+        App.form.getEntry(entry_id);
     }
 });
 
