@@ -61,7 +61,7 @@ App.Form = Backbone.View.extend({
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
-        $('.searching').removeClass('customhidden');
+        $('.loading').removeClass('loading-hidden');
         $.ajax({
             url: App.QUERY_URL + "/" + keyword,
             success: success,
@@ -78,7 +78,7 @@ App.Form = Backbone.View.extend({
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
-        $('.searching').removeClass('customhidden');
+        $('.loading').removeClass('loading-hidden');
         $.ajax({
             url: App.ENTRY_URL + "/" + entry_id,
             success: success,
@@ -86,7 +86,7 @@ App.Form = Backbone.View.extend({
         });
     },
     onLookupSuccess: function(keyword, json) {
-        $('.searching').addClass('customhidden');
+        $('.loading').addClass('loading-hidden');
         var $results = this.results;
         var recentList = this.recentList;
         var entries = json.matches[0].entries;
