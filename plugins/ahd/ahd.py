@@ -29,40 +29,40 @@ def repack_entry(filename):
     path = os.path.join(dictonary_path, filename)
     if not os.path.isfile(path):
         return
-    content = open(path)
-    dl = []
-    cnt = 0
-    word = None
-    dt = None
-    refs = []
-    for line in content:
-        if cnt < 3:
-            if cnt == 0:
-                word = line.strip().split(':')[1]
-            cnt += 1
-            continue
-        line = line.strip()
-        for raw_href, raw_word in re_ref.findall(line):
-            ref, ref_word = to_ref(raw_href, raw_word)
-            if ref not in refs:
-                refs.append(ref)
-            line = line.replace('<A HREF="{}">{}</A>'.format(raw_href, raw_word),
-                                '[{}][{}]'.format(ref_word, refs.index(ref) + 1))
-        line = re_em.sub(r'*\1*', line)
-        line = re_strong.sub(r'**\1**', line)
-        line = re_em_caps.sub(r'---\1; ', line)
-        line = re_other_html.sub('', line)
-        if re_dt.match(line):
-            dt = line
-        else:
-            dl.append([dt, line])
-    if refs:
-        dl.append(['REFERENCES', refs])
-    return {
-        'id': filename,
-        'name': word,
-        'content': dl,
-    }
+    with open(path) as fh:
+        dl = []
+        cnt = 0
+        word = None
+        dt = None
+        refs = []
+        for line in fh:
+            if cnt < 3:
+                if cnt == 0:
+                    word = line.strip().split(':')[1]
+                cnt += 1
+                continue
+            line = line.strip()
+            for raw_href, raw_word in re_ref.findall(line):
+                ref, ref_word = to_ref(raw_href, raw_word)
+                if ref not in refs:
+                    refs.append(ref)
+                line = line.replace('<A HREF="{}">{}</A>'.format(raw_href, raw_word),
+                                    '[{}][{}]'.format(ref_word, refs.index(ref) + 1))
+            line = re_em.sub(r'*\1*', line)
+            line = re_strong.sub(r'**\1**', line)
+            line = re_em_caps.sub(r'---\1; ', line)
+            line = re_other_html.sub('', line)
+            if re_dt.match(line):
+                dt = line
+            else:
+                dl.append([dt, line])
+        if refs:
+            dl.append(['REFERENCES', refs])
+        return {
+            'id': filename,
+            'name': word,
+            'content': dl,
+        }
 
 
 class AmericanHeritageDictionary(Dictionary):
