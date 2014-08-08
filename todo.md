@@ -1,6 +1,5 @@
 cleaning up library
-    default options
-        max results for non-exact searches = 10
+    rename fields to better names
 
 cleaning up ui
     default options

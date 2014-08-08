@@ -10,6 +10,8 @@ api = Api(app)
 
 dictionary = AmericanHeritageDictionary()
 
+MAX_RESULTS = 10
+
 
 @app.route('/')
 def index():
@@ -40,19 +42,19 @@ class SearchByExact(AmericanHeritageDictionaryResults):
 
 class SearchByPrefix(AmericanHeritageDictionaryResults):
     def get(self, keyword):
-        entries = dictionary.find_by_prefix(keyword, find_similar=True)
+        entries = dictionary.find_by_prefix(keyword, find_similar=True)[:MAX_RESULTS]
         return self.get_response(entries)
 
 
 class SearchBySuffix(AmericanHeritageDictionaryResults):
     def get(self, keyword):
-        entries = dictionary.find_by_suffix(keyword)
+        entries = dictionary.find_by_suffix(keyword)[:MAX_RESULTS]
         return self.get_response(entries)
 
 
 class SearchByFragment(AmericanHeritageDictionaryResults):
     def get(self, keyword):
-        entries = dictionary.find_by_fragment(keyword)
+        entries = dictionary.find_by_fragment(keyword)[:MAX_RESULTS]
         return self.get_response(entries)
 
 
