@@ -17,6 +17,8 @@ create interactive api doc
 generalize cli to make it easy to implement with a different dictionary
     rename to english.py
 
+use hover rows in recent and similar lists
+
 -----------------------------
 
 create restful cli

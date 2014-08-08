@@ -52,7 +52,9 @@ App.Form = Backbone.View.extend({
             keyword = this.input.val();
         }
         if (!keyword) return;
+
         App.router.navigate('search/exact/' + keyword);
+
         this.input.val('');
         var _this = this;
         var success = function(json) {
@@ -61,6 +63,7 @@ App.Form = Backbone.View.extend({
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
+
         $('.loading').removeClass('loading-hidden');
         $.ajax({
             url: App.QUERY_URL + "/" + keyword,
@@ -70,6 +73,7 @@ App.Form = Backbone.View.extend({
     },
     getEntry: function(entry_id) {
         App.router.navigate('entry/' + entry_id);
+
         this.input.focus();
         var _this = this;
         var success = function(json) {
@@ -78,6 +82,7 @@ App.Form = Backbone.View.extend({
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
         };
+
         $('.loading').removeClass('loading-hidden');
         $.ajax({
             url: App.ENTRY_URL + "/" + entry_id,
@@ -87,12 +92,15 @@ App.Form = Backbone.View.extend({
     },
     onLookupSuccess: function(keyword, json) {
         $('.loading').addClass('loading-hidden');
+
         var $results = this.results;
         var recentList = this.recentList;
         var entries = json.matches[0].entries;
+
         function render_subscripts(str) {
             return str.replace(/-(\d+)/, '<sub>$1</sub>');
         }
+
         var noExactMatches = keyword && keyword != entries[0].name.substr(0, keyword.length);
 
         if (entries.length) {
@@ -133,6 +141,7 @@ App.Form = Backbone.View.extend({
                 $results.append(dl);
             });
         }
+
         if (noExactMatches) {
             var items = [];
             _.each(entries, function(entry) {
@@ -170,11 +179,14 @@ App.RecentList = Backbone.Collection.extend({
             item.destroy();
         };
         _.each(this.filter(filter), remove);
+
         this.create(obj);
+
         var excessItemsNum = this.length - App.MAX_RECENT;
         if (excessItemsNum > 0) {
             _.each(this.toArray().slice(0, excessItemsNum), remove);
         }
+
         this.trigger('updated');
     }
 });
