@@ -118,7 +118,7 @@ App.Form = Backbone.View.extend({
                         var ref = refs[i];
                         var parts = ref.split(':');
                         var ref_name = render_subscripts(parts[2]);
-                        refs_links[ref] = '<a href="#entry/' + parts[1] + '">' + ref_name + '</a>';
+                        refs_links[ref] = $('<a/>').append(ref_name).attr('href', '#entry/' + parts[1]).prop('outerHTML');
                     }
                 }
                 var dl = $('<dl/>');
