@@ -275,7 +275,7 @@ function onDomReady() {
     });
     App.form.input.focus();
 
-    App.router = new App.Router;
+    App.router = new App.Router();
 
     Backbone.history.start();
 
