@@ -140,9 +140,9 @@ App.Form = Backbone.View.extend({
         if (similar.length) {
             var items = [];
             _.each(similar, function(item) {
-                items.push(new App.Word({
+                items.push(new App.Entry({
                     entry_id: item[0],
-                    word: item[1]
+                    name: item[1]
                 }));
             });
             App.similarList.reset(items);
@@ -156,15 +156,15 @@ App.Form = Backbone.View.extend({
     }
 });
 
-App.Word = Backbone.Model.extend({
+App.Entry = Backbone.Model.extend({
     defaults: {
-        name: null,
-        entry_id: null
+        entry_id: null,
+        name: null
     }
 });
 
 App.RecentList = Backbone.Collection.extend({
-    model: App.Word,
+    model: App.Entry,
     localStorage: new Store('english-backbone'),
     addCustom: function(obj) {
         var filter = function(item) {
@@ -184,12 +184,12 @@ App.RecentList = Backbone.Collection.extend({
 });
 
 App.SimilarList = Backbone.Collection.extend({
-    model: App.Word
+    model: App.Entry
 });
 
-App.WordView = Backbone.View.extend({
+App.EntryView = Backbone.View.extend({
     tagName: 'li',
-    template: _.template($('#word-template').html()),
+    template: _.template($('#entry-template').html()),
     initialize: function() {
         this.model.bind('destroy', this.remove, this);
     },
@@ -217,8 +217,8 @@ App.RecentListView = Backbone.View.extend({
             this.$el.removeClass('hidden');
         }
     },
-    add: function(word) {
-        var view = new App.WordView({model: word});
+    add: function(entry) {
+        var view = new App.EntryView({model: entry});
         this.$('.recent-list').prepend(view.render().el);
     }
 });
@@ -236,19 +236,19 @@ App.SimilarListView = Backbone.View.extend({
             this.$el.removeClass('hidden');
         }
     },
-    add: function(word) {
-        var view = new App.WordView({model: word});
+    add: function(entry) {
+        var view = new App.EntryView({model: entry});
         this.$('.similar-list').append(view.render().el);
     }
 });
 
 App.Router = Backbone.Router.extend({
     routes: {
-        "search/exact/:word": "searchExact",
+        "search/exact/:keyword": "searchExact",
         "entry/*entry_id": "getEntry"
     },
-    searchExact: function(word) {
-        App.form.searchExact(word);
+    searchExact: function(keyword) {
+        App.form.searchExact(keyword);
     },
     getEntry: function(entry_id) {
         App.form.getEntry(entry_id);

@@ -1,9 +1,9 @@
 cleaning up ui
     use 'similar' list for non-exact matches
-    use entry id as key in word list, not the word itself
     replace "english" with "webdict"
     rename all "english" to "webdict", or other
-    rename "word" to "entry" or "name"
+
+implement api as per the spec
 
 install on server
 
