@@ -70,7 +70,11 @@ class Dictionary(object):
         return matches
 
     def get(self, entry_id):
-        return self.items_by_id.get(entry_id)
+        entry = self.items_by_id.get(entry_id)
+        if entry:
+            return [entry]
+        else:
+            return []
 
     def add(self, entry):
         self.items[entry.name].append(entry)

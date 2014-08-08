@@ -27,6 +27,8 @@ def to_ref(raw_href, raw_word):
 
 def repack_entry(filename):
     path = os.path.join(dictonary_path, filename)
+    if not os.path.isfile(path):
+        return
     content = open(path)
     dl = []
     cnt = 0
@@ -73,12 +75,14 @@ class AmericanHeritageDictionary(Dictionary):
         self.reindex()
 
     def get(self, entry_id):
-        entry = super(AmericanHeritageDictionary, self).get(entry_id)
-        if not entry:
+        entries = super(AmericanHeritageDictionary, self).get(entry_id)
+        if not entries:
             entry = AmericanHeritageEntry(entry_id, '')
-            entry.name = entry.content['name']
-            self.add(entry)
-        return entry
+            if entry.content:
+                entry.name = entry.content['name']
+                self.add(entry)
+                return [entry]
+        return entries
 
 
 class AmericanHeritageEntry(Entry):

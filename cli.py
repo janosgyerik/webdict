@@ -20,7 +20,7 @@ dictionary = AmericanHeritageDictionary()
 
 
 def get_and_print(entry_id):
-    print_entry(dictionary.get(entry_id))
+    print_many(dictionary.get(entry_id))
 
 
 def find_and_print(keyword, find_similar=False, list_only=False):

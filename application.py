@@ -58,7 +58,7 @@ class SearchByFragment(AmericanHeritageDictionaryResults):
 
 class GetEntry(AmericanHeritageDictionaryResults):
     def get(self, entry_id):
-        entries = [dictionary.get(entry_id)]
+        entries = dictionary.get(entry_id)
         return self.get_response(entries)
 
 
