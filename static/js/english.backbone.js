@@ -90,7 +90,6 @@ App.Form = Backbone.View.extend({
         });
     },
     onLookupSuccess: function(json, quiet) {
-        var _this = this;
         var $results = this.results;
         var recentList = this.recentList;
         var entries = json.matches[0].entries;
@@ -149,6 +148,12 @@ App.Form = Backbone.View.extend({
             });
             App.similarList.reset(items);
         }
+    },
+    onLookupError: function(jqXHR, textStatus, errorThrown) {
+        console.log('TODO: query failed?');
+        console.log('jqXHR:', jqXHR);
+        console.log('textStatus:', textStatus);
+        console.log('errorThrown:', errorThrown);
     }
 });
 
