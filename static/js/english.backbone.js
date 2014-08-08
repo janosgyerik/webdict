@@ -20,7 +20,6 @@ window.App = {};
 // TODO: put in app/*.js
 
 
-// app constants
 App.QUERY_URL = '/search/exact';
 App.ENTRY_URL = '/entry';
 App.MAX_RECENT = 25;
@@ -44,9 +43,14 @@ App.Form = Backbone.View.extend({
     },
     searchBtn: function(e) {
         e.preventDefault();
-        this.search();
+        this.searchExact();
     },
-    search: function(keyword) {
+    searchOnEnter: function(e) {
+        if (e.keyCode != 13) return;
+        e.preventDefault();
+        this.searchExact();
+    },
+    searchExact: function(keyword) {
         if (!keyword) {
             keyword = this.input.val();
         }
@@ -66,11 +70,6 @@ App.Form = Backbone.View.extend({
             success: success,
             error: error
         });
-    },
-    searchOnEnter: function(e) {
-        if (e.keyCode != 13) return;
-        e.preventDefault();
-        this.search();
     },
     getEntry: function(entry_id) {
         App.router.navigate('entry/' + entry_id);
@@ -191,9 +190,6 @@ App.SimilarList = Backbone.Collection.extend({
 App.WordView = Backbone.View.extend({
     tagName: 'li',
     template: _.template($('#word-template').html()),
-    events: {
-        'click a.destroy': 'clear'
-    },
     initialize: function() {
         this.model.bind('destroy', this.remove, this);
     },
@@ -220,15 +216,10 @@ App.RecentListView = Backbone.View.extend({
         if (this.list.length) {
             this.$el.removeClass('hidden');
         }
-        else {
-            this.$el.addClass('hidden');
-        }
     },
     add: function(word) {
-        if (word.get('entry_id')) {
-            var view = new App.WordView({model: word});
-            this.$('.recent-list').prepend(view.render().el);
-        }
+        var view = new App.WordView({model: word});
+        this.$('.recent-list').prepend(view.render().el);
     }
 });
 
@@ -253,13 +244,13 @@ App.SimilarListView = Backbone.View.extend({
 
 App.Router = Backbone.Router.extend({
     routes: {
-        "search/exact/:word": "search_exact",
-        "entry/*entry_id": "entry"
+        "search/exact/:word": "searchExact",
+        "entry/*entry_id": "getEntry"
     },
-    search_exact: function(word) {
-        App.form.search(word);
+    searchExact: function(word) {
+        App.form.searchExact(word);
     },
-    entry: function(entry_id) {
+    getEntry: function(entry_id) {
         App.form.getEntry(entry_id);
     }
 });
@@ -288,7 +279,7 @@ function onDomReady() {
     Backbone.history.start();
 
     if (!window.location.hash) {
-        App.form.search('hello');
+        App.form.searchExact('hello');
     }
 }
 
