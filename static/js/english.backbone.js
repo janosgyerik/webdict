@@ -126,12 +126,11 @@ App.Form = Backbone.View.extend({
                 var refs_links = {};
                 if (entry.content[entry.content.length - 1][0] == 'REFERENCES') {
                     refs = entry.content.pop()[1];
-                    for (var i in refs) {
-                        var ref = refs[i];
+                    _.each(refs, function(ref) {
                         var parts = ref.split(':');
                         var ref_name = render_subscripts(parts[2]);
                         refs_links[ref] = $('<a/>').append(ref_name).attr('href', '#entry/' + parts[1]).prop('outerHTML');
-                    }
+                    });
                 }
                 var dl = $('<dl/>');
                 _.each(entry.content, function(item) {
@@ -140,11 +139,10 @@ App.Form = Backbone.View.extend({
                     dd = dd.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                     dd = dd.replace(/\*(.*?)\*/g, '<em>$1</em>');
                     dd = render_subscripts(dd);
-                    for (var i in refs) {
-                        var ref = refs[i];
+                    _.each(refs, function(ref, i) {
                         var pattern = "\\[.*?\\]\\[" + (parseInt(i) + 1) + "\\]";
                         dd = dd.replace(new RegExp(pattern, "g"), refs_links[ref]);
-                    }
+                    });
                     dl.append($('<dt/>').append(dt));
                     dl.append($('<dd/>').append(dd));
                 });
