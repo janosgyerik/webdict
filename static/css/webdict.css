@@ -1,9 +1,3 @@
-/* 
- * File: css/english.css
- * Purpose: Custom stylesheet for English-English
- *
- * */
-
 .loading-hidden {
     display: none ! important;
 }
@@ -44,5 +38,3 @@
 #keyword-list tr:hover .destroy {
     display: block;
 }
-
-/* eof */

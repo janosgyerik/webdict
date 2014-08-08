@@ -1,8 +1,3 @@
-cleaning up ui
-    replace "english" with "webdict"
-    rename all "english" to "webdict", or other
-    add a button to clear similar list
-
 implement api following the spec
 
 install on server
@@ -17,7 +12,9 @@ create interactive api doc
 generalize cli to make it easy to implement with a different dictionary
     rename to english.py
 
-use hover rows in recent and similar lists
+polish ui
+    use hover rows in recent and similar lists
+    add a button to clear similar list
 
 -----------------------------
 

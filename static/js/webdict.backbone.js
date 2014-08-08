@@ -170,7 +170,7 @@ App.Entry = Backbone.Model.extend({
 
 App.RecentList = Backbone.Collection.extend({
     model: App.Entry,
-    localStorage: new Store('english-backbone'),
+    localStorage: new Store('webdict-backbone'),
     addCustom: function(obj) {
         var filter = function(item) {
             return item.get('entry_id') == obj.entry_id;
@@ -251,9 +251,6 @@ App.SimilarListView = Backbone.View.extend({
 });
 
 function onDomReady() {
-    // instances
-    // TODO: put in setup.js
-    //
     App.recentList = new App.RecentList();
     App.recentListView = new App.RecentListView({
         list: App.recentList
