@@ -1,5 +1,4 @@
 cleaning up library
-    clean up repack_word in ahd
     default options
         max results for non-exact searches = 10
 

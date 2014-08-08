@@ -25,21 +25,21 @@ def to_ref(raw_href, raw_word):
     return ref, word
 
 
-def repack_entry(filename):
+def load_entry_content(filename):
     path = os.path.join(dictonary_path, filename)
     if not os.path.isfile(path):
         return
     with open(path) as fh:
-        dl = []
-        cnt = 0
         word = None
-        dt = None
+        count = 0
+        definition_list = []
+        definition_title = None
         refs = []
         for line in fh:
-            if cnt < 3:
-                if cnt == 0:
+            if count < 3:
+                if count == 0:
                     word = line.strip().split(':')[1]
-                cnt += 1
+                count += 1
                 continue
             line = line.strip()
             for raw_href, raw_word in re_ref.findall(line):
@@ -53,15 +53,15 @@ def repack_entry(filename):
             line = re_em_caps.sub(r'---\1; ', line)
             line = re_other_html.sub('', line)
             if re_dt.match(line):
-                dt = line
+                definition_title = line
             else:
-                dl.append([dt, line])
+                definition_list.append([definition_title, line])
         if refs:
-            dl.append(['REFERENCES', refs])
+            definition_list.append(['REFERENCES', refs])
         return {
             'id': filename,
             'name': word,
-            'content': dl,
+            'content': definition_list,
         }
 
 
@@ -88,7 +88,7 @@ class AmericanHeritageDictionary(Dictionary):
 class AmericanHeritageEntry(Entry):
     @lazy_property
     def content(self):
-        return repack_entry(self.entry_id)
+        return load_entry_content(self.entry_id)
 
 
 # All the HTML tags in the dictionary:
