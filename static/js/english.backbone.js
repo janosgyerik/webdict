@@ -1,24 +1,8 @@
-/*!
- * english backbone JavaScript Library v0.1
- * http://.../
- *
- * Copyright 2012, Janos Gyerik
- * http://.../license
- *
- * Date: Fri Oct  5 18:56:59 CEST 2012
- */
-
-
-// the basic namespace
-// TODO: put in app.js
+// the app's namespace
 var App = window.App = {};
 
 //conflicts with Flask
 //_.templateSettings = { interpolate: /\{\{(.+?)\}\}/g };
-
-// classes
-// TODO: put in app/*.js
-
 
 App.QUERY_URL = '/search/exact';
 App.ENTRY_URL = '/entry';
@@ -257,7 +241,7 @@ App.SimilarListView = Backbone.View.extend({
 function onDomReady() {
     // instances
     // TODO: put in setup.js
-    // 
+    //
     App.recentList = new App.RecentList();
     App.recentListView = new App.RecentListView({
         list: App.recentList
