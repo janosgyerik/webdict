@@ -91,44 +91,43 @@ App.Form = Backbone.View.extend({
     },
     onLookupSuccess: function(json, quiet) {
         var _this = this;
-        var results = this.results;
+        var $results = this.results;
         var recentList = this.recentList;
-        var words = json.matches[0].entries;
+        var entries = json.matches[0].entries;
         var similar = [];
         $('.searching').addClass('customhidden');
-        if (words.length) {
-            results.empty();
-            _.each(words, function(bundle) {
-                function re_subscripts(str) {
+        if (entries.length) {
+            $results.empty();
+            _.each(entries, function(entry) {
+                function render_subscripts(str) {
                     return str.replace(/-(\d+)/, '<sub>$1</sub>');
                 }
-                var display_name = re_subscripts(bundle.name);
+                var name = render_subscripts(entry.name);
                 if (!quiet) {
                     recentList.addCustom({
-                        word: bundle.name,
-                        entry_id: bundle.id,
-                        display_name: display_name
+                        name: name,
+                        entry_id: entry.id
                     });
                 }
-                results.append($('<h3/>').append(display_name));
-                var dl = $('<dl/>');
+                $results.append($('<h3/>').append(name));
                 var refs = [];
                 var refs_links = {};
-                if (bundle.content[bundle.content.length - 1][0] == 'REFERENCES') {
-                    refs = bundle.content.pop()[1];
+                if (entry.content[entry.content.length - 1][0] == 'REFERENCES') {
+                    refs = entry.content.pop()[1];
                     for (var i in refs) {
                         var ref = refs[i];
                         var parts = ref.split(':');
-                        var ref_display_name = re_subscripts(parts[2]);
-                        refs_links[ref] = '<a href="#entry/' + parts[1] + '">' + ref_display_name + '</a>';
+                        var ref_name = render_subscripts(parts[2]);
+                        refs_links[ref] = '<a href="#entry/' + parts[1] + '">' + ref_name + '</a>';
                     }
                 }
-                _.each(bundle.content, function(item) {
+                var dl = $('<dl/>');
+                _.each(entry.content, function(item) {
                     var dt = item[0];
                     var dd = item[1];
                     dd = dd.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                     dd = dd.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                    dd = re_subscripts(dd);
+                    dd = render_subscripts(dd);
                     for (var i in refs) {
                         var ref = refs[i];
                         var pattern = "\\[.*?\\]\\[" + (parseInt(i) + 1) + "\\]";
@@ -137,9 +136,9 @@ App.Form = Backbone.View.extend({
                     dl.append($('<dt/>').append(dt));
                     dl.append($('<dd/>').append(dd));
                 });
-                results.append(dl);
+                $results.append(dl);
             });
-            results.find('a').each(function() {
+            $results.find('a').each(function() {
                 var href = $(this).attr('href');
                 var key = 'entry/';
                 var entry_id = href.substr(href.indexOf(key) + key.length);
@@ -164,9 +163,8 @@ App.Form = Backbone.View.extend({
 
 App.Word = Backbone.Model.extend({
     defaults: {
-        word: null,
-        entry_id: null,
-        display_name: null
+        name: null,
+        entry_id: null
     }
 });
 

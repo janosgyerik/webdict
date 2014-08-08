@@ -1,6 +1,5 @@
 cleaning up ui
     use 'similar' list for non-exact matches
-    clean up js code, especially duplication
     use entry id as key in word list, not the word itself
     replace "english" with "webdict"
     rename all "english" to "webdict", or other
