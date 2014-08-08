@@ -1,7 +1,7 @@
 cleaning up ui
-    use 'similar' list for non-exact matches
     replace "english" with "webdict"
     rename all "english" to "webdict", or other
+    add a button to clear similar list
 
 implement api as per the spec
 

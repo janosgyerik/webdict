@@ -72,7 +72,7 @@ App.Form = Backbone.View.extend({
         this.input.val('');
         var _this = this;
         var success = function(json) {
-            _this.onLookupSuccess(json);
+            _this.onLookupSuccess(keyword, json);
         };
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
@@ -89,7 +89,7 @@ App.Form = Backbone.View.extend({
         this.input.focus();
         var _this = this;
         var success = function(json) {
-            _this.onLookupSuccess(json);
+            _this.onLookupSuccess(null, json);
         };
         var error = function(jqXHR, textStatus, errorThrown) {
             _this.onLookupError(jqXHR, textStatus, errorThrown);
@@ -101,20 +101,21 @@ App.Form = Backbone.View.extend({
             error: error
         });
     },
-    onLookupSuccess: function(json, quiet) {
+    onLookupSuccess: function(keyword, json, quiet) {
+        $('.searching').addClass('customhidden');
         var $results = this.results;
         var recentList = this.recentList;
         var entries = json.matches[0].entries;
-        var similar = [];
-        $('.searching').addClass('customhidden');
+        function render_subscripts(str) {
+            return str.replace(/-(\d+)/, '<sub>$1</sub>');
+        }
+        var noExactMatches = keyword && keyword != entries[0].name.substr(0, keyword.length);
+
         if (entries.length) {
             $results.empty();
             _.each(entries, function(entry) {
-                function render_subscripts(str) {
-                    return str.replace(/-(\d+)/, '<sub>$1</sub>');
-                }
                 var name = render_subscripts(entry.name);
-                if (!quiet) {
+                if (!noExactMatches) {
                     recentList.addCustom({
                         name: name,
                         entry_id: entry.id
@@ -150,12 +151,12 @@ App.Form = Backbone.View.extend({
                 $results.append(dl);
             });
         }
-        if (similar.length) {
+        if (noExactMatches) {
             var items = [];
-            _.each(similar, function(item) {
+            _.each(entries, function(entry) {
                 items.push(new App.Entry({
-                    entry_id: item[0],
-                    name: item[1]
+                    entry_id: entry.id,
+                    name: render_subscripts(entry.name)
                 }));
             });
             App.similarList.reset(items);
