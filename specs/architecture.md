@@ -1,6 +1,6 @@
 Overview
 --------
-- dictionary library -- core functionality
++ dictionary library -- core functionality
 - restful api
     - server
     - client
@@ -13,43 +13,47 @@ Overview
 
 Dictionary library
 ------------------
-- implementation of core functionality
-- unit tests
++ implementation of core functionality
++ unit tests
 - plugin support
-    - interface to implement
-    - default indexing logic, plugin may override
-    - plugin testing framework
+    + interface to implement
+    + default indexing logic, plugin may override
+    + plugin testing framework
+    - run all tests
     - documentation
+        - how to implement a new plugin
+        - how to test new plugin
+        - how to run all tests
     - handle gracefully if plugin cannot be loaded (missing data files)
-- methods
++ methods
     - find
     - find_by_prefix
     - find_by_suffix
     - find_by_fragment
-- mandatory params
++ mandatory params
     - query string
 - optional params
-    - find similar
-        - only if no match or always
-        - shorten term by max N characters
+    + find similar
+        - only if no match
+        - only apply to exact search or prefix search
     - max results to return
-    - list only, don't load content
+    + list only, don't load content
 - python modules
-    - dictionary.py
+    + dictionary.py
         Dictionary
         Entry
-        Match -- wrapper of:
-            - query params
-            - list of Entries
-    - test_dictionary.py
+            - entry id
+            - entry name
+            - content
+    + test_dictionary.py
         DictionaryTest
-    - plugins/id/id.py
+    + plugins/id/id.py
         PxDictionary(Dictionary)
         PxEntry(Entry)
-    - plugins/id/test_id.py
+    + plugins/id/test_id.py
         PxTest(DictionaryTest)
-            - run general tests for plugin conformity
             - run specialized tests with real examples for given dictionary
+    - use git submodule
 - Discover plugins
     - standalone mode
         - load a specified plugin
@@ -97,7 +101,7 @@ RESTful API server
         'success': false,
         'message': 'no such method'
     }
-- success response example
++ success response example
     {
         'version': 'v1',
         'success': true,
@@ -126,13 +130,13 @@ RESTful API client
 
 Web interface
 -------------
-- Responsive grid: bootstrap
-- Web 2.0: ajax via jquery
++ Responsive grid: bootstrap
++ Web 2.0: ajax via jquery
 - Single-page app: backbone with router
-    - hashtag routes to cross references
+    + hashtag routes to cross references
     - list of recent searches
         - hashtag routes to recent entries
-    - bookmarkable search results
+    + bookmarkable search results
 - Options
     - checkboxes for dictionaries to use
         - hide if only one dictionary
@@ -154,8 +158,8 @@ Web interface
 Native command line interface
 -----------------------------
 - import dictionary modules
-- run in standalone mode
-- output results formatted as markdown
++ run in standalone mode
++ output results formatted as markdown
 
 
 Restful command line interface

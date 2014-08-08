@@ -4,34 +4,38 @@ Specific functional requirements
 ### Inputs
 
 - What?
-    - word, expression, phrase to find
+    + word, expression, phrase to find
         - may contain spaces and special characters
     - search options
         - prefix, suffix, fragment search
         - find similar // by shortening prefix
         - find matches but don't load details // index search only, no content
-    - entry id, for bookmarks, cross references
+        - get cross reference
+            + web interface
+            - cli
+    + entry id, for bookmarks, cross references
     - auto-suggest
+        - load entire index on web interface
     - dictionaries to use
 - From where?
-    - input field in browser form
-    - command line arg
+    + input field in browser form
+    + command line arg
     - restful call
 - Accuracy?
-    - nice to have: option to tolerate failures, typos
-- Range of values?
+    + nice to have: option to tolerate failures, typos // find_similar = True
++ Range of values?
     - dictionary backend should implement input validation
     - any range can be valid
-- Frequency?
++ Frequency?
     - not a concern, arbitrary
 
 ### Outputs
 
 - What?
     - need html and structured text
-    - need cross references to related entries, similar entries
+    + need cross references to related entries, similar entries
     - markdown can be suitable
-    - json for restful calls
+    + json for restful calls
     - dictionary should specify the format it provides: md, html
     - dictionary should specify available formats
     - dictionary should handle accepted formats
@@ -39,18 +43,18 @@ Specific functional requirements
         - japanese entries need: kanji, furigana, romaji
         - entry may be structured object
 - Destination?
-    - web page -- html
-    - terminal -- md
+    + web page -- html
+    + terminal -- md
     - mobile device -- responsive html
-- Accuracy?
++ Accuracy?
     - not a concern
 - Range of values?
     - cap on output size by default
     - dictionary may support changing the cap
     - single entry length depends on the dictionary content
-- Frequency?
++ Frequency?
     - not a concern
-- Format? -> web pages?
++ Format? -> web pages?
     - web page, html
     - terminal, markdown
 - Format? -> reports?
@@ -59,7 +63,7 @@ Specific functional requirements
 
 ### External interfaces
 
-- External hardware to interface with?
++ External hardware to interface with?
 - External software to interface with?
     - allow custom dictionary plugins
         - need good documentation with examples
@@ -69,14 +73,15 @@ Specific functional requirements
 
 - What are they?
     - restful api
-    - browser
+    + browser
 - Error checking?
-    - no matches = empty list
+    + no matches = empty list
+    - no such entry = empty list
+    - invalid api calls // 404 page
 - Protocols?
-    - json response, describing
-        - query details
+    + json response, describing
         - list of matching entries
-    - entry is a definition list = label + content pairs
+    + entry is a definition list = label + content pairs
     - entry may need to be complex object
         - japanese: kanji field, furigana field, romaji field
         - pronunciation field
@@ -85,15 +90,25 @@ Specific functional requirements
 ### Tasks
 
 - What are the tasks the user wants to perform?
-    - find word in dictionary
+    + find word in dictionary
     - find by prefix, suffix or fragment
+        + cli
+        + restful api
+        - web interface
     - list only
+        + cli
+        - restful api
+        - web interface
     - find similar
+        + cli
+        - restful api
+        - web interface
     - find in multiple sources
     - remember recent searches
-- What are the data used by each task?
+        - web interface
++ What are the data used by each task?
     - json input, json output, rendered as markdown or html
-- What are the data resulting from each task?
++ What are the data resulting from each task?
 
 
 Non-functional quality requirements
@@ -101,23 +116,23 @@ Non-functional quality requirements
 
 ### Time constraints
 
-- What is the expected response time of all necessary operations?
++ What is the expected response time of all necessary operations?
     - reasonably fast
 - Any considerations about processing time?
     - index should be preloaded from native format (compiled), ideally zipped
 - Any considerations about data transfer rate?
-    - normal usage should be lightweight
+    + normal usage should be lightweight
     - avoid loading entries when listing is enough
-- Any considerations about system throughput?
++ Any considerations about system throughput?
     - nothing special
 
 ### Security, stability, safety
 
-- Any security considerations? Any concerns?
++ Any security considerations? Any concerns?
     - intellectual property concerns of dictionary content
-- Is the reliability specified?
++ Is the reliability specified?
     - no special concerns
-- Consequences of failure?
++ Consequences of failure?
     - no special consequences
 - Any vital information that needs to be protected?
     - don't add proprietary dictionary data to version control
@@ -130,9 +145,11 @@ Non-functional quality requirements
 ### System requirements
 
 - Maximum memory?
-    - expected lightweight: example dictionary non-optimized index size 2.4 MB
+    + expected lightweight: example dictionary non-optimized index size 2.4 MB
+    - optimize index
 - Maximum storage?
-    - medium: example dictionary non-optimized content size 376 MB
+    + medium: example dictionary non-optimized content size 376 MB
+    - optimize storage format (zip?)
 
 ### Maintainability
 
