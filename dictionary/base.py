@@ -30,13 +30,13 @@ class Entry(object):
 
 class Dictionary(object):
     def __init__(self):
-        self.index = {}
-        self.items = defaultdict(list)
+        self.items_sorted = {}
+        self.items_by_name = defaultdict(list)
         self.items_by_id = {}
         self.load_index()
 
     def find(self, word, find_similar=False):
-        matches = self.items.get(word)
+        matches = self.items_by_name.get(word)
         if matches:
             return matches
         if find_similar:
@@ -45,9 +45,9 @@ class Dictionary(object):
 
     def find_by_prefix(self, prefix, find_similar=False):
         matches = []
-        for k in self.index:
+        for k in self.items_sorted:
             if k.startswith(prefix):
-                matches.extend(self.items[k])
+                matches.extend(self.items_by_name[k])
             elif matches:
                 break
         if find_similar and not matches and len(prefix) > 1:
@@ -56,16 +56,16 @@ class Dictionary(object):
 
     def find_by_suffix(self, suffix):
         matches = []
-        for k in self.index:
+        for k in self.items_sorted:
             if k.endswith(suffix):
-                matches.extend(self.items[k])
+                matches.extend(self.items_by_name[k])
         return matches
 
     def find_by_fragment(self, fragment):
         matches = []
-        for k in self.index:
+        for k in self.items_sorted:
             if fragment in k:
-                matches.extend(self.items[k])
+                matches.extend(self.items_by_name[k])
         return matches
 
     def get(self, entry_id):
@@ -76,11 +76,11 @@ class Dictionary(object):
             return []
 
     def add(self, entry):
-        self.items[entry.name].append(entry)
+        self.items_by_name[entry.name].append(entry)
         self.items_by_id[entry.entry_id] = entry
 
     def reindex(self):
-        self.index = sorted(self.items)
+        self.items_sorted = sorted(self.items_by_name)
 
     @abc.abstractmethod
     def load_index(self):

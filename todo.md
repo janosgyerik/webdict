@@ -1,6 +1,3 @@
-cleaning up library
-    rename fields to better names
-
 cleaning up ui
     default options
         history size = 25
