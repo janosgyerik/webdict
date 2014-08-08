@@ -101,7 +101,7 @@ App.Form = Backbone.View.extend({
             error: error
         });
     },
-    onLookupSuccess: function(keyword, json, quiet) {
+    onLookupSuccess: function(keyword, json) {
         $('.searching').addClass('customhidden');
         var $results = this.results;
         var recentList = this.recentList;
