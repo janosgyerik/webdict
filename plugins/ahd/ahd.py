@@ -10,11 +10,11 @@ re_em = re.compile(r'<I>(.*?)</I>')
 re_strong = re.compile(r'<[bB]>(.*?)</[bB]>')
 re_other_html = re.compile(r'<[^>]+>')
 
-#<A HREF="#?file=73/H0237300.html">hold<SUP><FONT SIZE="-1">1</FONT></SUP></A>
+# <A HREF="#?file=73/H0237300.html">hold<SUP><FONT SIZE="-1">1</FONT></SUP></A>
 re_ref = re.compile(r'<A HREF="([^"]*)">(.*?)</A>')
 re_word_index = re.compile(r'(\d+)$')
 
-#<B>sound'ly</B> ---<FONT SIZE="-2">ADVERB</FONT><B>sound'ness</B> ---<FONT SIZE="-2">NOUN</FONT>
+# <B>sound'ly</B> ---<FONT SIZE="-2">ADVERB</FONT><B>sound'ness</B> ---<FONT SIZE="-2">NOUN</FONT>
 re_em_caps = re.compile(r'---<FONT SIZE="-2">([A-Z ]+)</FONT>')
 
 
@@ -46,8 +46,10 @@ def load_entry_content(filename):
                 ref, ref_word = to_ref(raw_href, raw_word)
                 if ref not in refs:
                     refs.append(ref)
-                line = line.replace('<A HREF="{}">{}</A>'.format(raw_href, raw_word),
-                                    '[{}][{}]'.format(ref_word, refs.index(ref) + 1))
+                line = line.replace(
+                    '<A HREF="{}">{}</A>'.format(raw_href, raw_word),
+                    '[{}][{}]'.format(ref_word, refs.index(ref) + 1)
+                )
             line = re_em.sub(r'*\1*', line)
             line = re_strong.sub(r'**\1**', line)
             line = re_em_caps.sub(r'---\1; ', line)
