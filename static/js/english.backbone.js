@@ -11,7 +11,7 @@
 
 // the basic namespace
 // TODO: put in app.js
-window.App = {};
+var App = window.App = {};
 
 //conflicts with Flask
 //_.templateSettings = { interpolate: /\{\{(.+?)\}\}/g };

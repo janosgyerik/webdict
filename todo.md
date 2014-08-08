@@ -16,6 +16,12 @@ move ahd to git submodule
 
 create interactive api doc
 
+upgrade
+    jquery
+    bootstrap
+    backbone
+    flask
+
 polishing cli
     --ref NUM option to jump to reference
     generalize cli to make it easy to implement with a different dictionary
