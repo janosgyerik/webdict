@@ -55,6 +55,7 @@ def load_entry_content(filename):
                     '<A HREF="{}">{}</A>'.format(raw_href, raw_word),
                     '[{}][{}]'.format(ref_word, refs.index(ref) + 1)
                 )
+            line = line.replace('*', '')
             line = re_em.sub(r'*\1*', line)
             line = re_strong.sub(r'**\1**', line)
             line = re_em_caps.sub(r'---\1; ', line)
