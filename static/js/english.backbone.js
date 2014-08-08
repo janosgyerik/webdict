@@ -23,7 +23,7 @@ window.App = {};
 // app constants
 App.QUERY_URL = '/search/exact';
 App.ENTRY_URL = '/entry';
-App.MAX_RECENT = 15;
+App.MAX_RECENT = 25;
 
 App.Form = Backbone.View.extend({
     el: '#main-content',
@@ -187,9 +187,9 @@ App.RecentList = Backbone.Collection.extend({
         };
         _.each(this.filter(filter), remove);
         this.create(obj);
-        var itemsToSlice = this.length - App.MAX_RECENT;
-        if (itemsToSlice > 0) {
-            _.each(this.toArray().slice(itemsToSlice), remove);
+        var excessItemsNum = this.length - App.MAX_RECENT;
+        if (excessItemsNum > 0) {
+            _.each(this.toArray().slice(0, excessItemsNum), remove);
         }
         this.trigger('updated');
     }
