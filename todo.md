@@ -3,11 +3,9 @@ cleaning up ui
     rename all "english" to "webdict", or other
     add a button to clear similar list
 
-implement api as per the spec
+implement api following the spec
 
 install on server
-
-create restful cli
 
 create example dict
     find creative commons data
@@ -16,13 +14,26 @@ move ahd to git submodule
 
 create interactive api doc
 
-upgrade
+generalize cli to make it easy to implement with a different dictionary
+    rename to english.py
+
+-----------------------------
+
+create restful cli
+
+upgrade components
     jquery
     bootstrap
     backbone
     flask
 
-polishing cli
+add missing ui elements
+    radio buttons
+        find exact match
+        find by prefix
+        find by suffix
+        find by fragment
+    find similar -- checkbox
+
+polish cli
     --ref NUM option to jump to reference
-    generalize cli to make it easy to implement with a different dictionary
-        rename to ahd-cli.py or english.py
