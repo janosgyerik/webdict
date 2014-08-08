@@ -24,6 +24,19 @@ App.QUERY_URL = '/search/exact';
 App.ENTRY_URL = '/entry';
 App.MAX_RECENT = 25;
 
+App.Router = Backbone.Router.extend({
+    routes: {
+        "search/exact/:keyword": "searchExact",
+        "entry/*entry_id": "getEntry"
+    },
+    searchExact: function(keyword) {
+        App.form.searchExact(keyword);
+    },
+    getEntry: function(entry_id) {
+        App.form.getEntry(entry_id);
+    }
+});
+
 App.Form = Backbone.View.extend({
     el: '#main-content',
     events: {
@@ -239,19 +252,6 @@ App.SimilarListView = Backbone.View.extend({
     add: function(entry) {
         var view = new App.EntryView({model: entry});
         this.$('.similar-list').append(view.render().el);
-    }
-});
-
-App.Router = Backbone.Router.extend({
-    routes: {
-        "search/exact/:keyword": "searchExact",
-        "entry/*entry_id": "getEntry"
-    },
-    searchExact: function(keyword) {
-        App.form.searchExact(keyword);
-    },
-    getEntry: function(entry_id) {
-        App.form.getEntry(entry_id);
     }
 });
 
