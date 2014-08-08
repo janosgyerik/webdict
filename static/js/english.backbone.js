@@ -138,15 +138,6 @@ App.Form = Backbone.View.extend({
                 });
                 $results.append(dl);
             });
-            $results.find('a').each(function() {
-                var href = $(this).attr('href');
-                var key = 'entry/';
-                var entry_id = href.substr(href.indexOf(key) + key.length);
-                $(this).click(function(e) {
-                    e.preventDefault();
-                    _this.getEntry(entry_id);
-                });
-            });
         }
         if (similar.length) {
             var items = [];
@@ -203,11 +194,6 @@ App.WordView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
-        var entry_id = this.model.get('entry_id');
-        this.$el.find('a').click(function(e) {
-            e.preventDefault();
-            App.form.getEntry(entry_id);
-        });
         return this;
     },
     clear: function() {
