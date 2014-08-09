@@ -1,6 +1,5 @@
 #!/bin/sh
 
-projectname=$(basename "$PWD")
 virtualenv=$(dirname "$BASH_SOURCE")/virtualenv
 if test -d $virtualenv; then
     . $virtualenv/bin/activate
