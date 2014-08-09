@@ -97,7 +97,7 @@ class FindBySuffix(DictionaryResource):
         return self.get_response(entries, list_only=self.args['list'])
 
 
-class FindByFragment(DictionaryResource):
+class FindByPartial(DictionaryResource):
     def get(self, keyword):
         entries = self.dictionary.find_by_fragment(keyword)[:MAX_RESULTS]
         return self.get_response(entries, list_only=self.args['list'])
@@ -135,7 +135,7 @@ def register_dictionary_endpoints():
         add_resource(FindExact, '{}/{}/find/exact/<string:keyword>', dict_id, dictionary)
         add_resource(FindByPrefix, '{}/{}/find/prefix/<string:keyword>', dict_id, dictionary)
         add_resource(FindBySuffix, '{}/{}/find/suffix/<string:keyword>', dict_id, dictionary)
-        add_resource(FindByFragment, '{}/{}/find/partial/<string:keyword>', dict_id, dictionary)
+        add_resource(FindByPartial, '{}/{}/find/partial/<string:keyword>', dict_id, dictionary)
         add_resource(GetEntry, '{}/{}/get/entry/<path:entry_id>', dict_id, dictionary)
 
 if __name__ == '__main__':
