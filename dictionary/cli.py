@@ -47,7 +47,7 @@ class CommandLineInterface(object):
                           help='get entries by specified ids instead of word lookup', )
         parser.add_option('--similar', action='store_true', default=False,
                           help='find similar words by shortening the prefix', )
-        parser.set_description('Lookup words in {}'.format(self.dictionary.name))
+        parser.set_description('Lookup words in {0}'.format(self.dictionary.name))
         (options, args) = parser.parse_args()
 
         if args:

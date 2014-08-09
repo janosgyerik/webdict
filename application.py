@@ -33,7 +33,7 @@ def discover_dictionaries():
                 class_ = getattr(m2, 'Dictionary')
                 yield plugin_name, class_()
             except ImportError:
-                print('Error: could not import Dictionary from {}'.format(plugin_path))
+                print('Error: could not import Dictionary from {0}'.format(plugin_path))
 
 dictionaries = [_ for _ in discover_dictionaries()]
 
@@ -133,11 +133,11 @@ def add_resource(cname, url_template, dict_id, dictionary):
 def register_dictionary_endpoints():
     for dict_id, dictionary in dictionaries:
         app.add_url_rule('/' + dict_id, dict_id, dictionary_app_gen(dict_id, dictionary))
-        add_resource(FindExact, '{}/{}/find/exact/<string:keyword>', dict_id, dictionary)
-        add_resource(FindByPrefix, '{}/{}/find/prefix/<string:keyword>', dict_id, dictionary)
-        add_resource(FindBySuffix, '{}/{}/find/suffix/<string:keyword>', dict_id, dictionary)
-        add_resource(FindByPartial, '{}/{}/find/partial/<string:keyword>', dict_id, dictionary)
-        add_resource(GetEntry, '{}/{}/get/entry/<path:entry_id>', dict_id, dictionary)
+        add_resource(FindExact, '{0}/{1}/find/exact/<string:keyword>', dict_id, dictionary)
+        add_resource(FindByPrefix, '{0}/{1}/find/prefix/<string:keyword>', dict_id, dictionary)
+        add_resource(FindBySuffix, '{0}/{1}/find/suffix/<string:keyword>', dict_id, dictionary)
+        add_resource(FindByPartial, '{0}/{1}/find/partial/<string:keyword>', dict_id, dictionary)
+        add_resource(GetEntry, '{0}/{1}/get/entry/<path:entry_id>', dict_id, dictionary)
 
 if __name__ == '__main__':
     register_dictionary_endpoints()
