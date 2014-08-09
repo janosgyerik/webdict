@@ -54,44 +54,47 @@ App.Form = Backbone.View.extend({
         if (!keyword) return;
 
         App.router.navigate('search/exact/' + keyword);
+        var url = App.QUERY_URL + "/" + keyword;
 
         this.input.val('');
         var _this = this;
         var success = function(json) {
-            _this.onLookupSuccess(keyword, json);
+            _this.onApiSuccess(keyword, json);
         };
         var error = function(jqXHR, textStatus, errorThrown) {
-            _this.onLookupError(jqXHR, textStatus, errorThrown);
+            _this.onApiError(url, jqXHR, textStatus, errorThrown);
         };
 
         $('.loading').removeClass('loading-hidden');
         $.ajax({
-            url: App.QUERY_URL + "/" + keyword,
+            url: url,
             success: success,
             error: error
         });
     },
     getEntry: function(entry_id) {
         App.router.navigate('entry/' + entry_id);
+        var url = App.ENTRY_URL + "/" + entry_id;
 
         this.input.focus();
         var _this = this;
         var success = function(json) {
-            _this.onLookupSuccess(null, json);
+            _this.onApiSuccess(null, json);
         };
         var error = function(jqXHR, textStatus, errorThrown) {
-            _this.onLookupError(jqXHR, textStatus, errorThrown);
+            _this.onApiError(url, jqXHR, textStatus, errorThrown);
         };
 
         $('.loading').removeClass('loading-hidden');
         $.ajax({
-            url: App.ENTRY_URL + "/" + entry_id,
+            url: url,
             success: success,
             error: error
         });
     },
-    onLookupSuccess: function(keyword, json) {
+    onApiSuccess: function(keyword, json) {
         $('.loading').addClass('loading-hidden');
+        $('.api-error').addClass('api-error-hidden');
 
         var $results = this.results;
         var recentList = this.recentList;
@@ -153,11 +156,13 @@ App.Form = Backbone.View.extend({
             App.similarList.reset(items);
         }
     },
-    onLookupError: function(jqXHR, textStatus, errorThrown) {
-        console.log('TODO: query failed?');
-        console.log('jqXHR:', jqXHR);
-        console.log('textStatus:', textStatus);
-        console.log('errorThrown:', errorThrown);
+    onApiError: function(url, jqXHR, textStatus, statusText) {
+        $('.loading').addClass('loading-hidden');
+        var $apiError = $('.api-error');
+        $apiError.removeClass('api-error-hidden');
+        $apiError.find('a').attr('href', url).text(url);
+        $apiError.find('.statusNum').text(jqXHR.status);
+        $apiError.find('.statusText').text(statusText);
     }
 });
 

@@ -1,4 +1,4 @@
-.loading-hidden {
+.loading-hidden, .api-error-hidden {
     display: none ! important;
 }
 

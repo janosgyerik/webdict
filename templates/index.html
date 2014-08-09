@@ -60,10 +60,25 @@
           </div><!--/row-->
           <div class="row-fluid">
               <div class="results-wrapper span9">
-                  <div class="loading loading-hidden span9 well">
-                      Loading...
+                  <div class="row-fluid">
+                      <div class="loading loading-hidden span9 well">
+                          Loading...
+                      </div>
                   </div>
-                  <div class="results span9">
+                  <div class="row-fluid">
+                      <div class="api-error api-error-hidden span9 alert alert-block alert-error">
+                          <h4>API Error</h4>
+                          Something's wrong, somewhere. The following API call failed:
+                          <ul>
+                              <li>URL: <a></a></li>
+                              <li>HTTP status: <span class="statusNum"></span> (<span class="statusText"></span>)</li>
+                          </ul>
+                          <p></p>
+                      </div>
+                  </div>
+                  <div class="row-fluid">
+                      <div class="results span9">
+                      </div>
                   </div>
               </div>
               <div class="sidebar span3">
