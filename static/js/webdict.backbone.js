@@ -1,8 +1,4 @@
-// the app's namespace
 var App = window.App = {};
-
-//conflicts with Flask
-//_.templateSettings = { interpolate: /\{\{(.+?)\}\}/g };
 
 App.QUERY_URL = '/api/v1/dictionaries/ahd/find/exact';
 App.ENTRY_URL = '/api/v1/dictionaries/ahd/get/entry';
