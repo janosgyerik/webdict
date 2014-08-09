@@ -25,10 +25,6 @@ dictionary = Dictionary()
 
 
 class AmericanHeritageDictionaryCLI(CommandLineInterface):
-    @property
-    def name(self):
-        return 'The American Heritage Dictionary'
-
     def print_entry(self, entry):
         name = entry.name
         print(name)

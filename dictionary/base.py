@@ -34,6 +34,10 @@ class BaseEntry(object):
 
 
 class BaseDictionary(object):
+    @abc.abstractproperty
+    def name(self):
+        return '<The Dictionary>'
+
     def __init__(self):
         self.items_sorted = {}
         self.items_by_name = defaultdict(list)

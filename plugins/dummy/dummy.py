@@ -2,6 +2,10 @@ from dictionary.base import BaseDictionary, BaseEntry
 
 
 class Dictionary(BaseDictionary):
+    @property
+    def name(self):
+        return 'Dummy Dictionary'
+
     def load_index(self):
         self.add('hello')
         self.add('xhelloy')

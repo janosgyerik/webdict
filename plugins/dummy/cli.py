@@ -14,10 +14,6 @@ dictionary = Dictionary()
 
 
 class DummyDictionaryCLI(CommandLineInterface):
-    @property
-    def name(self):
-        return 'Dummy Dictionary'
-
     def print_entry(self, entry):
         print(entry)
 
