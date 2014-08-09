@@ -1,8 +1,10 @@
 import os
 import re
 
-from settings import dictonary_path
+from settings import dictionary_path
 from dictionary.base import Dictionary, Entry, lazy_property
+
+INDEX_PATH = os.path.join(dictionary_path, 'index.dat')
 
 re_dt = re.compile(r'[A-Z]{2,}')
 re_filename = re.compile(r'^([0-9]{2}|roots)/[A-Z]+[0-9]+\.html$')
@@ -32,7 +34,7 @@ def to_ref(raw_href, raw_word):
 
 
 def load_entry_content(filename):
-    path = os.path.join(dictonary_path, filename)
+    path = os.path.join(dictionary_path, filename)
     if not os.path.isfile(path):
         return
     with open(path) as fh:
@@ -77,7 +79,7 @@ def load_entry_content(filename):
 
 class AmericanHeritageDictionary(Dictionary):
     def load_index(self):
-        with open('tmp/index.dat') as fh:
+        with open(INDEX_PATH) as fh:
             for line in fh:
                 (entry_id, name) = line.strip().split(':')
                 entry = AmericanHeritageEntry(entry_id, name)

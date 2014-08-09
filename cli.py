@@ -87,7 +87,7 @@ def main():
     (options, args) = parser.parse_args()
 
     if args:
-        if options.get_entry:
+        if options.get:
             for entry_id in args:
                 get_and_print(entry_id)
         elif options.prefix:

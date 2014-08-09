@@ -2,6 +2,9 @@ install on server
 
 create example dict
     find creative commons data
+        http://dumps.wikimedia.org/enwiktionary/20140728/
+        http://www.androidtech.com/downloads/wordnet20-from-prolog-all-3.zip
+        http://www.gutenberg.org/ebooks/29765
 
 move ahd to git submodule
 
