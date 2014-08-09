@@ -1,7 +1,5 @@
 multi-dictionary support
     public (wiktionary) or private (american heritage)
-    change individual dictionary pages
-        add dictionary name somewhere near the top
     perhaps marshal_with can simplify jsonify?
     move ahd to git submodule
         eliminate all references to ahd, american heritage from main source
@@ -16,8 +14,9 @@ install on server
     new subdomain: webdict.janosgyerik.com
 
 polish ui
-    jazz up the dictionary list with some fancy bootstrap stuff, like jumbotron or something
     use hover rows in recent and similar lists
+    jazz up the dictionary list with some fancy bootstrap stuff, like jumbotron or something
+    improve the style of the dictionary name on dictionary page
     add a button to clear similar list
 
 create interactive api doc
