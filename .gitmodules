@@ -1,3 +1,0 @@
-[submodule "plugins/ahd"]
-	path = plugins/ahd
-	url = git@github.com:janosgyerik/webdict-ahd.git
