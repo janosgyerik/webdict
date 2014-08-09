@@ -8,7 +8,8 @@ from imp import find_module, load_module
 
 from dictionary.base import lazy_property
 
-PLUGINS_PATH = 'plugins'
+BASE_DIR = os.path.dirname(__file__)
+PLUGINS_PATH = os.path.join(BASE_DIR, 'plugins')
 MAX_RESULTS = 10
 
 app = Flask(__name__)
