@@ -14,7 +14,6 @@ install on server
 polish ui
     jazz up the dictionary list with some fancy bootstrap stuff, like jumbotron or something
     improve the style of the dictionary name on dictionary page
-    add a button to clear similar list
 
 create interactive api doc
 

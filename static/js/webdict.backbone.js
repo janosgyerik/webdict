@@ -263,6 +263,13 @@ App.SimilarListView = Backbone.View.extend({
     add: function(entry) {
         var view = new App.EntryView({model: entry});
         this.$('.similar-list').append(view.render().el);
+    },
+    events: {
+        'click .dismiss': 'dismiss'
+    },
+    dismiss: function() {
+        this.$el.addClass('hidden');
+        App.form.input.focus();
     }
 });
 
