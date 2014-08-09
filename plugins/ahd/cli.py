@@ -10,7 +10,7 @@ except ImportError:
     from sys import path
     path.append(dirname(dirname(dirname(realpath(__file__)))))
     from dictionary.cli import CommandLineInterface
-from plugins.ahd.ahd import AmericanHeritageDictionary
+from plugins.ahd.ahd import Dictionary
 
 
 LEFT_MARGIN = 2
@@ -21,7 +21,7 @@ re_no_strong = re.compile(r'\*\*([^*]+)\*\*')
 wrapper = textwrap.TextWrapper()
 wrapper.initial_indent = wrapper.subsequent_indent = ' ' * LEFT_MARGIN
 
-dictionary = AmericanHeritageDictionary()
+dictionary = Dictionary()
 
 
 class AmericanHeritageDictionaryCLI(CommandLineInterface):

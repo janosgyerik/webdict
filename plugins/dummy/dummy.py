@@ -1,7 +1,7 @@
-from dictionary.base import Dictionary, Entry
+from dictionary.base import BaseDictionary, BaseEntry
 
 
-class DummyDictionary(Dictionary):
+class Dictionary(BaseDictionary):
     def load_index(self):
         self.add('hello')
         self.add('xhelloy')
@@ -16,4 +16,4 @@ class DummyDictionary(Dictionary):
 
     def add(self, name, num=1):
         for _ in range(num):
-            super(DummyDictionary, self).add(Entry(name, name))
+            super(Dictionary, self).add(BaseEntry(name, name))

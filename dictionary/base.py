@@ -15,7 +15,7 @@ def lazy_property(fn):
     return _lazy_property
 
 
-class Entry(object):
+class BaseEntry(object):
     def __init__(self, entry_id, name):
         self.entry_id = entry_id
         self.name = name
@@ -28,7 +28,7 @@ class Entry(object):
         return '%s: %s' % (self.entry_id, self.name)
 
 
-class Dictionary(object):
+class BaseDictionary(object):
     def __init__(self):
         self.items_sorted = {}
         self.items_by_name = defaultdict(list)

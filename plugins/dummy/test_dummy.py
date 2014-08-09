@@ -3,10 +3,10 @@
 import unittest
 from test.test_support import run_unittest
 
-from dummy import DummyDictionary
+from dummy import Dictionary
 
 
-test_dict = DummyDictionary()
+test_dict = Dictionary()
 
 
 class DictionaryTestCase(unittest.TestCase):

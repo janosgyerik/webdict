@@ -3,10 +3,10 @@
 import unittest
 from test.test_support import run_unittest
 
-from ahd import AmericanHeritageDictionary
+from ahd import Dictionary
 
 
-test_dict = AmericanHeritageDictionary()
+test_dict = Dictionary()
 
 
 class TestSearchResultCounts(unittest.TestCase):

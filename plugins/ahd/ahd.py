@@ -2,7 +2,7 @@ import os
 import re
 
 from settings import dictionary_path
-from dictionary.base import Dictionary, Entry, lazy_property
+from dictionary.base import BaseDictionary, BaseEntry, lazy_property
 
 INDEX_PATH = os.path.join(dictionary_path, 'index.dat')
 
@@ -77,19 +77,19 @@ def load_entry_content(filename):
         }
 
 
-class AmericanHeritageDictionary(Dictionary):
+class Dictionary(BaseDictionary):
     def load_index(self):
         with open(INDEX_PATH) as fh:
             for line in fh:
                 (entry_id, name) = line.strip().split(':')
-                entry = AmericanHeritageEntry(entry_id, name)
+                entry = Entry(entry_id, name)
                 self.add(entry)
         self.reindex()
 
     def get_entry(self, entry_id):
-        entries = super(AmericanHeritageDictionary, self).get_entry(entry_id)
+        entries = super(Dictionary, self).get_entry(entry_id)
         if not entries:
-            entry = AmericanHeritageEntry(entry_id, '')
+            entry = Entry(entry_id, '')
             if entry.content:
                 entry.name = entry.content['name']
                 self.add(entry)
@@ -97,7 +97,7 @@ class AmericanHeritageDictionary(Dictionary):
         return entries
 
 
-class AmericanHeritageEntry(Entry):
+class Entry(BaseEntry):
     @lazy_property
     def content(self):
         return load_entry_content(self.entry_id)

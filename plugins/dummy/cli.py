@@ -8,9 +8,9 @@ except ImportError:
     path.append(dirname(dirname(dirname(realpath(__file__)))))
     from dictionary.cli import CommandLineInterface
 
-from plugins.dummy.dummy import DummyDictionary
+from plugins.dummy.dummy import Dictionary
 
-dictionary = DummyDictionary()
+dictionary = Dictionary()
 
 
 class DummyDictionaryCLI(CommandLineInterface):
