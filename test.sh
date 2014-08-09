@@ -5,7 +5,7 @@ cd $(dirname "$0")
 
 export PYTHONPATH=$PWD
 
-test "$1" || set -- dictionary/test_* plugins/*/test_*
+test "$1" || set -- plugins/*/test_*
 for i; do
     python "$i"
 done
