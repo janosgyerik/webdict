@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
-    <title>English-English</title>
+    <title>Simple Web Dictionary</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="English-English dictionary">
+    <meta name="description" content="Simple Web Dictionary">
     <meta name="author" content="Janos Gyerik info@janosgyerik.com">
 
     <!-- Le styles -->
     <link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="static/css/webdict.css" rel="stylesheet">
     <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
     </style>
     <link href="static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -32,101 +29,40 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="static/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="static/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="static/ico/apple-touch-icon-57-precomposed.png">
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">English-English</a>
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Simple Web Dictionary</a>
         </div>
-      </div>
     </div>
+</div>
 
-    <div class="container-fluid">
-        <div id="main-content">
-          <div class="row-fluid">
-              <form class="form-search">
-                  <input type="text" class="input-xlarge search-query" placeholder="a word to look up...">
-                  <button class="btn btn-primary search">Search</button>
-                  <button class="btn reset">Clear</button>
-              </form>
-          </div><!--/row-->
-          <div class="row-fluid">
-              <div class="results-wrapper span9">
-                  <div class="row-fluid">
-                      <div class="loading loading-hidden span9 well">
-                          Loading...
-                      </div>
-                  </div>
-                  <div class="row-fluid">
-                      <div class="no-matches no-matches-hidden span9 alert alert-block">
-                          Found no matches.
-                      </div>
-                  </div>
-                  <div class="row-fluid">
-                      <div class="api-error api-error-hidden span9 alert alert-block alert-error">
-                          <h4>API Error</h4>
-                          Something's wrong, somewhere. The following API call failed:
-                          <ul>
-                              <li>URL: <a></a></li>
-                              <li>HTTP status: <span class="statusNum"></span> (<span class="statusText"></span>)</li>
-                          </ul>
-                          <p></p>
-                      </div>
-                  </div>
-                  <div class="row-fluid">
-                      <div class="results span9">
-                      </div>
-                  </div>
-              </div>
-              <div class="sidebar span3">
-                  <div id="similar" class="hidden">
-                      <strong>Similar</strong>
-                      <ul class="similar-list">
-                      </ul>
-                  </div>
-                  <div id="recent" class="hidden">
-                      <strong>Recent</strong>
-                      <ul class="recent-list">
-                      </ul>
-                  </div>
-              </div>
-          </div>
-      </div>
+<div class="container-fluid">
+    <div id="main-content">
+        <h3>Simple Web Dictionary</h3>
+        <ul>
+            {% for dict_id, dictionary in dictionaries %}
+            <li><a href="{{ dict_id }}">{{ dictionary.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<!--/.fluid-container-->
 
-      <hr>
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="static/js/jquery-1.8.0.min.js"></script>
+<script src="static/bootstrap/js/bootstrap.min.js"></script>
 
-      <footer>
-        <p>&copy; Janos Gyerik 2014</p>
-      </footer>
-
-    </div><!--/.fluid-container-->
-
-    <script type="text/template" id="entry-template">
-        <a href="#get/entry/<%= entry_id %>"><%= name %></a>
-    </script>
-
-    <script type="text/javascript">
-        // the dictionary to use
-        DICT_ID = 'dummy';
-    </script>
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="static/js/jquery-1.8.0.min.js"></script>
-    <script src="static/bootstrap/js/bootstrap.min.js"></script>
-    <script src="static/js/underscore-min.js"></script>
-    <script src="static/js/backbone-min.js"></script>
-    <script src="static/js/backbone-localstorage.js"></script>
-    <script src="static/js/webdict.backbone.js"></script>
-
-  </body>
+</body>
 </html>
