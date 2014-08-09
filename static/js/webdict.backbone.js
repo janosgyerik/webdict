@@ -207,13 +207,18 @@ App.SimilarList = Backbone.Collection.extend({
 });
 
 App.EntryView = Backbone.View.extend({
-    tagName: 'li',
+    tagName: 'tr',
     template: _.template($('#entry-template').html()),
     initialize: function() {
         this.model.bind('destroy', this.remove, this);
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
+        var href = this.$el.find('a').attr('href');
+        this.$el.find('td').click(function(e) {
+            e.preventDefault();
+            App.router.navigate(href, {trigger: true});
+        });
         return this;
     },
     clear: function() {

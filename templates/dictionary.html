@@ -86,16 +86,16 @@
                 </div>
             </div>
             <div class="sidebar span3">
-                <div id="similar" class="hidden">
-                    <strong>Similar</strong>
-                    <ul class="similar-list">
-                    </ul>
-                </div>
-                <div id="recent" class="hidden">
-                    <strong>Recent</strong>
-                    <ul class="recent-list">
-                    </ul>
-                </div>
+                <table id="similar" class="table table-hover table-condensed table-striped hidden">
+                    <thead><tr><th>Similar</th></tr></thead>
+                    <tbody class="similar-list">
+                    </tbody>
+                </table>
+                <table id="recent" class="table table-hover table-condensed table-striped hidden">
+                    <thead><tr><th>Recent</th></tr></thead>
+                    <tbody class="recent-list">
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@
 <!--/.fluid-container-->
 
 <script type="text/template" id="entry-template">
-    <a href="#get/entry/<%= entry_id %>"><%= name %></a>
+    <td><a href="#get/entry/<%= entry_id %>"><%= name %></a></td>
 </script>
 
 <script type="text/javascript">

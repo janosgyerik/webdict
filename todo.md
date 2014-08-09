@@ -1,5 +1,4 @@
 multi-dictionary support
-    perhaps marshal_with can simplify jsonify?
     move ahd to git submodule
         eliminate all references to ahd, american heritage from main source
 
@@ -13,7 +12,6 @@ install on server
     new subdomain: webdict.janosgyerik.com
 
 polish ui
-    use hover rows in recent and similar lists
     jazz up the dictionary list with some fancy bootstrap stuff, like jumbotron or something
     improve the style of the dictionary name on dictionary page
     add a button to clear similar list
