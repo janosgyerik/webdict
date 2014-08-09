@@ -1,21 +1,23 @@
-install on server
+multi-dictionary support
+    discover available plugins
+        plugins register themselves in their __init__
+        public (wiktionary) or private (american heritage)
+    change main page to show list of dictionaries
+    move ahd to git submodule
 
-create example dict
+create a free dictionary
     find creative commons data
         http://dumps.wikimedia.org/enwiktionary/20140728/
         http://www.androidtech.com/downloads/wordnet20-from-prolog-all-3.zip
         http://www.gutenberg.org/ebooks/29765
 
-move ahd to git submodule
-
-create interactive api doc
-
-generalize cli to make it easy to implement with a different dictionary
-    rename to english.py
+install on server
 
 polish ui
     use hover rows in recent and similar lists
     add a button to clear similar list
+
+create interactive api doc
 
 -----------------------------
 
