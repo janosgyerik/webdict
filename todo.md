@@ -1,6 +1,5 @@
 multi-dictionary support
     move ahd to git submodule
-        eliminate all references to ahd, american heritage from main source
 
 create a free dictionary
     find creative commons data
@@ -10,10 +9,6 @@ create a free dictionary
 
 install on server
     new subdomain: webdict.janosgyerik.com
-
-polish ui
-    jazz up the dictionary list with some fancy bootstrap stuff, like jumbotron or something
-    improve the style of the dictionary name on dictionary page
 
 create interactive api doc
 write readme

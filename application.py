@@ -43,21 +43,25 @@ class DictionaryResource(Resource):
         return parser.parse_args()
 
     @property
+    def dict_id(self):
+        """Dynamically set when creating subclass using type()"""
+        return None
+
+    @property
     def dictionary(self):
-        """Dynamically when creating subclass using type()"""
+        """Dynamically set when creating subclass using type()"""
         return None
 
     @staticmethod
     def get_serializable_entries(entries):
         return [x.content for x in entries]
 
-    @staticmethod
-    def get_json_entries(serializable_entries):
+    def get_json_entries(self, serializable_entries):
         return jsonify({
             'version': 'v1',
             'success': True,
             'matches': [{
-                'dict': 'ahd',
+                'dict': self.dict_id,
                 'format': 'dl-md',
                 'entries': serializable_entries,
             }]
@@ -120,7 +124,8 @@ api_baseurl = '/api/v1/dictionaries'
 
 
 def add_resource(cname, url_template, dict_id, dictionary):
-    subclass = type(dict_id + cname.__name__, (cname,), {'dictionary': dictionary})
+    extra_props = {'dict_id': dict_id, 'dictionary': dictionary}
+    subclass = type(dict_id + cname.__name__, (cname,), extra_props)
     api.add_resource(subclass, url_template.format(api_baseurl, dict_id))
 
 
