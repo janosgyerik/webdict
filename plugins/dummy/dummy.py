@@ -6,6 +6,10 @@ class Dictionary(BaseDictionary):
     def name(self):
         return 'Dummy Dictionary'
 
+    @property
+    def is_public(self):
+        return False
+
     def load_index(self):
         self.add('hello')
         self.add('xhelloy')

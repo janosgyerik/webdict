@@ -51,7 +51,9 @@
         <h3>Simple Web Dictionary</h3>
         <ul>
             {% for dict_id, dictionary in dictionaries %}
-            <li><a href="{{ dict_id }}">{{ dictionary.name }}</a></li>
+                {% if dictionary.is_public %}
+                <li><a href="{{ dict_id }}">{{ dictionary.name }}</a></li>
+                {% endif %}
             {% endfor %}
         </ul>
     </div>

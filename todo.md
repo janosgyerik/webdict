@@ -1,5 +1,4 @@
 multi-dictionary support
-    public (wiktionary) or private (american heritage)
     perhaps marshal_with can simplify jsonify?
     move ahd to git submodule
         eliminate all references to ahd, american heritage from main source

@@ -81,6 +81,10 @@ class Dictionary(BaseDictionary):
     def name(self):
         return 'The American Heritage Dictionary'
 
+    @property
+    def is_public(self):
+        return False
+
     def load_index(self):
         with open(INDEX_PATH) as fh:
             for line in fh:
