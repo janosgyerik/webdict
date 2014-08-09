@@ -16,6 +16,7 @@ polish ui
     improve the style of the dictionary name on dictionary page
 
 create interactive api doc
+write readme
 
 -----------------------------
 
