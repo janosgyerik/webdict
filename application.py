@@ -73,7 +73,7 @@ class DictionaryResource(Resource):
         return self.get_entries(entries)
 
 
-class FindByExact(DictionaryResource):
+class FindExact(DictionaryResource):
     def get(self, keyword):
         entries = self.dictionary.find(keyword, find_similar=self.args['similar'])
         return self.get_response(entries, list_only=self.args['list'])
@@ -125,7 +125,7 @@ def add_resource(cname, url_template, dict_id, dictionary):
 def register_dictionary_endpoints():
     for dict_id, dictionary in discover_dictionaries():
         app.add_url_rule('/' + dict_id, dict_id, dictionary_app_gen(dict_id))
-        add_resource(FindByExact, '{}/{}/find/exact/<string:keyword>', dict_id, dictionary)
+        add_resource(FindExact, '{}/{}/find/exact/<string:keyword>', dict_id, dictionary)
         add_resource(FindByPrefix, '{}/{}/find/prefix/<string:keyword>', dict_id, dictionary)
         add_resource(FindBySuffix, '{}/{}/find/suffix/<string:keyword>', dict_id, dictionary)
         add_resource(FindByFragment, '{}/{}/find/partial/<string:keyword>', dict_id, dictionary)
