@@ -3,7 +3,13 @@
 import re
 import textwrap
 
-from dictionary.cli import CommandLineInterface
+try:
+    from dictionary.cli import CommandLineInterface
+except ImportError:
+    from os.path import dirname, realpath
+    from sys import path
+    path.append(dirname(dirname(dirname(realpath(__file__)))))
+    from dictionary.cli import CommandLineInterface
 from plugins.ahd.ahd import AmericanHeritageDictionary
 
 
