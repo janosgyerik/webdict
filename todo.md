@@ -1,6 +1,3 @@
-multi-dictionary support
-    move ahd to git submodule
-
 create interactive api doc
 
 -----------------------------
