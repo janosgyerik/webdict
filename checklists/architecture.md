@@ -67,7 +67,7 @@ Dictionary library
 
 RESTful API server
 ------------------
-- client of dictionary library
++ client of dictionary library
     - native calls to dictionary library
     - output as json
 - methods
@@ -77,7 +77,7 @@ RESTful API server
         - description
     + /api/<version>/dictionaries/<dict>/find/exact/<query>
     + ? similar=1
-    - ? list=1
+    + ? list=1
     - ? max=10
     - ? format=raw
     + /api/<version>/dictionaries/<dict>/find/prefix/<query>
@@ -85,15 +85,15 @@ RESTful API server
     + /api/<version>/dictionaries/<dict>/find/partial/<query>
     + /api/<version>/dictionaries/<dict>/get/entry/<query>
 - example param values
-    - version: v1
-    - dict: ahd (american heritage dictionary)
+    + version: v1
+    + dict: ahd (american heritage dictionary)
     - max: 10
 - possible changes
     - search multiple dictionaries: comma separated ids
         - don't allow commas in ids
     - implement different api
-- no such method: standard http 404
-- error response example
++ no such method: standard http 404
+x error response example
     {
         'version': 'v1',
         'success': false,
@@ -118,6 +118,7 @@ RESTful API server
             ]
         }]
     }
++ list_only responses have no 'content' field
 
 
 RESTful API client

@@ -1,5 +1,3 @@
-implement api following the spec
-
 install on server
 
 create example dict
