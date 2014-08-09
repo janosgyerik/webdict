@@ -46,6 +46,6 @@ Run the site locally:
 Links
 -----
 
-https://github.com/janosgyerik/webdict
-http://webdict.janosgyerik.com/
+- https://github.com/janosgyerik/webdict
+- http://webdict.janosgyerik.com/
 
