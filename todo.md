@@ -1,9 +1,9 @@
 multi-dictionary support
-    discover available plugins
-        plugins register themselves in their __init__
-        public (wiktionary) or private (american heritage)
     change main page to show list of dictionaries
+        public (wiktionary) or private (american heritage)
+    perhaps marshal_with can simplify jsonify?
     move ahd to git submodule
+        eliminate all references to ahd, american heritage from main source
 
 create a free dictionary
     find creative commons data
