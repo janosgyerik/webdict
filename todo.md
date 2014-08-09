@@ -6,9 +6,6 @@
     - add subscript to multiple matches
         - add index in file, NOT in index
         - example words: anger
-    - make keywords like `Defn:`, `Syn.` bold
-    - make `\([A-Z][a-z]+\.\)` bold
-    - make `\[[A-Z][a-z]+\.\]` bold
     - decorate poet names:
         - ` Shak.` -> `*--Shak.*`
         - Milton. Chapman. Addison. Dryden.

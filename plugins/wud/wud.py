@@ -6,9 +6,11 @@ from dictionary.base import BaseDictionary, BaseEntry, lazy_property
 
 INDEX_PATH = os.path.join(dictionary_path, 'index.dat')
 
-re_strong_defs = re.compile(r'(Defn:)')
+re_strong_defs = re.compile(r'(Defn:|Syn\.)')
 re_strong_numdots = re.compile(r'(\d+\. )')
 re_strong_alphadots = re.compile(r'(\([a-z]\))')
+re_em_roundbr = re.compile(r'(\([A-Z][a-z]+\.\))')
+re_em_squarebr = re.compile(r'(\[[A-Z][a-z]+\.\])')
 
 
 def load_entry_content(word, filename):
@@ -30,6 +32,8 @@ def load_entry_content(word, filename):
             line = re_strong_defs.sub(r'**\1**', line)
             line = re_strong_numdots.sub(r'**\1** ', line)
             line = re_strong_alphadots.sub(r'**\1**', line)
+            line = re_em_roundbr.sub(r'*\1*', line)
+            line = re_em_squarebr.sub(r'*\1*', line)
 
             if line:
                 content += line + ' '
