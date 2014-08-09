@@ -43,6 +43,16 @@ Run the site locally:
 
     ./run.sh
 
+Configuring plugins
+-------------------
+
+TODO
+
+Creating a new dictionary plugin
+--------------------------------
+
+TODO
+
 Links
 -----
 
