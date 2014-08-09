@@ -42,7 +42,7 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="/">Simple Web Dictionary</a>
-            <a class="brand" href="/{{ dict_id }}">{{ name }}</a>
+            <a class="brand" href="/{{ dict_id }}">{{ dictionary.name }}</a>
         </div>
     </div>
 </div>
@@ -99,6 +99,14 @@
             </div>
         </div>
     </div>
+
+    {% if dictionary.license %}
+    <hr/>
+
+    <footer>
+        <div class="license">{{ dictionary.license|urlize }}</div>
+    </footer>
+    {% endif %}
 </div>
 <!--/.fluid-container-->
 

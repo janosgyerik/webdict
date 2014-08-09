@@ -44,6 +44,14 @@ class Dictionary(BaseDictionary):
     def is_public(self):
         return True
 
+    @property
+    def license(self):
+        return """
+        The content of this dictionary is for the use of anyone anywhere
+        at no cost and with almost no restrictions whatsoever.
+        You may copy it, give it away or re-use it under the terms of
+        the Project Gutenberg License included online at www.gutenberg.net"""
+
     def load_index(self):
         with open(INDEX_PATH) as fh:
             for line in fh:

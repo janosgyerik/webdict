@@ -114,9 +114,9 @@ def index():
     return render_template('index.html', dictionaries=dictionaries)
 
 
-def dictionary_app_gen(dict_id, name):
+def dictionary_app_gen(dict_id, dictionary):
     def dictionary_app():
-        return render_template('dictionary.html', dict_id=dict_id, name=name)
+        return render_template('dictionary.html', dict_id=dict_id, dictionary=dictionary)
     return dictionary_app
 
 api_baseurl = '/api/v1/dictionaries'
@@ -131,7 +131,7 @@ def add_resource(cname, url_template, dict_id, dictionary):
 
 def register_dictionary_endpoints():
     for dict_id, dictionary in dictionaries:
-        app.add_url_rule('/' + dict_id, dict_id, dictionary_app_gen(dict_id, dictionary.name))
+        app.add_url_rule('/' + dict_id, dict_id, dictionary_app_gen(dict_id, dictionary))
         add_resource(FindExact, '{}/{}/find/exact/<string:keyword>', dict_id, dictionary)
         add_resource(FindByPrefix, '{}/{}/find/prefix/<string:keyword>', dict_id, dictionary)
         add_resource(FindBySuffix, '{}/{}/find/suffix/<string:keyword>', dict_id, dictionary)

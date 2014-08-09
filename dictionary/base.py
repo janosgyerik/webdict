@@ -42,6 +42,10 @@ class BaseDictionary(object):
     def is_public(self):
         return False
 
+    @property
+    def license(self):
+        return None
+
     def __init__(self):
         self.items_sorted = {}
         self.items_by_name = defaultdict(list)
