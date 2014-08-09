@@ -3,7 +3,7 @@
 import unittest
 from test.test_support import run_unittest
 
-from ahd import Dictionary
+from wud import Dictionary
 
 
 test_dict = Dictionary()
@@ -17,13 +17,13 @@ class TestSearchResultCounts(unittest.TestCase):
         self.assertEqual(count, len(results))
 
     def test_find_none(self):
-        self.assert_matched_count(0, self.dict.find("nonexistent"))
+        self.assert_matched_count(0, self.dict.find("nonexistentx"))
 
     def test_find_by_exact_single(self):
         self.assert_matched_count(1, self.dict.find("hello"))
 
     def test_find_by_exact_many(self):
-        self.assert_matched_count(4, self.dict.find("sound"))
+        self.assert_matched_count(11, self.dict.find("sound"))
 
     def test_find_by_prefix_none(self):
         self.assert_matched_count(0, self.dict.find_by_prefix("kneex"))
@@ -32,7 +32,7 @@ class TestSearchResultCounts(unittest.TestCase):
         self.assert_matched_count(1, self.dict.find_by_prefix("hello"))
 
     def test_find_by_prefix_many(self):
-        self.assert_matched_count(14, self.dict.find_by_prefix("knee"))
+        self.assert_matched_count(16, self.dict.find_by_prefix("knee"))
 
     def test_find_by_suffix_none(self):
         self.assert_matched_count(0, self.dict.find_by_suffix("kneex"))
@@ -41,7 +41,7 @@ class TestSearchResultCounts(unittest.TestCase):
         self.assert_matched_count(1, self.dict.find_by_suffix("hello"))
 
     def test_find_by_suffix_many(self):
-        self.assert_matched_count(8, self.dict.find_by_suffix("sound"))
+        self.assert_matched_count(19, self.dict.find_by_suffix("sound"))
 
     def test_find_by_fragment_none(self):
         self.assert_matched_count(0, self.dict.find_by_fragment("kneex"))
@@ -50,7 +50,7 @@ class TestSearchResultCounts(unittest.TestCase):
         self.assert_matched_count(1, self.dict.find_by_fragment("vanguard"))
 
     def test_find_by_fragment_many(self):
-        self.assert_matched_count(3, self.dict.find_by_fragment("hello"))
+        self.assert_matched_count(4, self.dict.find_by_fragment("hello"))
 
 
 class TestSearchOutput(unittest.TestCase):
@@ -67,21 +67,13 @@ class TestSearchOutput(unittest.TestCase):
         entry = self.dict.find('lo')[0]
         self.assertEqual(
             {
-                'id': '48/L0214800.html',
+                'id': 'lo/lo-2594.txt',
                 'name': 'lo',
-                'content': [['INTERJECTION',
-                             'Used to attract attention or to show surprise.'],
-                            ['ETYMOLOGY',
-                             'Middle English, from Old English *la*.']],
+                'content': [['',
+                             'Defn: Look; see; behold; observe. " Lo, here is Christ." '
+                             'Matt. xxiv. 23. " Lo, we turn to the Gentiles." Acts xiii. 46. ']],
                 'references': []
             }, entry.content)
-
-    def test_behold_verb(self):
-        entry = self.get_first_entry('behold')
-        self.assertEqual(
-            "Inflected forms: **be-held** (-held'), **be-hold-ing**, **be-holds**",
-            entry['VERB']
-        )
 
     def test_indignation_name(self):
         word = 'indignation'
@@ -95,27 +87,30 @@ class TestSearchOutput(unittest.TestCase):
         )
 
     def test_cross_references(self):
-        entry = self.dict.find('behold')[0]
-        entry_content_dict = dict(entry.content['content'])
+        entry = self.dict.find('behold')[1]
         self.assertEqual(
-            "Middle English *biholden*, from Old English *behaldan* : *be-*, be- + *healdan*, to hold; see [hold-1][2].",
-            entry_content_dict['ETYMOLOGY']
-        )
-        self.assertEqual(
-            ['ref:33/S0213300.html:see-1', 'ref:73/H0237300.html:hold-1'],
-            entry.content['references']
+            {
+                'content': [['', 'Defn: To direct the eyes to, '
+                             'or fix them upon, an object; to look; to see. '
+                             'And I beheld, and, lo, in the midst of the throne, '
+                             '. . . a lamb as it had been slain. Rev. v. 6. ']],
+                'references': [],
+                'id': 'be/behold-1577.txt',
+                'name': 'behold'
+            },
+            entry.content
         )
 
     def test_cross_references_multiple(self):
         entry = self.dict.find('sound')[1]
-        entry_content_dict = dict(entry.content['content'])
         self.assertEqual(
-            "**sound\'ly** ---ADVERB; **sound\'ness** ---NOUN; ",
-            entry_content_dict['OTHER FORMS']
-        )
-        self.assertEqual(
-            ['ref:65/H0106500.html:healthy', 'ref:25/V0012500.html:valid'],
-            entry.content['references']
+            {
+                'content': [['', 'Defn: A cuttlefish. [Obs.] Ainsworth. ']],
+                'references': [],
+                'id': 'so/sound-7343.txt',
+                'name': 'sound'
+            },
+            entry.content
         )
 
 
