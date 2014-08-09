@@ -1,9 +1,14 @@
 import os
+import re
 
 from settings import dictionary_path
 from dictionary.base import BaseDictionary, BaseEntry, lazy_property
 
 INDEX_PATH = os.path.join(dictionary_path, 'index.dat')
+
+re_strong_defs = re.compile(r'(Defn:)')
+re_strong_numdots = re.compile(r'(\d+\. )')
+re_strong_alphadots = re.compile(r'(\([a-z]\))')
 
 
 def load_entry_content(word, filename):
@@ -22,6 +27,10 @@ def load_entry_content(word, filename):
                 continue
             line = line.strip()
             line = line.replace('*', '')
+            line = re_strong_defs.sub(r'**\1**', line)
+            line = re_strong_numdots.sub(r'**\1** ', line)
+            line = re_strong_alphadots.sub(r'**\1**', line)
+
             if line:
                 content += line + ' '
             else:
