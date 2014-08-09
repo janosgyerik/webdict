@@ -99,6 +99,11 @@ App.Form = Backbone.View.extend({
         var $results = this.results;
         var recentList = this.recentList;
         var entries = json.matches[0].entries;
+        if (!entries.length) {
+            $('.no-matches').removeClass('no-matches-hidden');
+            return;
+        }
+        $('.no-matches').addClass('no-matches-hidden');
 
         function render_subscripts(str) {
             return str.replace(/-(\d+)/, '<sub>$1</sub>');
