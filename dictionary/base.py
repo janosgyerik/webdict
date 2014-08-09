@@ -78,10 +78,10 @@ class BaseDictionary(object):
                 matches.extend(self.items_by_name[k])
         return matches
 
-    def find_by_fragment(self, fragment):
+    def find_by_partial(self, partial):
         matches = []
         for k in self.items_sorted:
-            if fragment in k:
+            if partial in k:
                 matches.extend(self.items_by_name[k])
         return matches
 

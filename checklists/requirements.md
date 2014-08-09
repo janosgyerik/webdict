@@ -7,7 +7,7 @@ Specific functional requirements
     + word, expression, phrase to find
         - may contain spaces and special characters
     - search options
-        - prefix, suffix, fragment search
+        - prefix, suffix, partial search
         - find similar // by shortening prefix
         - find matches but don't load details // index search only, no content
         - get cross reference
@@ -91,7 +91,7 @@ Specific functional requirements
 
 - What are the tasks the user wants to perform?
     + find word in dictionary
-    - find by prefix, suffix or fragment
+    - find by prefix, suffix or partial
         + cli
         + restful api
         - web interface

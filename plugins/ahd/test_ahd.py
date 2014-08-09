@@ -43,14 +43,14 @@ class TestSearchResultCounts(unittest.TestCase):
     def test_find_by_suffix_many(self):
         self.assert_matched_count(8, self.dict.find_by_suffix("sound"))
 
-    def test_find_by_fragment_none(self):
-        self.assert_matched_count(0, self.dict.find_by_fragment("kneex"))
+    def test_find_by_partial_none(self):
+        self.assert_matched_count(0, self.dict.find_by_partial("kneex"))
 
-    def test_find_by_fragment_single(self):
-        self.assert_matched_count(1, self.dict.find_by_fragment("vanguard"))
+    def test_find_by_partial_single(self):
+        self.assert_matched_count(1, self.dict.find_by_partial("vanguard"))
 
-    def test_find_by_fragment_many(self):
-        self.assert_matched_count(3, self.dict.find_by_fragment("hello"))
+    def test_find_by_partial_many(self):
+        self.assert_matched_count(3, self.dict.find_by_partial("hello"))
 
 
 class TestSearchOutput(unittest.TestCase):

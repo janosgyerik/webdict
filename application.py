@@ -99,7 +99,7 @@ class FindBySuffix(DictionaryResource):
 
 class FindByPartial(DictionaryResource):
     def get(self, keyword):
-        entries = self.dictionary.find_by_fragment(keyword)[:MAX_RESULTS]
+        entries = self.dictionary.find_by_partial(keyword)[:MAX_RESULTS]
         return self.get_response(entries, list_only=self.args['list'])
 
 

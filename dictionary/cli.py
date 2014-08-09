@@ -18,8 +18,8 @@ class CommandLineInterface(object):
     def find_by_suffix_and_print(self, keyword, list_only=False):
         self.print_many(self.dictionary.find_by_suffix(keyword), list_only)
 
-    def find_by_fragment_and_print(self, keyword, list_only=False):
-        self.print_many(self.dictionary.find_by_fragment(keyword), list_only)
+    def find_by_partial_and_print(self, keyword, list_only=False):
+        self.print_many(self.dictionary.find_by_partial(keyword), list_only)
 
     def print_many(self, entries, list_only=False):
         for entry in entries:
@@ -39,7 +39,7 @@ class CommandLineInterface(object):
                           help='find by prefix', default=False)
         parser.add_option('-e', '--suffix', action='store_true', default=False,
                           help='find by suffix', )
-        parser.add_option('-p', '--fragment', action='store_true', default=False,
+        parser.add_option('-p', '--partial', action='store_true', default=False,
                           help='find partial match', )
         parser.add_option('-l', '--list', action='store_true', default=False,
                           help='only list matches', )
@@ -60,9 +60,9 @@ class CommandLineInterface(object):
             elif options.suffix:
                 for keyword in args:
                     self.find_by_suffix_and_print(keyword, list_only=options.list)
-            elif options.fragment:
+            elif options.partial:
                 for keyword in args:
-                    self.find_by_fragment_and_print(keyword, list_only=options.list)
+                    self.find_by_partial_and_print(keyword, list_only=options.list)
             else:
                 for keyword in args:
                     self.find_and_print(keyword, find_similar=options.similar, list_only=options.list)

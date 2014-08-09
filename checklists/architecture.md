@@ -29,7 +29,7 @@ Dictionary library
     - find
     - find_by_prefix
     - find_by_suffix
-    - find_by_fragment
+    - find_by_partial
 + mandatory params
     - query string
 - optional params
@@ -142,7 +142,7 @@ Web interface
         - hide if only one dictionary
     - search type radio buttons
         - exact match
-        - find by prefix, suffix, fragment
+        - find by prefix, suffix, partial
     - find similar
     - no need to expose more
 - Sensible default options
