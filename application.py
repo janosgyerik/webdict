@@ -34,25 +34,25 @@ class AmericanHeritageDictionaryResults(Resource):
         })
 
 
-class SearchByExact(AmericanHeritageDictionaryResults):
+class FindByExact(AmericanHeritageDictionaryResults):
     def get(self, keyword):
         entries = dictionary.find(keyword, find_similar=True)
         return self.get_response(entries)
 
 
-class SearchByPrefix(AmericanHeritageDictionaryResults):
+class FindByPrefix(AmericanHeritageDictionaryResults):
     def get(self, keyword):
         entries = dictionary.find_by_prefix(keyword, find_similar=True)[:MAX_RESULTS]
         return self.get_response(entries)
 
 
-class SearchBySuffix(AmericanHeritageDictionaryResults):
+class FindBySuffix(AmericanHeritageDictionaryResults):
     def get(self, keyword):
         entries = dictionary.find_by_suffix(keyword)[:MAX_RESULTS]
         return self.get_response(entries)
 
 
-class SearchByFragment(AmericanHeritageDictionaryResults):
+class FindByFragment(AmericanHeritageDictionaryResults):
     def get(self, keyword):
         entries = dictionary.find_by_fragment(keyword)[:MAX_RESULTS]
         return self.get_response(entries)
@@ -60,15 +60,19 @@ class SearchByFragment(AmericanHeritageDictionaryResults):
 
 class GetEntry(AmericanHeritageDictionaryResults):
     def get(self, entry_id):
-        entries = dictionary.get(entry_id)
+        entries = dictionary.get_entry(entry_id)
         return self.get_response(entries)
 
 
-api.add_resource(SearchByExact, '/search/exact/<string:keyword>')
-api.add_resource(SearchByPrefix, '/search/prefix/<string:keyword>')
-api.add_resource(SearchBySuffix, '/search/suffix/<string:keyword>')
-api.add_resource(SearchByFragment, '/search/partial/<string:keyword>')
-api.add_resource(GetEntry, '/entry/<path:entry_id>')
+api_baseurl = '/api/v1/dictionaries'
+# api.add_resource(GetDictionaries, api_baseurl + '/')
+
+for dict_id in ('ahd',):
+    api.add_resource(FindByExact, '{}/{}/find/exact/<string:keyword>'.format(api_baseurl, dict_id))
+    api.add_resource(FindByPrefix, '{}/{}/find/prefix/<string:keyword>'.format(api_baseurl, dict_id))
+    api.add_resource(FindBySuffix, '{}/{}/find/suffix/<string:keyword>'.format(api_baseurl, dict_id))
+    api.add_resource(FindByFragment, '{}/{}/find/partial/<string:keyword>'.format(api_baseurl, dict_id))
+    api.add_resource(GetEntry, '{}/{}/get/entry/<path:entry_id>'.format(api_baseurl, dict_id))
 
 if __name__ == '__main__':
     app.run()

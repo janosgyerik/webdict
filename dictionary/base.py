@@ -68,7 +68,7 @@ class Dictionary(object):
                 matches.extend(self.items_by_name[k])
         return matches
 
-    def get(self, entry_id):
+    def get_entry(self, entry_id):
         entry = self.items_by_id.get(entry_id)
         if entry:
             return [entry]

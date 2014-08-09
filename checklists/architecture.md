@@ -75,17 +75,15 @@ RESTful API server
         - id
         - name
         - description
-    - /api/<version>/find/exact/<dict>/simple/<query>
-    - /api/<version>/find/exact/<dict>/similar/<query>
-    - /api/<version>/find/exact/<dict>/list/<query>
-    - /api/<version>/find/exact/<dict>/max/<max>/<query>
-    - /api/<version>/find/exact/<dict>/format/dl-md/<query>
-    - /api/<version>/find/exact/<dict>/format/raw/<query>
-    - ...
-    - /api/<version>/find/exact/<dict>/similar/list/max/<max>/<query>
-    - /api/<version>/find/prefix/<dict>/simple/<query>
-    - /api/<version>/find/suffix/<dict>/simple/<query>
-    - /api/<version>/find/fragment/<dict>/simple/<query>
+    - /api/<version>/dictionaries/<dict>/find/exact/<query>
+    - ? similar=True
+    - ? list=True
+    - ? max=10
+    - ? format=raw
+    - /api/<version>/dictionaries/<dict>/find/prefix/<query>
+    - /api/<version>/dictionaries/<dict>/find/suffix/<query>
+    - /api/<version>/dictionaries/<dict>/find/fragment/<query>
+    - /api/<version>/dictionaries/<dict>/find/entry/<query>
     - ...
 - example param values
     - version: v1
@@ -95,6 +93,7 @@ RESTful API server
     - search multiple dictionaries: comma separated ids
         - don't allow commas in ids
     - implement different api
+- no such method: standard http 404
 - error response example
     {
         'version': 'v1',

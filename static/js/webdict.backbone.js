@@ -4,8 +4,8 @@ var App = window.App = {};
 //conflicts with Flask
 //_.templateSettings = { interpolate: /\{\{(.+?)\}\}/g };
 
-App.QUERY_URL = '/search/exact';
-App.ENTRY_URL = '/entry';
+App.QUERY_URL = '/api/v1/dictionaries/ahd/find/exact';
+App.ENTRY_URL = '/api/v1/dictionaries/ahd/get/entry';
 App.MAX_RECENT = 25;
 
 App.Router = Backbone.Router.extend({

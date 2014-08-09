@@ -20,7 +20,7 @@ dictionary = AmericanHeritageDictionary()
 
 
 def get_and_print(entry_id):
-    print_many(dictionary.get(entry_id))
+    print_many(dictionary.get_entry(entry_id))
 
 
 def find_and_print(keyword, find_similar=False, list_only=False):
@@ -87,7 +87,7 @@ def main():
     (options, args) = parser.parse_args()
 
     if args:
-        if options.get:
+        if options.get_entry:
             for entry_id in args:
                 get_and_print(entry_id)
         elif options.prefix:

@@ -84,8 +84,8 @@ class AmericanHeritageDictionary(Dictionary):
                 self.add(entry)
         self.reindex()
 
-    def get(self, entry_id):
-        entries = super(AmericanHeritageDictionary, self).get(entry_id)
+    def get_entry(self, entry_id):
+        entries = super(AmericanHeritageDictionary, self).get_entry(entry_id)
         if not entries:
             entry = AmericanHeritageEntry(entry_id, '')
             if entry.content:
