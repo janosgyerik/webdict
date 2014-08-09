@@ -68,6 +68,9 @@ App.Form = Backbone.View.extend({
         $('.loading').removeClass('loading-hidden');
         $.ajax({
             url: url,
+            data: {
+                similar: true
+            },
             success: success,
             error: error
         });
