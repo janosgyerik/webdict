@@ -75,16 +75,15 @@ RESTful API server
         - id
         - name
         - description
-    - /api/<version>/dictionaries/<dict>/find/exact/<query>
-    - ? similar=True
-    - ? list=True
+    + /api/<version>/dictionaries/<dict>/find/exact/<query>
+    + ? similar=1
+    - ? list=1
     - ? max=10
     - ? format=raw
-    - /api/<version>/dictionaries/<dict>/find/prefix/<query>
-    - /api/<version>/dictionaries/<dict>/find/suffix/<query>
-    - /api/<version>/dictionaries/<dict>/find/fragment/<query>
-    - /api/<version>/dictionaries/<dict>/find/entry/<query>
-    - ...
+    + /api/<version>/dictionaries/<dict>/find/prefix/<query>
+    + /api/<version>/dictionaries/<dict>/find/suffix/<query>
+    + /api/<version>/dictionaries/<dict>/find/partial/<query>
+    + /api/<version>/dictionaries/<dict>/get/entry/<query>
 - example param values
     - version: v1
     - dict: ahd (american heritage dictionary)

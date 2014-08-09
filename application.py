@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from flask import Flask, render_template, jsonify
-from flask.ext.restful import Resource, Api
+from flask.ext.restful import Resource, Api, reqparse
 
 from plugins.ahd.ahd import AmericanHeritageDictionary
 
@@ -11,6 +11,10 @@ api = Api(app)
 dictionary = AmericanHeritageDictionary()
 
 MAX_RESULTS = 10
+
+
+parser = reqparse.RequestParser()
+parser.add_argument('similar', type=bool, help='Try to find similar matches when there are no exact')
 
 
 @app.route('/')
@@ -36,13 +40,15 @@ class AmericanHeritageDictionaryResults(Resource):
 
 class FindByExact(AmericanHeritageDictionaryResults):
     def get(self, keyword):
-        entries = dictionary.find(keyword, find_similar=True)
+        args = parser.parse_args()
+        entries = dictionary.find(keyword, find_similar=args['similar'])
         return self.get_response(entries)
 
 
 class FindByPrefix(AmericanHeritageDictionaryResults):
     def get(self, keyword):
-        entries = dictionary.find_by_prefix(keyword, find_similar=True)[:MAX_RESULTS]
+        args = parser.parse_args()
+        entries = dictionary.find_by_prefix(keyword, find_similar=args['similar'])[:MAX_RESULTS]
         return self.get_response(entries)
 
 
