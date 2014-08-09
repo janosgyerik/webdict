@@ -20,9 +20,14 @@ class BaseEntry(object):
         self.entry_id = entry_id
         self.name = name
 
-    @abc.abstractmethod
+    @property
     def content(self):
-        pass
+        return {
+            'id': self.entry_id,
+            'name': self.name,
+            'content': [],
+            'references': [],
+        }
 
     def __repr__(self):
         return '%s: %s' % (self.entry_id, self.name)

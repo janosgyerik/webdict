@@ -72,7 +72,8 @@ class TestSearchOutput(unittest.TestCase):
                 'content': [['INTERJECTION',
                              'Used to attract attention or to show surprise.'],
                             ['ETYMOLOGY',
-                             'Middle English, from Old English *la*.']]
+                             'Middle English, from Old English *la*.']],
+                'references': []
             }, entry.content)
 
     def test_behold_verb(self):
@@ -94,25 +95,27 @@ class TestSearchOutput(unittest.TestCase):
         )
 
     def test_cross_references(self):
-        entry = self.get_first_entry('behold')
+        entry = self.dict.find('behold')[0]
+        entry_content_dict = dict(entry.content['content'])
         self.assertEqual(
             "Middle English *biholden*, from Old English *behaldan* : *be-*, be- + *healdan*, to hold; see [hold-1][2].",
-            entry['ETYMOLOGY']
+            entry_content_dict['ETYMOLOGY']
         )
         self.assertEqual(
             ['ref:33/S0213300.html:see-1', 'ref:73/H0237300.html:hold-1'],
-            entry['REFERENCES']
+            entry.content['references']
         )
 
     def test_cross_references_multiple(self):
-        entry = self.get_entry_n('sound', 1)
+        entry = self.dict.find('sound')[1]
+        entry_content_dict = dict(entry.content['content'])
         self.assertEqual(
             "**sound\'ly** ---ADVERB; **sound\'ness** ---NOUN; ",
-            entry['OTHER FORMS']
+            entry_content_dict['OTHER FORMS']
         )
         self.assertEqual(
             ['ref:65/H0106500.html:healthy', 'ref:25/V0012500.html:valid'],
-            entry['REFERENCES']
+            entry.content['references']
         )
 
 

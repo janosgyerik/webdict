@@ -36,8 +36,7 @@ class AmericanHeritageDictionaryCLI(CommandLineInterface):
 
         dl_items = entry.content['content']
         dl = dict(dl_items)
-        sections = [dt for dt, dd in dl_items if dt != 'REFERENCES']
-        for dt in sections:
+        for dt in [dt for dt, _ in dl_items]:
             print dt
             self.print_dd(dl[dt])
             print('')

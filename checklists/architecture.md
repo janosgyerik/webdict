@@ -93,7 +93,7 @@ RESTful API server
         - don't allow commas in ids
     - implement different api
 + no such method: standard http 404
-x error response example
+x error response example : no such use case at the moment
     {
         'version': 'v1',
         'success': false,
@@ -113,7 +113,8 @@ x error response example
                     'content': [
                         ['syllabication', 'hel-lo'],
                         ['noun', 'A calling or greeting of "hello"']
-                    ]
+                    ],
+                    'references': []
                 }
             ]
         }]

@@ -68,12 +68,11 @@ def load_entry_content(filename):
                 definition_title = line
             else:
                 definition_list.append([definition_title, line])
-        if refs:
-            definition_list.append(['REFERENCES', refs])
         return {
             'id': filename,
             'name': word,
             'content': definition_list,
+            'references': refs
         }
 
 

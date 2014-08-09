@@ -103,11 +103,12 @@ App.Form = Backbone.View.extend({
         var $results = this.results;
         var recentList = this.recentList;
         var entries = json.matches[0].entries;
+        var $noMatches = $('.no-matches');
         if (!entries.length) {
-            $('.no-matches').removeClass('no-matches-hidden');
+            $noMatches.removeClass('no-matches-hidden');
             return;
         }
-        $('.no-matches').addClass('no-matches-hidden');
+        $noMatches.addClass('no-matches-hidden');
 
         function render_subscripts(str) {
             return str.replace(/-(\d+)/, '<sub>$1</sub>');
@@ -126,16 +127,12 @@ App.Form = Backbone.View.extend({
                     });
                 }
                 $results.append($('<h3/>').append(name));
-                var refs = [];
                 var refs_links = {};
-                if (entry.content[entry.content.length - 1][0] == 'REFERENCES') {
-                    refs = entry.content.pop()[1];
-                    _.each(refs, function(ref) {
-                        var parts = ref.split(':');
-                        var ref_name = render_subscripts(parts[2]);
-                        refs_links[ref] = $('<a/>').append(ref_name).attr('href', '#get/entry/' + parts[1]).prop('outerHTML');
-                    });
-                }
+                _.each(entry.references, function(ref) {
+                    var parts = ref.split(':');
+                    var ref_name = render_subscripts(parts[2]);
+                    refs_links[ref] = $('<a/>').append(ref_name).attr('href', '#get/entry/' + parts[1]).prop('outerHTML');
+                });
                 var dl = $('<dl/>');
                 _.each(entry.content, function(item) {
                     var dt = item[0];
@@ -143,7 +140,7 @@ App.Form = Backbone.View.extend({
                     dd = dd.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                     dd = dd.replace(/\*(.*?)\*/g, '<em>$1</em>');
                     dd = render_subscripts(dd);
-                    _.each(refs, function(ref, i) {
+                    _.each(entry.references, function(ref, i) {
                         var pattern = "\\[.*?\\]\\[" + (parseInt(i) + 1) + "\\]";
                         dd = dd.replace(new RegExp(pattern, "g"), refs_links[ref]);
                     });
