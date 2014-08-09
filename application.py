@@ -35,11 +35,6 @@ def discover_dictionaries():
                 print('Error: could not import Dictionary from {}'.format(plugin_path))
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-
 class DictionaryResource(Resource):
     @lazy_property
     def args(self):
@@ -108,6 +103,16 @@ class GetEntry(DictionaryResource):
         return self.get_response(entries)
 
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+def dictionary_app_gen(dict_id):
+    def dictionary_app():
+        return render_template('dictionary.html', dict_id=dict_id)
+    return dictionary_app
+
 api_baseurl = '/api/v1/dictionaries'
 # api.add_resource(GetDictionaries, api_baseurl + '/')
 
@@ -119,6 +124,7 @@ def add_resource(cname, url_template, dict_id, dictionary):
 
 def register_dictionary_endpoints():
     for dict_id, dictionary in discover_dictionaries():
+        app.add_url_rule('/' + dict_id, dict_id, dictionary_app_gen(dict_id))
         add_resource(FindByExact, '{}/{}/find/exact/<string:keyword>', dict_id, dictionary)
         add_resource(FindByPrefix, '{}/{}/find/prefix/<string:keyword>', dict_id, dictionary)
         add_resource(FindBySuffix, '{}/{}/find/suffix/<string:keyword>', dict_id, dictionary)

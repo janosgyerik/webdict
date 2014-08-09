@@ -1,7 +1,12 @@
+var DEFAULT_DICT_ID = 'dummy';
+if (typeof DICT_ID === 'undefined' || !DICT_ID) {
+    DICT_ID = DEFAULT_DICT_ID;
+}
+
 var App = window.App = {};
 
-App.QUERY_URL = '/api/v1/dictionaries/ahd/find/exact';
-App.ENTRY_URL = '/api/v1/dictionaries/ahd/get/entry';
+App.QUERY_URL = '/api/v1/dictionaries/' + DICT_ID + '/find/exact';
+App.ENTRY_URL = '/api/v1/dictionaries/' + DICT_ID + '/get/entry';
 App.MAX_RECENT = 25;
 
 App.Router = Backbone.Router.extend({
@@ -179,7 +184,7 @@ App.Entry = Backbone.Model.extend({
 
 App.RecentList = Backbone.Collection.extend({
     model: App.Entry,
-    localStorage: new Store('webdict-backbone'),
+    localStorage: new Store('webdict-backbone-' + DICT_ID),
     addCustom: function(obj) {
         var filter = function(item) {
             return item.get('entry_id') == obj.entry_id;
