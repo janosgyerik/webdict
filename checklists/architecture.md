@@ -86,7 +86,7 @@ RESTful API server
     + /api/<version>/dictionaries/<dict>/get/entry/<query>
 - example param values
     + version: v1
-    + dict: ahd (american heritage dictionary)
+    + dict: wud (Webster's Unabridged Dictionary)
     - max: 10
 - possible changes
     - search multiple dictionaries: comma separated ids
@@ -104,7 +104,7 @@ x error response example : no such use case at the moment
         'version': 'v1',
         'success': true,
         'matches': [{
-            'dict': 'ahd',
+            'dict': 'wud',
             'format': 'dl-md',  // definition list + markdown
             'entries': [
                 {
