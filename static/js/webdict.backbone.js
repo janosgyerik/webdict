@@ -41,19 +41,20 @@ App.Form = Backbone.View.extend({
     },
     searchBtn: function(e) {
         e.preventDefault();
-        this.findExact();
+        this.search();
     },
     searchOnEnter: function(e) {
         if (e.keyCode != 13) return;
         e.preventDefault();
-        this.findExact();
+        this.search();
+    },
+    search: function() {
+        var keyword = this.input.val();
+        if (keyword) {
+            this.findExact(keyword);
+        }
     },
     findExact: function(keyword) {
-        if (!keyword) {
-            keyword = this.input.val();
-        }
-        if (!keyword) return;
-
         App.router.navigate('find/exact/' + keyword);
         var url = App.QUERY_URL + "/" + keyword;
 
