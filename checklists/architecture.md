@@ -67,6 +67,8 @@ Dictionary library
 
 RESTful API server
 ------------------
++ http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
+
 + client of dictionary library
     - native calls to dictionary library
     - output as json
@@ -119,6 +121,17 @@ x error response example : no such use case at the moment
             ]
         }]
     }
+    ! drop the version envelope if not needed!
+- errors should have JSON representation, example:
+    {
+      "code" : 1234,
+      "message" : "Something bad happened :(",
+      "description" : "More details about the error here"
+    }
+- need pagination?
+    - use the link header values: next, prev, first, last
+    - https://developer.github.com/v3/#pagination
+
 + list_only responses have no 'content' field
 
 
