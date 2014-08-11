@@ -10,24 +10,6 @@
         - https://developer.github.com/v3/gists/#list-gists
     - how to render json output?
 
-- api improvements
-    - maybe: change 'references' values to api urls
-        - clients should not have to know how to interpret the values
-        - clients should not have to know how to format urls of subsequent requests
-            - the router logic can be simplified
-                - match the end part to get the hashtag path
-                - use the original url in the actual request
-    - maybe: change id to url
-        - the url *is* an id: unique identifier of the resource
-        - on the other hand, id is stable across versions, url is not
-        - perhaps the api could suggest a route
-        - the client could keep track of the mapping between route and url
-        - when the url is not cached, only then the client could format the url,
-            simply by sticking at the end of the api base url
-    - wrapping the results in {'success': true} is pointless
-        - does it work to return [] instead of {} ?
-        - if yes then you can get rid of the useless envelope
-
 - make wud (webster) more attractive
     - add subscript to multiple matches
         - add index in file, NOT in index
@@ -46,15 +28,15 @@
 
 -----------------------------
 
-create restful cli
+- create restful cli
 
-upgrade components
+- upgrade components
     - jquery
     - bootstrap
     - backbone
     - flask
 
-add missing ui elements
+- add missing ui elements
     - radio buttons
         - find exact match
         - find by prefix
@@ -62,10 +44,25 @@ add missing ui elements
         - find by partial
     - find similar -- checkbox
 
-polish cli
+- polish cli
     --ref NUM option to jump to reference
 
-add more dictionaries
+- api improvements
+    - maybe: change 'references' values to api urls
+        - clients should not have to know how to interpret the values
+        - clients should not have to know how to format urls of subsequent requests
+            - the router logic can be simplified
+                - match the end part to get the hashtag path
+                - use the original url in the actual request
+    - maybe: change id to url
+        - the url *is* an id: unique identifier of the resource
+        - on the other hand, id is stable across versions, url is not
+        - perhaps the api could suggest a route
+        - the client could keep track of the mapping between route and url
+        - when the url is not cached, only then the client could format the url,
+            simply by sticking at the end of the api base url
+
+- add more dictionaries
     - find creative commons data
         - http://dumps.wikimedia.org/enwiktionary/20140728/
         - http://www.androidtech.com/downloads/wordnet20-from-prolog-all-3.zip
