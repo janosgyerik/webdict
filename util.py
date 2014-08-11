@@ -4,6 +4,7 @@ from imp import find_module, load_module
 BASE_DIR = os.path.dirname(__file__)
 PLUGINS_PATH = os.path.join(BASE_DIR, 'plugins')
 
+
 def discover_dictionaries():
     import plugins
     for plugin_name in os.listdir(PLUGINS_PATH):

@@ -3,8 +3,6 @@
 from flask import Flask, render_template, jsonify
 from flask.ext.restful import Resource, Api, reqparse
 
-import os
-
 from dictionary.base import lazy_property
 from util import discover_dictionaries
 
