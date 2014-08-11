@@ -113,6 +113,11 @@ def index():
     return render_template('index.html', dictionaries=dictionaries)
 
 
+@app.route('/docs')
+def docs():
+    return render_template('docs.html', dictionaries=dictionaries)
+
+
 def dictionary_app_gen(dict_id, dictionary):
     def dictionary_app():
         return render_template('dictionary.html', dict_id=dict_id, dictionary=dictionary)

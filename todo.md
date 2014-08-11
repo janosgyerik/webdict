@@ -1,14 +1,12 @@
 - create interactive api doc
-    - text field to enter term
-    - radio buttons for search types
-    - find similar checkbox
-    - select dictionary
-    - url field to show curl command <- model: search form
-    - text field to show json output <- model: search result
+    - capture search params in a model
+        - change to params -> changes model ->
+            - update view
+            - run query
+    - do use route, capture model fields
     - later: python code <- model: search form
-    - formal list of all methods
-        - https://developer.github.com/v3/gists/#list-gists
-    - how to render json output?
+    - click on curl text selects
+    - add tool for /entries/
 
 - make wud (webster) more attractive
     - add subscript to multiple matches
@@ -77,3 +75,4 @@ Useful links:
 - http://flask-restful.readthedocs.org/en/latest/api.html
 - http://backbonejs.org/
 - http://git-scm.com/book/en/Git-Tools-Submodules
+- http://getbootstrap.com/2.3.2/

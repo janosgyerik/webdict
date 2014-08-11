@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Simple Web Dictionary</title>
+    <title>API docs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Simple Web Dictionary">
     <meta name="author" content="Janos Gyerik info@janosgyerik.com">
@@ -43,18 +43,56 @@
             </a>
             <a class="brand" href="/">Simple Web Dictionary</a>
             <a class="brand" href="/docs">API docs</a>
-            <a class="brand" href="/{{ dict_id }}"><small>{{ dictionary.name }}</small></a>
         </div>
     </div>
 </div>
 
 <div class="container-fluid">
     <div id="main-content">
+        <h2>Interactive API docs</h2>
         <div class="row-fluid">
-            <form class="form-search">
-                <input type="text" class="input-xlarge search-query" placeholder="a word to look up...">
-                <button class="btn btn-primary search">Search</button>
-                <button class="btn reset">Clear</button>
+            <form class="form" id="find-by-keyword">
+                <fieldset>
+                    <legend>Find by keyword</legend>
+
+                    <select name="dictionary">
+                        {% for dict_id, dictionary in dictionaries %}
+                            {% if dictionary.is_public %}
+                                <option value="{{ dict_id }}">{{ dictionary.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
+                    <div class="input-append">
+                        <input type="text" class="input-xlarge keyword" placeholder="a word to look up...">
+                        <button type="submit" class="btn btn-primary run">Run</button>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="radio inline">
+                            <input type="radio" name="method" class="method" id="find-exact" value="exact" checked> Exact
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="method" class="method" id="find-by-prefix" value="prefix"> Prefix
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="method" class="method" id="find-by-suffix" value="suffix"> Suffix
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="method" class="method" id="find-by-partial" value="partial"> Partial
+                        </label>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="find-similar" value="similar" checked> Find similar
+                        </label>
+                    </div>
+
+                    <span class="input-block-level uneditable-input api-curl"></span>
+
+                    <pre class="well api-output"></pre>
+                </fieldset>
             </form>
         </div>
         <!--/row-->
@@ -86,39 +124,11 @@
                     </div>
                 </div>
             </div>
-            <div class="sidebar span3">
-                <table id="similar" class="table table-hover table-condensed table-striped hidden">
-                    <thead><tr><th>Similar <i class="pull-right icon-remove-circle dismiss"></i></th></tr></thead>
-                    <tbody class="similar-list">
-                    </tbody>
-                </table>
-                <table id="recent" class="table table-hover table-condensed table-striped hidden">
-                    <thead><tr><th>Recent</th></tr></thead>
-                    <tbody class="recent-list">
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
-    {% if dictionary.license %}
-    <hr/>
-
-    <footer>
-        <div class="license">{{ dictionary.license|urlize }}</div>
-    </footer>
-    {% endif %}
 </div>
 <!--/.fluid-container-->
-
-<script type="text/template" id="entry-template">
-    <td><a href="#entries/<%= entry_id %>"><%= name %></a></td>
-</script>
-
-<script type="text/javascript">
-    // the dictionary to use
-    DICT_ID = '{{ dict_id }}';
-</script>
 
 <!-- Le javascript
 ================================================== -->
@@ -128,7 +138,7 @@
 <script src="/static/js/underscore-min.js"></script>
 <script src="/static/js/backbone-min.js"></script>
 <script src="/static/js/backbone-localstorage.js"></script>
-<script src="/static/js/webdict.backbone.js"></script>
+<script src="/static/js/webdict-docs.backbone.js"></script>
 
 </body>
 </html>
