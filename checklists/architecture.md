@@ -95,16 +95,8 @@ RESTful API server
         - don't allow commas in ids
     - implement different api
 + no such method: standard http 404
-x error response example : no such use case at the moment
-    {
-        'version': 'v1',
-        'success': false,
-        'message': 'no such method'
-    }
 + success response example
     {
-        'version': 'v1',
-        'success': true,
         'matches': [{
             'dict': 'wud',
             'format': 'dl-md',  // definition list + markdown
@@ -121,7 +113,6 @@ x error response example : no such use case at the moment
             ]
         }]
     }
-    ! drop the version envelope if not needed!
 - errors should have JSON representation, example:
     {
       "code" : 1234,

@@ -59,8 +59,6 @@ class DictionaryResource(Resource):
 
     def get_json_entries(self, serializable_entries):
         return jsonify({
-            'version': 'v1',
-            'success': True,
             'matches': [{
                 'dict': self.dict_id,
                 'format': 'dl-md',
