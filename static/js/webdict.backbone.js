@@ -77,7 +77,6 @@ App.Form = Backbone.View.extend({
         });
     },
     getEntry: function(entry_id) {
-        App.router.navigate('entries/' + entry_id);
         var url = App.ENTRY_URL + "/" + entry_id;
 
         this.input.focus();
