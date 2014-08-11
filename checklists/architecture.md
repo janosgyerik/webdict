@@ -85,7 +85,7 @@ RESTful API server
     + /api/<version>/dictionaries/<dict>/find/prefix/<query>
     + /api/<version>/dictionaries/<dict>/find/suffix/<query>
     + /api/<version>/dictionaries/<dict>/find/partial/<query>
-    + /api/<version>/dictionaries/<dict>/get/entry/<query>
+    + /api/<version>/dictionaries/<dict>/entries/<query>
 - example param values
     + version: v1
     + dict: wud (Webster's Unabridged Dictionary)

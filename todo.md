@@ -1,6 +1,32 @@
 - create interactive api doc
+    - text field to enter term
+    - radio buttons for search types
+    - find similar checkbox
+    - select dictionary
+    - url field to show curl command <- model: search form
+    - text field to show json output <- model: search result
+    - later: python code <- model: search form
+    - formal list of all methods
+        - https://developer.github.com/v3/gists/#list-gists
+    - how to render json output?
 
-- upload the wud data files *somewhere*
+- api improvements
+    - maybe: change 'references' values to api urls
+        - clients should not have to know how to interpret the values
+        - clients should not have to know how to format urls of subsequent requests
+            - the router logic can be simplified
+                - match the end part to get the hashtag path
+                - use the original url in the actual request
+    - maybe: change id to url
+        - the url *is* an id: unique identifier of the resource
+        - on the other hand, id is stable across versions, url is not
+        - perhaps the api could suggest a route
+        - the client could keep track of the mapping between route and url
+        - when the url is not cached, only then the client could format the url,
+            simply by sticking at the end of the api base url
+    - wrapping the results in {'success': true} is pointless
+        - does it work to return [] instead of {} ?
+        - if yes then you can get rid of the useless envelope
 
 - make wud (webster) more attractive
     - add subscript to multiple matches
@@ -13,6 +39,10 @@
     - add cross references:
         - "See Flame" (in inflame)
         - `Syn. -- To provoke; fire; kindle; irritate; exasperate; incense; enrage; anger; excite; arouse.`
+
+- upload the wud data files *somewhere*
+    - data.janosgyerik.com/pub/webdict/wud/
+    - add the link to readme, or the plugin's readme
 
 -----------------------------
 

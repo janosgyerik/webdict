@@ -137,7 +137,7 @@ def register_dictionary_endpoints():
         add_resource(FindByPrefix, '{0}/{1}/find/prefix/<string:keyword>', dict_id, dictionary)
         add_resource(FindBySuffix, '{0}/{1}/find/suffix/<string:keyword>', dict_id, dictionary)
         add_resource(FindByPartial, '{0}/{1}/find/partial/<string:keyword>', dict_id, dictionary)
-        add_resource(GetEntry, '{0}/{1}/get/entry/<path:entry_id>', dict_id, dictionary)
+        add_resource(GetEntry, '{0}/{1}/entries/<path:entry_id>', dict_id, dictionary)
 
 if __name__ == '__main__':
     register_dictionary_endpoints()

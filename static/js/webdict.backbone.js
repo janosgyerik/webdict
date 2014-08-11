@@ -6,13 +6,13 @@ if (typeof DICT_ID === 'undefined' || !DICT_ID) {
 var App = window.App = {};
 
 App.QUERY_URL = '/api/v1/dictionaries/' + DICT_ID + '/find/exact';
-App.ENTRY_URL = '/api/v1/dictionaries/' + DICT_ID + '/get/entry';
+App.ENTRY_URL = '/api/v1/dictionaries/' + DICT_ID + '/entries';
 App.MAX_RECENT = 25;
 
 App.Router = Backbone.Router.extend({
     routes: {
         "find/exact/:keyword": "findExact",
-        "get/entry/*entry_id": "getEntry"
+        "entries/*entry_id": "getEntry"
     },
     findExact: function(keyword) {
         App.form.findExact(keyword);
@@ -77,7 +77,7 @@ App.Form = Backbone.View.extend({
         });
     },
     getEntry: function(entry_id) {
-        App.router.navigate('get/entry/' + entry_id);
+        App.router.navigate('entries/' + entry_id);
         var url = App.ENTRY_URL + "/" + entry_id;
 
         this.input.focus();
@@ -131,7 +131,7 @@ App.Form = Backbone.View.extend({
                 _.each(entry.references, function(ref) {
                     var parts = ref.split(':');
                     var ref_name = render_subscripts(parts[2]);
-                    refs_links[ref] = $('<a/>').append(ref_name).attr('href', '#get/entry/' + parts[1]).prop('outerHTML');
+                    refs_links[ref] = $('<a/>').append(ref_name).attr('href', '#entries/' + parts[1]).prop('outerHTML');
                 });
                 var dl = $('<dl/>');
                 _.each(entry.content, function(item) {
