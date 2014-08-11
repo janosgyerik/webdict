@@ -4,12 +4,10 @@ from flask import Flask, render_template, jsonify
 from flask.ext.restful import Resource, Api, reqparse
 
 import os
-from imp import find_module, load_module
 
 from dictionary.base import lazy_property
+from util import discover_dictionaries
 
-BASE_DIR = os.path.dirname(__file__)
-PLUGINS_PATH = os.path.join(BASE_DIR, 'plugins')
 MAX_RESULTS = 10
 
 app = Flask(__name__)
@@ -18,22 +16,6 @@ api = Api(app)
 parser = reqparse.RequestParser()
 parser.add_argument('similar', type=bool, help='Try to find similar matches when there are no exact')
 parser.add_argument('list', type=bool, help='Show list of matches instead of content')
-
-
-def discover_dictionaries():
-    import plugins
-    for plugin_name in os.listdir(PLUGINS_PATH):
-        plugin_path = os.path.join(PLUGINS_PATH, plugin_name, plugin_name + '.py')
-        if os.path.isfile(plugin_path):
-            try:
-                fp, pathname, description = find_module(plugin_name, plugins.__path__)
-                m1 = load_module(plugin_name, fp, pathname, description)
-                fp, pathname, description = find_module(plugin_name, m1.__path__)
-                m2 = load_module(plugin_name, fp, pathname, description)
-                class_ = getattr(m2, 'Dictionary')
-                yield plugin_name, class_()
-            except ImportError:
-                print('Error: could not import Dictionary from {0}'.format(plugin_path))
 
 dictionaries = [_ for _ in discover_dictionaries()]
 
