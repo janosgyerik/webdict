@@ -93,6 +93,11 @@ def index():
     return render_template('index.html', dictionaries=dictionaries)
 
 
+@app.route('/source')
+def source():
+    return render_template('source.html')
+
+
 @app.route('/docs')
 def docs():
     return render_template('docs.html', dictionaries=dictionaries)
