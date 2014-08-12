@@ -56,7 +56,9 @@
 
 <div class="container-fluid">
     <div id="main-content">
-        <h3>Simple Web Dictionary</h3>
+        <div class="page-header">
+            <h1>Simple Web Dictionary</h1>
+        </div>
         <ul>
             {% for dict_id, dictionary in dictionaries %}
                 {% if dictionary.is_public %}
