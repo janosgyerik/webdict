@@ -19,9 +19,10 @@ def load_entry_content(word, filename):
         return
     with open(path) as fh:
         count = 0
-        content = ''
+        content = []
         definition_list = []
         for line in fh:
+            # first line contains the term, and ignore next 2 lines
             if count < 3:
                 if count == 0:
                     word = line.strip().lower()
@@ -36,10 +37,10 @@ def load_entry_content(word, filename):
             line = re_em_squarebr.sub(r'*\1*', line)
 
             if line:
-                content += line + ' '
+                content.append(line)
             else:
-                definition_list.append(['', content])
-                content = ''
+                definition_list.append(['', ' '.join(content)])
+                content = []
         return {
             'id': filename,
             'name': word,
