@@ -9,9 +9,6 @@
     - add tool for /entries/
 
 - make wud (webster) more attractive
-    - add subscript to multiple matches
-        - add index in file, NOT in index
-        - example words: anger
     - decorate poet names:
         - ` Shak.` -> `*--Shak.*`
         - Milton. Chapman. Addison. Dryden.

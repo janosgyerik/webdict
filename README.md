@@ -29,24 +29,14 @@ Install requirements inside virtualenv:
 
     ./pip.sh install -r requirements.txt
 
-Download dictionary data, for example:
-
-    curl TODO_URL_TO_WEBSTER_DATA_FILE
-    tar zxf TODO_PATH_TO_WEBSTER_DATA_FILE
-    mv TODO_WEBSTER_DATA_PATH /path/to/where/you/want
-
-Create plugin settings file and set `dictionary_path`:
-
-    cp plugins/wud/settings.py.sample plugins/wud/settings.py
+Configure plugins. Every dictionary is a plugin.
+Plugins are in the `./plugins` directory.
+See the README file in each plugins directory for installation steps,
+for example `./plugins/wud/README.md` for Webster's Unabridged Dictionary.
 
 Run the site locally:
 
     ./run.sh
-
-Configuring plugins
--------------------
-
-TODO
 
 Creating a new dictionary plugin
 --------------------------------
@@ -58,4 +48,3 @@ Links
 
 - https://github.com/janosgyerik/webdict
 - http://webdict.janosgyerik.com/
-
