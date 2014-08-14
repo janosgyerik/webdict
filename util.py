@@ -14,8 +14,8 @@ def discover_dictionaries():
         if os.path.isfile(plugin_path):
             try:
                 fp, pathname, description = find_module(plugin_name, plugins.__path__)
-                m1 = load_module(plugin_name, fp, pathname, description)
-                fp, pathname, description = find_module(plugin_name, m1.__path__)
+                load_module(plugin_name, fp, pathname, description)
+                fp, pathname, description = find_module(plugin_name, [pathname])
                 m2 = load_module(plugin_name, fp, pathname, description)
                 yield plugin_name, getattr(m2, 'Dictionary')()
             except ImportError:
