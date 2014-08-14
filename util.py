@@ -1,10 +1,8 @@
 import os
 
-from imp import find_module, load_module
 
-
-BASE_DIR = os.path.dirname(__file__)
-PLUGINS_PATH = os.path.join(BASE_DIR, 'plugins')
+PLUGINS_DIR = 'plugins'
+PLUGINS_PATH = os.path.join(os.path.dirname(__file__), PLUGINS_DIR)
 
 
 def discover_dictionaries():
@@ -12,9 +10,8 @@ def discover_dictionaries():
         plugin_path = os.path.join(PLUGINS_PATH, plugin_name, plugin_name + '.py')
         if os.path.isfile(plugin_path):
             try:
-                fp, pathname, description = find_module(plugin_name, [PLUGINS_PATH])
-                load_module(plugin_name, fp, pathname, description)
-                module = load_module(plugin_name, *find_module(plugin_name, [pathname]))
+                name = '.'.join([PLUGINS_DIR, plugin_name, plugin_name])
+                module = __import__(name, fromlist=['Dictionary'])
                 yield plugin_name, getattr(module, 'Dictionary')()
             except ImportError:
                 print('Error: could not import Dictionary from {0}'.format(plugin_path))
