@@ -17,7 +17,6 @@ def discover_dictionaries():
                 m1 = load_module(plugin_name, fp, pathname, description)
                 fp, pathname, description = find_module(plugin_name, m1.__path__)
                 m2 = load_module(plugin_name, fp, pathname, description)
-                class_ = getattr(m2, 'Dictionary')
-                yield plugin_name, class_()
+                yield plugin_name, getattr(m2, 'Dictionary')()
             except ImportError:
                 print('Error: could not import Dictionary from {0}'.format(plugin_path))
