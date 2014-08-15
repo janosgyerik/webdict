@@ -145,15 +145,12 @@ App.CurlView = Backbone.View.extend({
 
         this.$el.text('curl ' + curl_url + extras);
         return this;
-    },
-    clear: function () {
-        this.model.clear();
     }
 });
 
 function onDomReady() {
     var apiParams = new App.ApiParams();
-    new App.CurlView({model: apiParams}).render();
+    new App.CurlView({model: apiParams});
     var form = new App.FormView({model: apiParams});
     form.run();
 }
