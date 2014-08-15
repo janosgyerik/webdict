@@ -1,7 +1,4 @@
 - create interactive api doc
-    - capture search params in a model
-        - similar
-        - list only
     - do use route, capture tool (= find / entries) + model fields
     - later: python code <- model: search form
     - click on curl text selects

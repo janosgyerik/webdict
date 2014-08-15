@@ -116,8 +116,19 @@ App.CurlView = Backbone.View.extend({
     },
     render: function () {
         var extras = '';
+        var similar = this.model.get('similar');
+        var list = this.model.get('list');
+        if (similar || list) {
+            extras += ' --get';
+            if (similar) {
+                extras += ' -d similar=1';
+            }
+            if (list) {
+                extras += ' -d list=1';
+            }
+        }
         this.$el.text(
-            format('curl {0}{1}/{2}/find/{3}/{4} {5}',
+            format('curl {0}{1}/{2}/find/{3}/{4}{5}',
                 location.origin, App.API_BASEURL,
                 this.model.get('dict_id'), this.model.get('method'), this.model.get('keyword'), extras)
         );
