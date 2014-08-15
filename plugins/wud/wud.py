@@ -1,7 +1,7 @@
 import os
 import re
 
-from settings import dictionary_path
+from .settings import dictionary_path
 from dictionary.base import BaseDictionary, BaseEntry, lazy_property
 
 INDEX_PATH = os.path.join(dictionary_path, 'index.dat')
