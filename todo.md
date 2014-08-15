@@ -1,8 +1,7 @@
 - create interactive api doc
     - capture search params in a model
-        - change to params -> changes model ->
-            - update view
-            - run query
+        - similar
+        - list only
     - do use route, capture tool (= find / entries) + model fields
     - later: python code <- model: search form
     - click on curl text selects

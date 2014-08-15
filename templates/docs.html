@@ -77,12 +77,13 @@
                 <fieldset>
                     <legend>Find by keyword</legend>
 
-                    <select name="dictionary">
+                    <select class="dictionary" name="dictionary">
                         {% for dict_id, dictionary in dictionaries %}
                             {% if dictionary.is_public %}
                                 <option value="{{ dict_id }}">{{ dictionary.name }}</option>
                             {% endif %}
                         {% endfor %}
+                        <option value="dummy">Dummy</option>
                     </select>
 
                     <div class="input-append">
@@ -111,9 +112,12 @@
                         <label class="checkbox inline">
                             <input type="checkbox" id="find-similar" value="similar" checked> Find similar
                         </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" id="list-only" value="list" > List only
+                        </label>
                     </div>
 
-                    <span class="input-block-level uneditable-input api-curl"></span>
+                    <span id="api-curl" class="input-block-level uneditable-input api-curl"></span>
 
                     <pre class="well api-output"></pre>
                 </fieldset>
