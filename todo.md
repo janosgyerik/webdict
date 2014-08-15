@@ -1,7 +1,6 @@
 - create interactive api doc
-    - do use route, capture tool (= find / entries) + model fields
+    - use router, capture tool model fields
     - later: python code <- model: search form
-    - click on curl text selects
     - add tool for /entries/
 
 - make wud (webster) more attractive

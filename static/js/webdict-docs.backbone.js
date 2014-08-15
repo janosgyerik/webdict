@@ -113,6 +113,16 @@ App.CurlView = Backbone.View.extend({
     initialize: function () {
         this.model.on('change', this.render, this);
     },
+    events: {
+        'click': 'selectEntireCurl'
+    },
+    selectEntireCurl: function() {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(this.el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
     render: function () {
         var extras = '';
         var similar = this.model.get('similar');
