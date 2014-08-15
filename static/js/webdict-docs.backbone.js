@@ -6,7 +6,6 @@ App.ApiParams = Backbone.Model.extend({
     defaults: {
         dict_id: 'wud',
         method: 'exact',
-        keyword: 'lo',
         keyword: 'soundx',
         similar: true
     }
@@ -127,11 +126,15 @@ App.CurlView = Backbone.View.extend({
                 extras += ' -d list=1';
             }
         }
-        this.$el.text(
-            format('curl {0}{1}/{2}/find/{3}/{4}{5}',
-                location.origin, App.API_BASEURL,
-                this.model.get('dict_id'), this.model.get('method'), this.model.get('keyword'), extras)
-        );
+
+        var curl_url = format('{0}{1}/{2}/find/{3}/{4}',
+            location.origin, App.API_BASEURL,
+            this.model.get('dict_id'), this.model.get('method'), this.model.get('keyword'));
+        if (curl_url.indexOf(' ') > -1) {
+            curl_url = '"' + curl_url + '"';
+        }
+
+        this.$el.text('curl ' + curl_url + extras);
         return this;
     },
     clear: function () {
