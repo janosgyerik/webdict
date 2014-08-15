@@ -46,17 +46,27 @@ App.FormView = Backbone.View.extend({
     runWithKeyword: function (keyword) {
         var dictionary = this.dictionary.val();
         var method = this.$el.find('.method:checked').val();
-        this.find(dictionary, method, keyword);
+        var similar = this.$el.find('#find-similar:checked').size() > 0;
+        var list = this.$el.find('#list-only:checked').size() > 0;
+        this.find(dictionary, method, keyword, similar, list);
     },
-    find: function (dict_id, method, keyword) {
+    find: function (dict_id, method, keyword, similar, list) {
         this.model.set({
             dict_id: dict_id,
             method: method,
-            keyword: keyword
+            keyword: keyword,
+            similar: similar,
+            list: list
         });
         var url = App.API_BASEURL + "/" + dict_id + "/find/" + method + "/" + keyword;
+        var extras = {};
+        if (similar) {
+            extras['similar'] = true;
+        }
+        if (list) {
+            extras['list'] = true;
+        }
 
-        //this.keyword.val('');
         var _this = this;
         var success = function (json) {
             _this.onApiSuccess(keyword, json);
@@ -67,9 +77,7 @@ App.FormView = Backbone.View.extend({
 
         $.ajax({
             url: url,
-            data: {
-                similar: true
-            },
+            data: extras,
             success: success,
             error: error
         });
