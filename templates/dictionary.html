@@ -49,6 +49,19 @@
                 <li class="">
                     <a href="/docs">API docs</a>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Dictionaries
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for dict_id, dictionary in dictionaries %}
+                            {% if dictionary.is_public %}
+                                <li><a href="{{ dict_id }}">{{ dictionary.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
                 <li class="active">
                     <a href="/{{ dict_id }}">{{ dictionary.name }}</a>
                 </li>

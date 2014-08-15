@@ -49,6 +49,19 @@
                 <li class="active">
                     <a href="/docs">API docs</a>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Dictionaries
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for dict_id, dictionary in dictionaries %}
+                            {% if dictionary.is_public %}
+                                <li><a href="{{ dict_id }}">{{ dictionary.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -79,7 +92,8 @@
 
                     <div class="control-group">
                         <label class="radio inline">
-                            <input type="radio" name="method" class="method" id="find-exact" value="exact" checked> Exact
+                            <input type="radio" name="method" class="method" id="find-exact" value="exact" checked>
+                            Exact
                         </label>
                         <label class="radio inline">
                             <input type="radio" name="method" class="method" id="find-by-prefix" value="prefix"> Prefix
@@ -88,7 +102,8 @@
                             <input type="radio" name="method" class="method" id="find-by-suffix" value="suffix"> Suffix
                         </label>
                         <label class="radio inline">
-                            <input type="radio" name="method" class="method" id="find-by-partial" value="partial"> Partial
+                            <input type="radio" name="method" class="method" id="find-by-partial" value="partial">
+                            Partial
                         </label>
                     </div>
 

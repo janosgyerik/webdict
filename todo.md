@@ -3,7 +3,7 @@
         - change to params -> changes model ->
             - update view
             - run query
-    - do use route, capture model fields
+    - do use route, capture tool (= find / entries) + model fields
     - later: python code <- model: search form
     - click on curl text selects
     - add tool for /entries/
@@ -16,10 +16,6 @@
     - add cross references:
         - "See Flame" (in inflame)
         - `Syn. -- To provoke; fire; kindle; irritate; exasperate; incense; enrage; anger; excite; arouse.`
-
-- upload the wud data files *somewhere*
-    - data.janosgyerik.com/pub/webdict/wud/
-    - add the link to readme, or the plugin's readme
 
 -----------------------------
 
@@ -62,6 +58,8 @@
         - http://dumps.wikimedia.org/enwiktionary/20140728/
         - http://www.androidtech.com/downloads/wordnet20-from-prolog-all-3.zip
         - http://www.gutenberg.org/ebooks/29765
+
+- make common HTML reusable somehow, especially the navbar content
 
 -----------------------------
 
