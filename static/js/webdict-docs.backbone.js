@@ -22,7 +22,7 @@ App.FormView = Backbone.View.extend({
         'change #find-similar': 'run',
         'change #list-only': 'run'
     },
-    initialize: function (options) {
+    initialize: function () {
         this.keyword = this.$('.keyword');
         this.keyword.val(this.model.get('keyword'));
         this.dictionary = this.$('select[name="dictionary"]');
@@ -60,15 +60,15 @@ App.FormView = Backbone.View.extend({
         var url = App.API_BASEURL + "/" + dict_id + "/find/" + method + "/" + keyword;
         var extras = {};
         if (similar) {
-            extras['similar'] = true;
+            extras.similar = true;
         }
         if (list) {
-            extras['list'] = true;
+            extras.list = true;
         }
 
         var _this = this;
         var success = function (json) {
-            _this.onApiSuccess(keyword, json);
+            _this.onApiSuccess(json);
         };
         var error = function (jqXHR, textStatus, errorThrown) {
             _this.onApiError(url, jqXHR, textStatus, errorThrown);
@@ -81,7 +81,7 @@ App.FormView = Backbone.View.extend({
             error: error
         });
     },
-    onApiSuccess: function (keyword, json) {
+    onApiSuccess: function (json) {
         $('.loading').addClass('loading-hidden');
         $('.api-error').addClass('api-error-hidden');
 
@@ -98,14 +98,13 @@ App.FormView = Backbone.View.extend({
     }
 });
 
-function format(format) {
-    var args = Array.prototype.slice.call(arguments, 1);
-    return format.replace(/{(\d+)}/g, function (match, number) {
-        return typeof args[number] != 'undefined'
-            ? args[number]
-            : match
-            ;
-    });
+if (!String.format) {
+    String.format = function (format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined' ? args[number] : match;
+        });
+    };
 }
 
 App.CurlView = Backbone.View.extend({
@@ -116,7 +115,7 @@ App.CurlView = Backbone.View.extend({
     events: {
         'click': 'selectEntireCurl'
     },
-    selectEntireCurl: function() {
+    selectEntireCurl: function () {
         var selection = window.getSelection();
         var range = document.createRange();
         range.selectNodeContents(this.el);
@@ -137,7 +136,7 @@ App.CurlView = Backbone.View.extend({
             }
         }
 
-        var curl_url = format('{0}{1}/{2}/find/{3}/{4}',
+        var curl_url = String.format('{0}{1}/{2}/find/{3}/{4}',
             location.origin, App.API_BASEURL,
             this.model.get('dict_id'), this.model.get('method'), this.model.get('keyword'));
         if (curl_url.indexOf(' ') > -1) {
