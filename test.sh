@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash -e
 
 cd $(dirname "$0")
 . ./virtualenv.sh
 
-export PYTHONPATH=$PWD
-
-test "$1" || set -- plugins/*/test_*
+test "$1" || set -- plugins/*/test_*.py
 for i; do
-    python "$i"
+    i="${i//\//.}"
+    i="${i%.py}"
+    python -m "$i"
 done
