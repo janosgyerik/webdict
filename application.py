@@ -105,7 +105,8 @@ def docs():
 
 def dictionary_app_gen(dict_id, dictionary):
     def dictionary_app():
-        return render_template('dictionary.html', dict_id=dict_id, dictionary=dictionary)
+        return render_template('dictionary.html', dictionaries=dictionaries,
+                               dict_id=dict_id, dictionary=dictionary)
     return dictionary_app
 
 api_baseurl = '/api/v1/dictionaries'
