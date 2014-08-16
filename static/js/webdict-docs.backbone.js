@@ -31,15 +31,15 @@ App.CurlView = Backbone.View.extend({
         return url;
     },
     get_url_end_part: function () {
-        throw 'abstract method: subclass should implement!'
+        throw 'abstract method: subclass should implement!';
     },
     get_extra_args: function () {
         return '';
     },
     get_curl_cmd: function () {
-        return 'curl '
-            + this.get_quoted_url(this.get_baseurl() + '/' + this.get_url_end_part())
-            + this.get_extra_args();
+        return 'curl ' +
+            this.get_quoted_url(this.get_baseurl() + '/' + this.get_url_end_part()) +
+            this.get_extra_args();
     }
 });
 
