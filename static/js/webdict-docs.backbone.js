@@ -19,8 +19,8 @@ App.FindByKeywordFormView = Backbone.View.extend({
         'change .dictionary': 'run',
         'change .method': 'run',
         'change .keyword': 'run',
-        'change #find-similar': 'run',
-        'change #list-only': 'run'
+        'change .find-similar': 'run',
+        'change .list-only': 'run'
     },
     initialize: function () {
         this.keyword = this.$('.keyword');
@@ -45,8 +45,8 @@ App.FindByKeywordFormView = Backbone.View.extend({
     runWithKeyword: function (keyword) {
         var dictionary = this.dictionary.val();
         var method = this.$el.find('.method:checked').val();
-        var similar = this.$el.find('#find-similar:checked').size() > 0;
-        var list = this.$el.find('#list-only:checked').size() > 0;
+        var similar = this.$el.find('.find-similar:checked').size() > 0;
+        var list = this.$el.find('.list-only:checked').size() > 0;
         this.find(dictionary, method, keyword, similar, list);
     },
     find: function (dict_id, method, keyword, similar, list) {
