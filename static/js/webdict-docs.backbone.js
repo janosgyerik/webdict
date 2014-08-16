@@ -6,7 +6,7 @@ App.ApiParams = Backbone.Model.extend({
     defaults: {
         dict_id: 'wud',
         method: 'exact',
-        keyword: 'soundx',
+        keyword: 'explorez',
         similar: true
     }
 });
