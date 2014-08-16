@@ -1,7 +1,3 @@
-- create interactive api doc
-    - use router, capture tool model fields
-    - later: python code <- model: search form
-
 - make wud (webster) more attractive
     - bug in parser: ignoring first 3 lines when parsing is just not good.
         look at almost any word, the beginning of the entry looks like a broken
@@ -28,7 +24,7 @@
     - backbone
     - flask
 
-- add missing ui elements
+- add unimplemented ui elements
     - radio buttons
         - find exact match
         - find by prefix
@@ -59,6 +55,12 @@
         - http://dumps.wikimedia.org/enwiktionary/20140728/
         - http://www.androidtech.com/downloads/wordnet20-from-prolog-all-3.zip
         - http://www.gutenberg.org/ebooks/29765
+
+- improve interactive api doc
+    - use backbone router
+    - tabbed output
+        - default tab: output
+        - python cli code, derive from model like curl view does
 
 - make common HTML reusable somehow, especially the navbar content
 
