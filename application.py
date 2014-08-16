@@ -12,8 +12,10 @@ app = Flask(__name__)
 api = Api(app)
 
 parser = reqparse.RequestParser()
-parser.add_argument('similar', type=bool, help='Try to find similar matches when there are no exact')
-parser.add_argument('list', type=bool, help='Show list of matches instead of content')
+parser.add_argument('similar', type=bool,
+                    help='Try to find similar matches when there are no exact')
+parser.add_argument('list', type=bool,
+                    help='Show list of matches instead of content')
 
 dictionaries = [_ for _ in discover_dictionaries()]
 
@@ -50,7 +52,8 @@ class DictionaryResource(Resource):
         return self.get_json_entries(self.get_serializable_entries(entries))
 
     def get_entries_without_content(self, entries):
-        return self.get_json_entries([{'id': x.entry_id, 'name': x.name} for x in entries])
+        return self.get_json_entries(
+            [{'id': x.entry_id, 'name': x.name} for x in entries])
 
     def get_response(self, entries, list_only=False):
         if list_only:
@@ -60,13 +63,15 @@ class DictionaryResource(Resource):
 
 class FindExact(DictionaryResource):
     def get(self, keyword):
-        entries = self.dictionary.find(keyword, find_similar=self.args['similar'])
+        entries = self.dictionary.find(keyword,
+                                       find_similar=self.args['similar'])
         return self.get_response(entries, list_only=self.args['list'])
 
 
 class FindByPrefix(DictionaryResource):
     def get(self, keyword):
-        entries = self.dictionary.find_by_prefix(keyword, find_similar=self.args['similar'])[:MAX_RESULTS]
+        entries = self.dictionary.find_by_prefix(keyword,
+                                                 find_similar=self.args['similar'])[:MAX_RESULTS]
         return self.get_response(entries, list_only=self.args['list'])
 
 
@@ -121,12 +126,28 @@ def add_resource(cname, url_template, dict_id, dictionary):
 
 def register_dictionary_endpoints():
     for dict_id, dictionary in dictionaries:
-        app.add_url_rule('/' + dict_id, dict_id, dictionary_app_gen(dict_id, dictionary))
-        add_resource(FindExact, '{0}/{1}/find/exact/<string:keyword>', dict_id, dictionary)
-        add_resource(FindByPrefix, '{0}/{1}/find/prefix/<string:keyword>', dict_id, dictionary)
-        add_resource(FindBySuffix, '{0}/{1}/find/suffix/<string:keyword>', dict_id, dictionary)
-        add_resource(FindByPartial, '{0}/{1}/find/partial/<string:keyword>', dict_id, dictionary)
-        add_resource(GetEntry, '{0}/{1}/entries/<path:entry_id>', dict_id, dictionary)
+        app.add_url_rule('/' + dict_id, dict_id,
+                         dictionary_app_gen(dict_id, dictionary))
+
+        add_resource(FindExact,
+                     '{0}/{1}/find/exact/<string:keyword>',
+                     dict_id, dictionary)
+
+        add_resource(FindByPrefix,
+                     '{0}/{1}/find/prefix/<string:keyword>',
+                     dict_id, dictionary)
+
+        add_resource(FindBySuffix,
+                     '{0}/{1}/find/suffix/<string:keyword>',
+                     dict_id, dictionary)
+
+        add_resource(FindByPartial,
+                     '{0}/{1}/find/partial/<string:keyword>',
+                     dict_id, dictionary)
+
+        add_resource(GetEntry,
+                     '{0}/{1}/entries/<path:entry_id>',
+                     dict_id, dictionary)
 
 if __name__ == '__main__':
     register_dictionary_endpoints()
