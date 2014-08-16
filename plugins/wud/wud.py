@@ -18,15 +18,12 @@ def load_entry_content(word, filename):
     if not os.path.isfile(path):
         return
     with open(path) as fh:
-        count = 0
+        word = None
         content = []
         definition_list = []
         for line in fh:
-            # first line contains the term, and ignore next 2 lines
-            if count < 3:
-                if count == 0:
-                    word = line.strip().lower()
-                count += 1
+            if not word:
+                word = line.strip().lower()
                 continue
             line = line.strip()
             line = line.replace('*', '')
