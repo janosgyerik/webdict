@@ -2,6 +2,30 @@ var App = window.App = {};
 
 App.API_BASEURL = '/api/v1/dictionaries';
 
+App.CurlView = Backbone.View.extend({
+    initialize: function () {
+        this.model.on('change', this.render, this);
+        this.model.trigger('change');
+    },
+    events: {
+        'click': 'selectEntireCurl'
+    },
+    selectEntireCurl: function () {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(this.el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
+    render: function () {
+        this.$el.text(this.get_curl_text());
+        return this;
+    },
+    get_curl_text: function() {
+        throw 'abstract method: subclass should implement!'
+    }
+});
+
 App.FindByKeywordParams = Backbone.Model.extend({
     defaults: {
         dict_id: 'wud',
@@ -96,23 +120,9 @@ App.FindByKeywordFormView = Backbone.View.extend({
     }
 });
 
-App.FindByKeywordCurlView = Backbone.View.extend({
+App.FindByKeywordCurlView = App.CurlView.extend({
     el: '#find-by-keyword-curl',
-    initialize: function () {
-        this.model.on('change', this.render, this);
-        this.model.trigger('change');
-    },
-    events: {
-        'click': 'selectEntireCurl'
-    },
-    selectEntireCurl: function () {
-        var selection = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(this.el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    },
-    render: function () {
+    get_curl_text: function () {
         var extras = '';
         var similar = this.model.get('similar');
         var list = this.model.get('list');
@@ -133,8 +143,7 @@ App.FindByKeywordCurlView = Backbone.View.extend({
             curl_url = '"' + curl_url + '"';
         }
 
-        this.$el.text('curl ' + curl_url + extras);
-        return this;
+        return 'curl ' + curl_url + extras;
     }
 });
 
@@ -213,32 +222,16 @@ App.GetEntryFormView = Backbone.View.extend({
     }
 });
 
-App.GetEntryCurlView = Backbone.View.extend({
+App.GetEntryCurlView = App.CurlView.extend({
     el: '#get-entry-curl',
-    initialize: function () {
-        this.model.on('change', this.render, this);
-        this.model.trigger('change');
-    },
-    events: {
-        'click': 'selectEntireCurl'
-    },
-    selectEntireCurl: function () {
-        var selection = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(this.el);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    },
-    render: function () {
+    get_curl_text: function () {
         var curl_url = String.format('{0}{1}/{2}/entries/{3}',
             location.origin, App.API_BASEURL,
             this.model.get('dict_id'), this.model.get('entry_id'));
         if (curl_url.indexOf(' ') > -1) {
             curl_url = '"' + curl_url + '"';
         }
-
-        this.$el.text('curl ' + curl_url);
-        return this;
+        return 'curl ' + curl_url;
     }
 });
 
