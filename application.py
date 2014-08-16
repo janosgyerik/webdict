@@ -6,6 +6,7 @@ from flask.ext.restful import Resource, Api, reqparse
 from dictionary.base import lazy_property
 from util import discover_dictionaries
 
+
 MAX_RESULTS = 10
 
 app = Flask(__name__)
@@ -41,11 +42,12 @@ class DictionaryResource(Resource):
 
     def get_json_entries(self, serializable_entries):
         return jsonify({
-            'matches': [{
-                'dict': self.dict_id,
-                'format': 'dl-md',
-                'entries': serializable_entries,
-            }]
+            'matches': [
+                {
+                    'dict': self.dict_id,
+                    'format': 'dl-md',
+                    'entries': serializable_entries,
+                }]
         })
 
     def get_entries(self, entries):
@@ -112,7 +114,9 @@ def dictionary_app_gen(dict_id, dictionary):
     def dictionary_app():
         return render_template('dictionary.html', dictionaries=dictionaries,
                                dict_id=dict_id, dictionary=dictionary)
+
     return dictionary_app
+
 
 api_baseurl = '/api/v1/dictionaries'
 # api.add_resource(GetDictionaries, api_baseurl + '/')
@@ -148,6 +152,7 @@ def register_dictionary_endpoints():
         add_resource(GetEntry,
                      '{0}/{1}/entries/<path:entry_id>',
                      dict_id, dictionary)
+
 
 if __name__ == '__main__':
     register_dictionary_endpoints()
