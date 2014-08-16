@@ -2,7 +2,7 @@ var App = window.App = {};
 
 App.API_BASEURL = '/api/v1/dictionaries';
 
-App.ApiParams = Backbone.Model.extend({
+App.FindByKeywordParams = Backbone.Model.extend({
     defaults: {
         dict_id: 'wud',
         method: 'exact',
@@ -11,8 +11,8 @@ App.ApiParams = Backbone.Model.extend({
     }
 });
 
-App.FormView = Backbone.View.extend({
-    el: '#find-by-keyword',
+App.FindByKeywordFormView = Backbone.View.extend({
+    el: '#find-by-keyword-form',
     events: {
         'keypress .keyword': 'runOnEnter',
         'click .run': 'runBtn',
@@ -82,13 +82,13 @@ App.FormView = Backbone.View.extend({
         });
     },
     onApiSuccess: function (json) {
-        $('.api-error').addClass('api-error-hidden');
+        this.$el.find('.api-error').addClass('api-error-hidden');
 
         this.output.empty();
         this.output.text(JSON.stringify(json, null, 2));
     },
     onApiError: function (url, jqXHR, textStatus, statusText) {
-        var $apiError = $('.api-error');
+        var $apiError = this.$el.find('.api-error');
         $apiError.removeClass('api-error-hidden');
         $apiError.find('a').attr('href', url).text(url);
         $apiError.find('.statusNum').text(jqXHR.status);
@@ -96,19 +96,11 @@ App.FormView = Backbone.View.extend({
     }
 });
 
-if (!String.format) {
-    String.format = function (format) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        return format.replace(/{(\d+)}/g, function (match, number) {
-            return typeof args[number] != 'undefined' ? args[number] : match;
-        });
-    };
-}
-
-App.CurlView = Backbone.View.extend({
-    el: '#api-curl',
+App.FindByKeywordCurlView = Backbone.View.extend({
+    el: '#find-by-keyword-curl',
     initialize: function () {
         this.model.on('change', this.render, this);
+        this.model.trigger('change');
     },
     events: {
         'click': 'selectEntireCurl'
@@ -250,12 +242,21 @@ App.GetEntryCurlView = Backbone.View.extend({
     }
 });
 
+if (!String.format) {
+    String.format = function (format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined' ? args[number] : match;
+        });
+    };
+}
+
 function onDomReady() {
-    var apiParams = new App.ApiParams();
-    new App.CurlView({model: apiParams});
-    var form = new App.FormView({model: apiParams});
-    form.run();
-    form.keyword.focus();
+    var findByKeywordParams = new App.FindByKeywordParams();
+    new App.FindByKeywordCurlView({model: findByKeywordParams});
+    var findByKeywordForm = new App.FindByKeywordFormView({model: findByKeywordParams});
+    findByKeywordForm.run();
+    findByKeywordForm.keyword.focus();
 
     var getEntryParams = new App.GetEntryParams();
     new App.GetEntryCurlView({model: getEntryParams});
