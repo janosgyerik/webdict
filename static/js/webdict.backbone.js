@@ -294,7 +294,7 @@ function onDomReady() {
     Backbone.history.start();
 
     if (!window.location.hash) {
-        App.form.findExact('hello');
+        App.form.findExact('chair');
     }
 }
 
