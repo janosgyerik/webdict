@@ -67,11 +67,13 @@ class TestSearchOutput(unittest.TestCase):
         entry = self.dict.find('lo')[0]
         self.assertEqual(
             {
-                'id': 'lo/lo-2594.txt',
+                'id': 'l/lo/lo_/lo_-60016.txt',
                 'name': 'lo',
-                'content': [['',
-                             'Defn: Look; see; behold; observe. " Lo, here is Christ." '
-                             'Matt. xxiv. 23. " Lo, we turn to the Gentiles." Acts xiii. 46. ']],
+                'content': [['', 'Lo, interj. Etym: [OE. lo, low; perh. akin to E. look, v.]'],
+                            ['',
+                             '**Defn:** Look; see; behold; observe. " Lo, '
+                             'here is Christ." Matt. xxiv. **23. ** " Lo, '
+                             'we turn to the Gentiles." Acts xiii. 46.']],
                 'references': []
             }, entry.content)
 
@@ -90,13 +92,15 @@ class TestSearchOutput(unittest.TestCase):
         entry = self.dict.find('behold')[1]
         self.assertEqual(
             {
-                'content': [['', 'Defn: To direct the eyes to, '
-                             'or fix them upon, an object; to look; to see. '
-                             'And I beheld, and, lo, in the midst of the throne, '
-                             '. . . a lamb as it had been slain. Rev. v. 6. ']],
+                'content': [['', 'Behold", v. i.'],
+                            ['', '**Defn:** To direct the eyes to, '
+                                 'or fix them upon, an object; to look; '
+                                 'to see. And I beheld, and, lo, in the '
+                                 'midst of the throne, . . . a lamb as it '
+                                 'had been slain. Rev. v. 6.']],
                 'references': [],
-                'id': 'be/behold-1577.txt',
-                'name': 'behold'
+                'id': 'b/be/beh/behold-9941.txt',
+                'name': 'behold-2'
             },
             entry.content
         )
@@ -105,10 +109,11 @@ class TestSearchOutput(unittest.TestCase):
         entry = self.dict.find('sound')[1]
         self.assertEqual(
             {
-                'content': [['', 'Defn: A cuttlefish. [Obs.] Ainsworth. ']],
+                'content': [['', 'Sound, n. (Zo\xc3\xb6l.)'],
+                            ['', '**Defn:** A cuttlefish. *[Obs.]* Ainsworth.']],
                 'references': [],
-                'id': 'so/sound-7343.txt',
-                'name': 'sound'
+                'id': 's/so/sou/sound-97349.txt',
+                'name': 'sound-2'
             },
             entry.content
         )
