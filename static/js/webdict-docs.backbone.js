@@ -18,11 +18,28 @@ App.CurlView = Backbone.View.extend({
         selection.addRange(range);
     },
     render: function () {
-        this.$el.text(this.get_curl_text());
+        this.$el.text(this.get_curl_cmd());
         return this;
     },
-    get_curl_text: function() {
+    get_baseurl: function () {
+        return location.origin + App.API_BASEURL + '/' + this.model.get('dict_id');
+    },
+    get_quoted_url: function (url) {
+        if (url.indexOf(' ') > -1) {
+            return '"' + url + '"';
+        }
+        return url;
+    },
+    get_url_end_part: function () {
         throw 'abstract method: subclass should implement!'
+    },
+    get_extra_args: function () {
+        return '';
+    },
+    get_curl_cmd: function () {
+        return 'curl '
+            + this.get_quoted_url(this.get_baseurl() + '/' + this.get_url_end_part())
+            + this.get_extra_args();
     }
 });
 
@@ -122,7 +139,10 @@ App.FindByKeywordFormView = Backbone.View.extend({
 
 App.FindByKeywordCurlView = App.CurlView.extend({
     el: '#find-by-keyword-curl',
-    get_curl_text: function () {
+    get_url_end_part: function () {
+        return 'find/' + this.model.get('method') + '/' + this.model.get('keyword');
+    },
+    get_extra_args: function () {
         var extras = '';
         var similar = this.model.get('similar');
         var list = this.model.get('list');
@@ -135,15 +155,7 @@ App.FindByKeywordCurlView = App.CurlView.extend({
                 extras += ' -d list=1';
             }
         }
-
-        var curl_url = String.format('{0}{1}/{2}/find/{3}/{4}',
-            location.origin, App.API_BASEURL,
-            this.model.get('dict_id'), this.model.get('method'), this.model.get('keyword'));
-        if (curl_url.indexOf(' ') > -1) {
-            curl_url = '"' + curl_url + '"';
-        }
-
-        return 'curl ' + curl_url + extras;
+        return extras;
     }
 });
 
@@ -224,14 +236,8 @@ App.GetEntryFormView = Backbone.View.extend({
 
 App.GetEntryCurlView = App.CurlView.extend({
     el: '#get-entry-curl',
-    get_curl_text: function () {
-        var curl_url = String.format('{0}{1}/{2}/entries/{3}',
-            location.origin, App.API_BASEURL,
-            this.model.get('dict_id'), this.model.get('entry_id'));
-        if (curl_url.indexOf(' ') > -1) {
-            curl_url = '"' + curl_url + '"';
-        }
-        return 'curl ' + curl_url;
+    get_url_end_part: function () {
+        return 'entries/' + this.model.get('entry_id');
     }
 });
 
