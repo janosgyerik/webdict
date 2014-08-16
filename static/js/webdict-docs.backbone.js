@@ -2,6 +2,42 @@ var App = window.App = {};
 
 App.API_BASEURL = '/api/v1/dictionaries';
 
+App.FormView = Backbone.View.extend({
+    _events: {
+        'click .run': 'runBtn',
+        'change .dictionary': 'run'
+    },
+    _initialize: function () {
+        this.dictionary = this.$('select[name="dictionary"]');
+        this.output = this.$('.api-output');
+    },
+    runBtn: function (e) {
+        e.preventDefault();
+        this.run();
+    },
+    runOnEnter: function (e) {
+        if (e.keyCode != 13) return;
+        e.preventDefault();
+        this.run();
+    },
+    run: function () {
+        throw 'abstract method: subclass should implement!';
+    },
+    onApiSuccess: function (json) {
+        this.$el.find('.api-error').addClass('api-error-hidden');
+
+        this.output.empty();
+        this.output.text(JSON.stringify(json, null, 2));
+    },
+    onApiError: function (url, jqXHR, textStatus, statusText) {
+        var $apiError = this.$el.find('.api-error');
+        $apiError.removeClass('api-error-hidden');
+        $apiError.find('a').attr('href', url).text(url);
+        $apiError.find('.statusNum').text(jqXHR.status);
+        $apiError.find('.statusText').text(statusText);
+    }
+});
+
 App.CurlView = Backbone.View.extend({
     initialize: function () {
         this.model.on('change', this.render, this);
@@ -52,31 +88,21 @@ App.FindByKeywordParams = Backbone.Model.extend({
     }
 });
 
-App.FindByKeywordFormView = Backbone.View.extend({
+App.FindByKeywordFormView = App.FormView.extend({
     el: '#find-by-keyword-form',
-    events: {
-        'keypress .keyword': 'runOnEnter',
-        'click .run': 'runBtn',
-        'change .dictionary': 'run',
-        'change .method': 'run',
-        'change .keyword': 'run',
-        'change .find-similar': 'run',
-        'change .list-only': 'run'
+    events: function() {
+      return _.extend({}, this._events, {
+          'keypress .keyword': 'runOnEnter',
+          'change .method': 'run',
+          'change .keyword': 'run',
+          'change .find-similar': 'run',
+          'change .list-only': 'run'
+      });
     },
     initialize: function () {
+        this._initialize();
         this.keyword = this.$('.keyword');
         this.keyword.val(this.model.get('keyword'));
-        this.dictionary = this.$('select[name="dictionary"]');
-        this.output = this.$('.api-output');
-    },
-    runBtn: function (e) {
-        e.preventDefault();
-        this.run();
-    },
-    runOnEnter: function (e) {
-        if (e.keyCode != 13) return;
-        e.preventDefault();
-        this.run();
     },
     run: function () {
         var keyword = this.keyword.val();
@@ -121,19 +147,6 @@ App.FindByKeywordFormView = Backbone.View.extend({
             success: success,
             error: error
         });
-    },
-    onApiSuccess: function (json) {
-        this.$el.find('.api-error').addClass('api-error-hidden');
-
-        this.output.empty();
-        this.output.text(JSON.stringify(json, null, 2));
-    },
-    onApiError: function (url, jqXHR, textStatus, statusText) {
-        var $apiError = this.$el.find('.api-error');
-        $apiError.removeClass('api-error-hidden');
-        $apiError.find('a').attr('href', url).text(url);
-        $apiError.find('.statusNum').text(jqXHR.status);
-        $apiError.find('.statusText').text(statusText);
     }
 });
 
@@ -166,28 +179,18 @@ App.GetEntryParams = Backbone.Model.extend({
     }
 });
 
-App.GetEntryFormView = Backbone.View.extend({
+App.GetEntryFormView = App.FormView.extend({
     el: '#get-entry-form',
-    events: {
-        'keypress .entry-id': 'runOnEnter',
-        'click .run': 'runBtn',
-        'change .dictionary': 'run',
-        'change .entry-id': 'run'
+    events: function() {
+      return _.extend({}, this._events, {
+          'keypress .entry-id': 'runOnEnter',
+          'change .entry-id': 'run'
+      });
     },
     initialize: function () {
+        this._initialize();
         this.entry_id = this.$('.entry-id');
         this.entry_id.val(this.model.get('entry_id'));
-        this.dictionary = this.$('select[name="dictionary"]');
-        this.output = this.$('.api-output');
-    },
-    runBtn: function (e) {
-        e.preventDefault();
-        this.run();
-    },
-    runOnEnter: function (e) {
-        if (e.keyCode != 13) return;
-        e.preventDefault();
-        this.run();
     },
     run: function () {
         var entry_id = this.entry_id.val();
@@ -218,19 +221,6 @@ App.GetEntryFormView = Backbone.View.extend({
             success: success,
             error: error
         });
-    },
-    onApiSuccess: function (json) {
-        this.$el.find('.api-error').addClass('api-error-hidden');
-
-        this.output.empty();
-        this.output.text(JSON.stringify(json, null, 2));
-    },
-    onApiError: function (url, jqXHR, textStatus, statusText) {
-        var $apiError = this.$el.find('.api-error');
-        $apiError.removeClass('api-error-hidden');
-        $apiError.find('a').attr('href', url).text(url);
-        $apiError.find('.statusNum').text(jqXHR.status);
-        $apiError.find('.statusText').text(statusText);
     }
 });
 
@@ -240,15 +230,6 @@ App.GetEntryCurlView = App.CurlView.extend({
         return 'entries/' + this.model.get('entry_id');
     }
 });
-
-if (!String.format) {
-    String.format = function (format) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        return format.replace(/{(\d+)}/g, function (match, number) {
-            return typeof args[number] != 'undefined' ? args[number] : match;
-        });
-    };
-}
 
 function onDomReady() {
     var findByKeywordParams = new App.FindByKeywordParams();
