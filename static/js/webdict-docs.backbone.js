@@ -82,14 +82,12 @@ App.FormView = Backbone.View.extend({
         });
     },
     onApiSuccess: function (json) {
-        $('.loading').addClass('loading-hidden');
         $('.api-error').addClass('api-error-hidden');
 
         this.output.empty();
         this.output.text(JSON.stringify(json, null, 2));
     },
     onApiError: function (url, jqXHR, textStatus, statusText) {
-        $('.loading').addClass('loading-hidden');
         var $apiError = $('.api-error');
         $apiError.removeClass('api-error-hidden');
         $apiError.find('a').attr('href', url).text(url);
@@ -148,12 +146,121 @@ App.CurlView = Backbone.View.extend({
     }
 });
 
+App.GetEntryParams = Backbone.Model.extend({
+    defaults: {
+        dict_id: 'wud',
+        entry_id: 's/su/sus/sustainable-102522.txt'
+    }
+});
+
+App.GetEntryFormView = Backbone.View.extend({
+    el: '#get-entry-form',
+    events: {
+        'keypress .entry-id': 'runOnEnter',
+        'click .run': 'runBtn',
+        'change .dictionary': 'run',
+        'change .entry-id': 'run'
+    },
+    initialize: function () {
+        this.entry_id = this.$('.entry-id');
+        this.entry_id.val(this.model.get('entry_id'));
+        this.dictionary = this.$('select[name="dictionary"]');
+        this.output = this.$('.api-output');
+    },
+    runBtn: function (e) {
+        e.preventDefault();
+        this.run();
+    },
+    runOnEnter: function (e) {
+        if (e.keyCode != 13) return;
+        e.preventDefault();
+        this.run();
+    },
+    run: function () {
+        var entry_id = this.entry_id.val();
+        if (!entry_id) return;
+        this.runWithEntryId(entry_id);
+    },
+    runWithEntryId: function (entry_id) {
+        var dict_id = this.dictionary.val();
+        this.get_entry(dict_id, entry_id);
+    },
+    get_entry: function (dict_id, entry_id) {
+        this.model.set({
+            dict_id: dict_id,
+            entry_id: entry_id
+        });
+        var url = App.API_BASEURL + "/" + dict_id + "/entries/" + entry_id;
+
+        var _this = this;
+        var success = function (json) {
+            _this.onApiSuccess(json);
+        };
+        var error = function (jqXHR, textStatus, errorThrown) {
+            _this.onApiError(url, jqXHR, textStatus, errorThrown);
+        };
+
+        $.ajax({
+            url: url,
+            success: success,
+            error: error
+        });
+    },
+    onApiSuccess: function (json) {
+        this.$el.find('.api-error').addClass('api-error-hidden');
+
+        this.output.empty();
+        this.output.text(JSON.stringify(json, null, 2));
+    },
+    onApiError: function (url, jqXHR, textStatus, statusText) {
+        var $apiError = this.$el.find('.api-error');
+        $apiError.removeClass('api-error-hidden');
+        $apiError.find('a').attr('href', url).text(url);
+        $apiError.find('.statusNum').text(jqXHR.status);
+        $apiError.find('.statusText').text(statusText);
+    }
+});
+
+App.GetEntryCurlView = Backbone.View.extend({
+    el: '#get-entry-curl',
+    initialize: function () {
+        this.model.on('change', this.render, this);
+        this.model.trigger('change');
+    },
+    events: {
+        'click': 'selectEntireCurl'
+    },
+    selectEntireCurl: function () {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(this.el);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    },
+    render: function () {
+        var curl_url = String.format('{0}{1}/{2}/entries/{3}',
+            location.origin, App.API_BASEURL,
+            this.model.get('dict_id'), this.model.get('entry_id'));
+        if (curl_url.indexOf(' ') > -1) {
+            curl_url = '"' + curl_url + '"';
+        }
+
+        this.$el.text('curl ' + curl_url);
+        return this;
+    }
+});
+
 function onDomReady() {
     var apiParams = new App.ApiParams();
     new App.CurlView({model: apiParams});
     var form = new App.FormView({model: apiParams});
     form.run();
     form.keyword.focus();
+
+    var getEntryParams = new App.GetEntryParams();
+    new App.GetEntryCurlView({model: getEntryParams});
+    var getEntryForm = new App.GetEntryFormView({model: getEntryParams});
+    getEntryForm.run();
 }
 
 $(function () {

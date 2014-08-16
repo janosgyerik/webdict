@@ -1,9 +1,15 @@
 - create interactive api doc
     - use router, capture tool model fields
     - later: python code <- model: search form
-    - add tool for /entries/
 
 - make wud (webster) more attractive
+    - bug in parser: ignoring first 3 lines when parsing is just not good.
+        look at almost any word, the beginning of the entry looks like a broken
+        fragment, because its beginning was not included in parsing.
+        - fix the parser
+        - regenerate the dictionary files
+        - update the common downloadable on data.janosgyerik.com
+        - update your local dictionary
     - decorate poet names:
         - ` Shak.` -> `*--Shak.*`
         - Milton. Chapman. Addison. Dryden.

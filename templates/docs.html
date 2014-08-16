@@ -143,6 +143,52 @@
                 </fieldset>
             </form>
         </div>
+
+        <div class="row-fluid">
+            <form class="form" id="get-entry-form">
+                <fieldset>
+                    <legend>Get entry</legend>
+
+                    <select class="dictionary" name="dictionary">
+                        {% for dict_id, dictionary in dictionaries %}
+                            {% if dictionary.is_public %}
+                                <option value="{{ dict_id }}">{{ dictionary.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                        <option value="dummy">Dummy</option>
+                    </select>
+
+                    <div class="input-append">
+                        <input type="text" class="input-xlarge entry-id" placeholder="entry-id of the dictionary entry">
+                        <button type="submit" class="btn btn-primary run">Run</button>
+                    </div>
+
+                    <div class="input-prepend">
+                        <span class="add-on">$</span>
+                        <span id="get-entry-curl" class="input-xxlarge span12 uneditable-input"></span>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="loading loading-hidden span9 well">
+                            Loading...
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="api-error api-error-hidden span9 alert alert-block alert-error">
+                            <h4>API Error</h4>
+                            Something's wrong, somewhere. The following API call failed:
+                            <ul>
+                                <li>URL: <a></a></li>
+                                <li>HTTP status: <span class="statusNum"></span> (<span class="statusText"></span>)</li>
+                            </ul>
+                            <p></p>
+                        </div>
+                    </div>
+
+                    <pre class="well api-output"></pre>
+                </fieldset>
+            </form>
+        </div>
         <!--/row-->
     </div>
 
