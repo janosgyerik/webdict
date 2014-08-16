@@ -153,6 +153,7 @@ function onDomReady() {
     new App.CurlView({model: apiParams});
     var form = new App.FormView({model: apiParams});
     form.run();
+    form.keyword.focus();
 }
 
 $(function () {
