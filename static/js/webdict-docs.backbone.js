@@ -138,16 +138,11 @@ App.FindByKeywordFormView = App.FormView.extend({
             similar: similar ? similar : null
         };
 
-        var _this = this;
-        var error = function (jqXHR, textStatus, errorThrown) {
-            _this.onApiError(url, jqXHR, textStatus, errorThrown);
-        };
-
         $.ajax({
             url: url,
             data: extras,
             success: _.bind(this.onApiSuccess, this),
-            error: error
+            error: _.bind(_.partial(this.onApiError, url), this)
         });
     }
 });
@@ -210,15 +205,10 @@ App.GetEntryFormView = App.FormView.extend({
         });
         var url = App.API_BASEURL + "/" + dict_id + "/entries/" + entry_id;
 
-        var _this = this;
-        var error = function (jqXHR, textStatus, errorThrown) {
-            _this.onApiError(url, jqXHR, textStatus, errorThrown);
-        };
-
         $.ajax({
             url: url,
             success: _.bind(this.onApiSuccess, this),
-            error: error
+            error: _.bind(_.partial(this.onApiError, url), this)
         });
     }
 });
