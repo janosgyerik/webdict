@@ -7,7 +7,7 @@ App.FormView = Backbone.View.extend({
         'click .run': 'runBtn',
         'change .dictionary': 'run'
     },
-    _initialize: function () {
+    initialize: function () {
         this.dictionary = this.$('select[name="dictionary"]');
         this.output = this.$('.api-output');
     },
@@ -100,7 +100,7 @@ App.FindByKeywordFormView = App.FormView.extend({
         });
     },
     initialize: function () {
-        this._initialize();
+        App.FormView.prototype.initialize.apply(this);
         this.keyword = this.$('.keyword');
         this.keyword.val(this.model.get('keyword'));
     },
@@ -193,7 +193,7 @@ App.GetEntryFormView = App.FormView.extend({
         });
     },
     initialize: function () {
-        this._initialize();
+        App.FormView.prototype.initialize.apply(this);
         this.entry_id = this.$('.entry-id');
         this.entry_id.val(this.model.get('entry_id'));
     },
