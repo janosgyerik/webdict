@@ -12,10 +12,10 @@
 - create restful cli
 
 - upgrade components
-    - jquery
-    - bootstrap
+    - jquery... or switch to zepto?
     - backbone
-    - flask
+    - underscore
+    - bootstrap
 
 - add unimplemented ui elements
     - radio buttons
