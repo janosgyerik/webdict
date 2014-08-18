@@ -124,14 +124,7 @@ App.FindByKeywordFormView = App.FormView.extend({
             similar: similar,
             list: list
         });
-        // var url = App.API_BASEURL + "/" + dict_id + "/find/" + method + "/" + keyword;
-        // var url = _.template('<%- baseURL %>/<%- dictID %>/find/<%- method %>/<%- keyword %>', {
-        var url = App.API_BASEURL + _.template('/<%- dictID %>/find/<%- method %>/<%- keyword %>', {
-            baseURL: App.API_BASEURL,
-            dictID: dict_id,
-            method: method,
-            keyword: keyword
-        });
+        var url = App.API_BASEURL + "/" + dict_id + "/find/" + method + "/" + keyword;
         // note: the server (currently) doesn't parse "false" as false
         var extras = {
             list: list ? list : null,
