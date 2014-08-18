@@ -14,7 +14,6 @@
 - upgrade components
     - jquery... or switch to zepto?
     - backbone
-    - underscore
     - bootstrap
 
 - add unimplemented ui elements
