@@ -24,13 +24,13 @@ App.FormView = Backbone.View.extend({
         throw 'abstract method: subclass should implement!';
     },
     onApiSuccess: function (json) {
-        this.$el.find('.api-error').addClass('api-error-hidden');
+        this.$('.api-error').addClass('api-error-hidden');
 
         this.output.empty();
         this.output.text(JSON.stringify(json, null, 2));
     },
     onApiError: function (url, jqXHR, textStatus, statusText) {
-        var $apiError = this.$el.find('.api-error');
+        var $apiError = this.$('.api-error');
         $apiError.removeClass('api-error-hidden');
         $apiError.find('a').attr('href', url).text(url);
         $apiError.find('.statusNum').text(jqXHR.status);
@@ -111,9 +111,9 @@ App.FindByKeywordFormView = App.FormView.extend({
     },
     runWithKeyword: function (keyword) {
         var dictionary = this.dictionary.val();
-        var method = this.$el.find('.method:checked').val();
-        var similar = this.$el.find('.find-similar:checked').size() > 0;
-        var list = this.$el.find('.list-only:checked').size() > 0;
+        var method = this.$('.method:checked').val();
+        var similar = this.$('.find-similar:checked').size() > 0;
+        var list = this.$('.list-only:checked').size() > 0;
         this.find(dictionary, method, keyword, similar, list);
     },
     find: function (dict_id, method, keyword, similar, list) {
