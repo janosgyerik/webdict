@@ -125,13 +125,11 @@ App.FindByKeywordFormView = App.FormView.extend({
             list: list
         });
         var url = App.API_BASEURL + "/" + dict_id + "/find/" + method + "/" + keyword;
-        var extras = {};
-        if (similar) {
-            extras.similar = true;
-        }
-        if (list) {
-            extras.list = true;
-        }
+        // note: the server (currently) doesn't parse "false" as false
+        var extras = {
+            list: list ? list : null,
+            similar: similar ? similar : null
+        };
 
         var _this = this;
         var success = function (json) {
