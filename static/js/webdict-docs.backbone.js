@@ -139,9 +139,6 @@ App.FindByKeywordFormView = App.FormView.extend({
         };
 
         var _this = this;
-        var success = function (json) {
-            _this.onApiSuccess(json);
-        };
         var error = function (jqXHR, textStatus, errorThrown) {
             _this.onApiError(url, jqXHR, textStatus, errorThrown);
         };
@@ -149,7 +146,7 @@ App.FindByKeywordFormView = App.FormView.extend({
         $.ajax({
             url: url,
             data: extras,
-            success: success,
+            success: _.bind(this.onApiSuccess, this),
             error: error
         });
     }
@@ -214,16 +211,13 @@ App.GetEntryFormView = App.FormView.extend({
         var url = App.API_BASEURL + "/" + dict_id + "/entries/" + entry_id;
 
         var _this = this;
-        var success = function (json) {
-            _this.onApiSuccess(json);
-        };
         var error = function (jqXHR, textStatus, errorThrown) {
             _this.onApiError(url, jqXHR, textStatus, errorThrown);
         };
 
         $.ajax({
             url: url,
-            success: success,
+            success: _.bind(this.onApiSuccess, this),
             error: error
         });
     }
