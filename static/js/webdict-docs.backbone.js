@@ -90,14 +90,14 @@ App.FindByKeywordParams = Backbone.Model.extend({
 
 App.FindByKeywordFormView = App.FormView.extend({
     el: '#find-by-keyword-form',
-    events: function() {
-      return _.extend({}, this._events, {
-          'keypress .keyword': 'runOnEnter',
-          'change .method': 'run',
-          'change .keyword': 'run',
-          'change .find-similar': 'run',
-          'change .list-only': 'run'
-      });
+    events: function () {
+        return _.extend({}, this._events, {
+            'keypress .keyword': 'runOnEnter',
+            'change .method': 'run',
+            'change .keyword': 'run',
+            'change .find-similar': 'run',
+            'change .list-only': 'run'
+        });
     },
     initialize: function () {
         this._initialize();
@@ -179,11 +179,11 @@ App.GetEntryParams = Backbone.Model.extend({
 
 App.GetEntryFormView = App.FormView.extend({
     el: '#get-entry-form',
-    events: function() {
-      return _.extend({}, this._events, {
-          'keypress .entry-id': 'runOnEnter',
-          'change .entry-id': 'run'
-      });
+    events: function () {
+        return _.extend({}, this._events, {
+            'keypress .entry-id': 'runOnEnter',
+            'change .entry-id': 'run'
+        });
     },
     initialize: function () {
         this._initialize();
