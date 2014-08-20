@@ -14,10 +14,10 @@ App.Router = Backbone.Router.extend({
         "find/exact/:keyword": "findExact",
         "entries/*entry_id": "getEntry"
     },
-    findExact: function(keyword) {
+    findExact: function (keyword) {
         App.form.findExact(keyword);
     },
-    getEntry: function(entry_id) {
+    getEntry: function (entry_id) {
         App.form.getEntry(entry_id);
     }
 });
@@ -29,32 +29,32 @@ App.Form = Backbone.View.extend({
         'click .search': 'searchBtn',
         'click .reset': 'resetBtn'
     },
-    initialize: function(options) {
+    initialize: function (options) {
         this.recentList = options.recentList;
         this.input = this.$('.search-query');
         this.results = this.$('.results');
     },
-    resetBtn: function(e) {
+    resetBtn: function (e) {
         e.preventDefault();
         this.input.val('');
         this.input.focus();
     },
-    searchBtn: function(e) {
+    searchBtn: function (e) {
         e.preventDefault();
         this.search();
     },
-    searchOnEnter: function(e) {
+    searchOnEnter: function (e) {
         if (e.keyCode != 13) return;
         e.preventDefault();
         this.search();
     },
-    search: function() {
+    search: function () {
         var keyword = this.input.val();
         if (keyword) {
             this.findExact(keyword);
         }
     },
-    findExact: function(keyword) {
+    findExact: function (keyword) {
         App.router.navigate('find/exact/' + keyword);
         var url = App.QUERY_URL + "/" + keyword;
 
@@ -70,7 +70,7 @@ App.Form = Backbone.View.extend({
             error: _.bind(_.partial(this.onApiError, url), this)
         });
     },
-    getEntry: function(entry_id) {
+    getEntry: function (entry_id) {
         var url = App.ENTRY_URL + "/" + entry_id;
 
         this.input.focus();
@@ -82,7 +82,7 @@ App.Form = Backbone.View.extend({
             error: _.bind(_.partial(this.onApiError, url), this)
         });
     },
-    onApiSuccess: function(keyword, json) {
+    onApiSuccess: function (keyword, json) {
         $('.loading').addClass('loading-hidden');
         $('.api-error').addClass('api-error-hidden');
 
@@ -104,7 +104,7 @@ App.Form = Backbone.View.extend({
 
         if (entries.length) {
             $results.empty();
-            _.each(entries, function(entry) {
+            _.each(entries, function (entry) {
                 var name = render_subscripts(entry.name);
                 if (!noExactMatches) {
                     recentList.addCustom({
@@ -114,19 +114,19 @@ App.Form = Backbone.View.extend({
                 }
                 $results.append($('<h3/>').append(name));
                 var refs_links = {};
-                _.each(entry.references, function(ref) {
+                _.each(entry.references, function (ref) {
                     var parts = ref.split(':');
                     var ref_name = render_subscripts(parts[2]);
                     refs_links[ref] = $('<a/>').append(ref_name).attr('href', '#entries/' + parts[1]).prop('outerHTML');
                 });
                 var dl = $('<dl/>');
-                _.each(entry.content, function(item) {
+                _.each(entry.content, function (item) {
                     var dt = item[0];
                     var dd = item[1];
                     dd = dd.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                     dd = dd.replace(/\*(.*?)\*/g, '<em>$1</em>');
                     dd = render_subscripts(dd);
-                    _.each(entry.references, function(ref, i) {
+                    _.each(entry.references, function (ref, i) {
                         var pattern = "\\[.*?\\]\\[" + (parseInt(i) + 1) + "\\]";
                         dd = dd.replace(new RegExp(pattern, "g"), refs_links[ref]);
                     });
@@ -139,7 +139,7 @@ App.Form = Backbone.View.extend({
 
         if (noExactMatches) {
             var items = [];
-            _.each(entries, function(entry) {
+            _.each(entries, function (entry) {
                 items.push(new App.Entry({
                     entry_id: entry.id,
                     name: render_subscripts(entry.name)
@@ -148,7 +148,7 @@ App.Form = Backbone.View.extend({
             App.similarList.reset(items);
         }
     },
-    onApiError: function(url, jqXHR, textStatus, statusText) {
+    onApiError: function (url, jqXHR, textStatus, statusText) {
         $('.loading').addClass('loading-hidden');
         var $apiError = $('.api-error');
         $apiError.removeClass('api-error-hidden');
@@ -168,11 +168,11 @@ App.Entry = Backbone.Model.extend({
 App.RecentList = Backbone.Collection.extend({
     model: App.Entry,
     localStorage: new Store('webdict-backbone-' + DICT_ID),
-    addCustom: function(obj) {
-        var filter = function(item) {
+    addCustom: function (obj) {
+        var filter = function (item) {
             return item.get('entry_id') == obj.entry_id;
         };
-        var remove = function(item) {
+        var remove = function (item) {
             item.destroy();
         };
         _.each(this.filter(filter), remove);
@@ -195,39 +195,39 @@ App.SimilarList = Backbone.Collection.extend({
 App.EntryView = Backbone.View.extend({
     tagName: 'tr',
     template: _.template($('#entry-template').html()),
-    initialize: function() {
+    initialize: function () {
         this.model.bind('destroy', this.remove, this);
     },
-    render: function() {
+    render: function () {
         this.$el.html(this.template(this.model.toJSON()));
         var href = this.$('a').attr('href');
-        this.$('td').click(function(e) {
+        this.$('td').click(function (e) {
             e.preventDefault();
             App.router.navigate(href, {trigger: true});
         });
         return this;
     },
-    clear: function() {
+    clear: function () {
         this.model.clear();
     }
 });
 
 App.RecentListView = Backbone.View.extend({
     el: '#recent',
-    initialize: function(options) {
+    initialize: function (options) {
         this.list = options.list;
         this.list.bind('reset', this.render, this);
         this.list.bind('updated', this.render, this);
         this.list.fetch();
     },
-    render: function() {
+    render: function () {
         this.$('.recent-list').empty();
         this.list.each(this.add);
         if (this.list.length) {
             this.$el.removeClass('hidden');
         }
     },
-    add: function(entry) {
+    add: function (entry) {
         var view = new App.EntryView({model: entry});
         this.$('.recent-list').prepend(view.render().el);
     }
@@ -235,25 +235,25 @@ App.RecentListView = Backbone.View.extend({
 
 App.SimilarListView = Backbone.View.extend({
     el: '#similar',
-    initialize: function(options) {
+    initialize: function (options) {
         this.list = options.list;
         this.list.bind('reset', this.render, this);
     },
-    render: function() {
+    render: function () {
         this.$('.similar-list').empty();
         this.list.each(this.add);
         if (this.list.length) {
             this.$el.removeClass('hidden');
         }
     },
-    add: function(entry) {
+    add: function (entry) {
         var view = new App.EntryView({model: entry});
         this.$('.similar-list').append(view.render().el);
     },
     events: {
         'click .dismiss': 'dismiss'
     },
-    dismiss: function() {
+    dismiss: function () {
         this.$el.addClass('hidden');
         App.form.input.focus();
     }
@@ -284,6 +284,6 @@ function onDomReady() {
     }
 }
 
-$(function() {
+$(function () {
     onDomReady();
 });
