@@ -59,13 +59,6 @@ App.Form = Backbone.View.extend({
         var url = App.QUERY_URL + "/" + keyword;
 
         this.input.val('');
-        var _this = this;
-        var success = function(json) {
-            _this.onApiSuccess(keyword, json);
-        };
-        var error = function(jqXHR, textStatus, errorThrown) {
-            _this.onApiError(url, jqXHR, textStatus, errorThrown);
-        };
 
         $('.loading').removeClass('loading-hidden');
         $.ajax({
@@ -73,27 +66,20 @@ App.Form = Backbone.View.extend({
             data: {
                 similar: true
             },
-            success: success,
-            error: error
+            success: _.bind(_.partial(this.onApiSuccess, keyword), this),
+            error: _.bind(_.partial(this.onApiError, url), this)
         });
     },
     getEntry: function(entry_id) {
         var url = App.ENTRY_URL + "/" + entry_id;
 
         this.input.focus();
-        var _this = this;
-        var success = function(json) {
-            _this.onApiSuccess(null, json);
-        };
-        var error = function(jqXHR, textStatus, errorThrown) {
-            _this.onApiError(url, jqXHR, textStatus, errorThrown);
-        };
 
         $('.loading').removeClass('loading-hidden');
         $.ajax({
             url: url,
-            success: success,
-            error: error
+            success: _.bind(_.partial(this.onApiSuccess, null), this),
+            error: _.bind(_.partial(this.onApiError, url), this)
         });
     },
     onApiSuccess: function(keyword, json) {
