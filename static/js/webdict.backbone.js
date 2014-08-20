@@ -214,8 +214,8 @@ App.EntryView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
-        var href = this.$el.find('a').attr('href');
-        this.$el.find('td').click(function(e) {
+        var href = this.$('a').attr('href');
+        this.$('td').click(function(e) {
             e.preventDefault();
             App.router.navigate(href, {trigger: true});
         });
