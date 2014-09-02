@@ -30,7 +30,7 @@ class BaseEntry(object):
         }
 
     def __repr__(self):
-        return '%s: %s' % (self.entry_id, self.name)
+        return '{0.__name__}({1.entry_id}, {1.name})'.format(type(self), self)
 
 
 class BaseDictionary(object):
