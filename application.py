@@ -70,6 +70,10 @@ class FindExact(DictionaryResource):
         return self.get_response(entries, list_only=self.args['list'])
 
 
+class GetWord(FindExact):
+    pass
+
+
 class FindByPrefix(DictionaryResource):
     def get(self, keyword):
         entries = self.dictionary.find_by_prefix(keyword,
@@ -132,6 +136,10 @@ def register_dictionary_endpoints():
     for dict_id, dictionary in dictionaries:
         app.add_url_rule('/' + dict_id, dict_id,
                          dictionary_app_gen(dict_id, dictionary))
+
+        add_resource(GetWord,
+                     '{0}/{1}/words/<string:keyword>',
+                     dict_id, dictionary)
 
         add_resource(FindExact,
                      '{0}/{1}/find/exact/<string:keyword>',
