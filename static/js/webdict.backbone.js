@@ -5,17 +5,17 @@ if (typeof DICT_ID === 'undefined' || !DICT_ID) {
 
 var App = window.App = {};
 
-App.QUERY_URL = '/api/v1/dictionaries/' + DICT_ID + '/find/exact';
+App.QUERY_URL = '/api/v1/dictionaries/' + DICT_ID + '/words';
 App.ENTRY_URL = '/api/v1/dictionaries/' + DICT_ID + '/entries';
 App.MAX_RECENT = 25;
 
 App.Router = Backbone.Router.extend({
     routes: {
-        "find/exact/:keyword": "findExact",
+        "words/:word": "words",
         "entries/*entry_id": "getEntry"
     },
-    findExact: function (keyword) {
-        App.form.findExact(keyword);
+    words: function (word) {
+        App.form.words(word);
     },
     getEntry: function (entry_id) {
         App.form.getEntry(entry_id);
@@ -49,14 +49,14 @@ App.Form = Backbone.View.extend({
         this.search();
     },
     search: function () {
-        var keyword = this.input.val();
-        if (keyword) {
-            this.findExact(keyword);
+        var word = this.input.val();
+        if (word) {
+            this.words(word);
         }
     },
-    findExact: function (keyword) {
-        App.router.navigate('find/exact/' + keyword);
-        var url = App.QUERY_URL + "/" + keyword;
+    words: function (word) {
+        App.router.navigate('words/' + word);
+        var url = App.QUERY_URL + "/" + word;
 
         this.input.val('');
 
@@ -66,7 +66,7 @@ App.Form = Backbone.View.extend({
             data: {
                 similar: true
             },
-            success: _.bind(_.partial(this.onApiSuccess, keyword), this),
+            success: _.bind(_.partial(this.onApiSuccess, word), this),
             error: _.bind(_.partial(this.onApiError, url), this)
         });
     },
@@ -82,7 +82,7 @@ App.Form = Backbone.View.extend({
             error: _.bind(_.partial(this.onApiError, url), this)
         });
     },
-    onApiSuccess: function (keyword, json) {
+    onApiSuccess: function (word, json) {
         $('.loading').addClass('loading-hidden');
         $('.api-error').addClass('api-error-hidden');
 
@@ -100,7 +100,7 @@ App.Form = Backbone.View.extend({
             return str.replace(/-(\d+)/, '<sub>$1</sub>');
         }
 
-        var noExactMatches = keyword && keyword != entries[0].name.substr(0, keyword.length);
+        var noExactMatches = word && word != entries[0].name.substr(0, word.length);
 
         if (entries.length) {
             $results.empty();
@@ -280,7 +280,7 @@ function onDomReady() {
     Backbone.history.start();
 
     if (!window.location.hash) {
-        App.form.findExact('chair');
+        App.form.words('chair');
     }
 }
 
