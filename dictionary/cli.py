@@ -1,5 +1,5 @@
 import abc
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 
 class CommandLineInterface(object):
@@ -33,38 +33,44 @@ class CommandLineInterface(object):
         pass
 
     def main(self):
-        parser = OptionParser()
-        parser.set_usage('%prog [options] word...')
-        parser.add_option('-b', '-s', '--prefix', action='store_true',
-                          help='find by prefix', default=False)
-        parser.add_option('-e', '--suffix', action='store_true', default=False,
-                          help='find by suffix', )
-        parser.add_option('-p', '--partial', action='store_true', default=False,
-                          help='find partial match', )
-        parser.add_option('-l', '--list', action='store_true', default=False,
-                          help='only list matches', )
-        parser.add_option('--get', action='store_true', default=False,
-                          help='get entries by specified ids instead of word lookup', )
-        parser.add_option('--similar', action='store_true', default=False,
-                          help='find similar words by shortening the prefix', )
-        parser.set_description('Lookup words in {0}'.format(self.dictionary.name))
-        (options, args) = parser.parse_args()
+        parser = ArgumentParser(
+            description='Lookup words in {0}'.format(self.dictionary.name))
+        parser.add_argument(
+            '-b', '-s', '--prefix', action='store_true', default=False,
+            help='find by prefix', )
+        parser.add_argument(
+            '-e', '--suffix', action='store_true', default=False,
+            help='find by suffix', )
+        parser.add_argument(
+            '-p', '--partial', action='store_true', default=False,
+            help='find partial match', )
+        parser.add_argument(
+            '-l', '--list', action='store_true', default=False,
+            help='only list matches', )
+        parser.add_argument(
+            '--get', action='store_true', default=False,
+            help='get entries by specified ids instead of word lookup', )
+        parser.add_argument(
+            '--similar', action='store_true', default=False,
+            help='find similar words by shortening the prefix', )
+        parser.add_argument('keywords', nargs='*',)
+        args = parser.parse_args()
 
-        if args:
-            if options.get:
-                for entry_id in args:
+        if args.keywords:
+            if args.get:
+                for entry_id in args.keywords:
                     self.get_and_print(entry_id)
-            elif options.prefix:
-                for keyword in args:
-                    self.find_by_prefix_and_print(keyword, find_similar=options.similar, list_only=options.list)
-            elif options.suffix:
-                for keyword in args:
-                    self.find_by_suffix_and_print(keyword, list_only=options.list)
-            elif options.partial:
-                for keyword in args:
-                    self.find_by_partial_and_print(keyword, list_only=options.list)
+            elif args.prefix:
+                for keyword in args.keywords:
+                    self.find_by_prefix_and_print(keyword, find_similar=args.similar, list_only=args.list)
+            elif args.suffix:
+                for keyword in args.keywords:
+                    self.find_by_suffix_and_print(keyword, list_only=args.list)
+            elif args.partial:
+                for keyword in args.keywords:
+                    self.find_by_partial_and_print(keyword, list_only=args.list)
             else:
-                for keyword in args:
-                    self.find_and_print(keyword, find_similar=options.similar, list_only=options.list)
+                for keyword in args.keywords:
+                    self.find_and_print(keyword, find_similar=args.similar, list_only=args.list)
         else:
             parser.print_help()
