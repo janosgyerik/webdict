@@ -15,7 +15,7 @@ Requirements
 ------------
 
 - Python packages: pip, virtualenv, Flask
-- Backbone
+- Backbone.js
 - Bootstrap
 
 Installing
