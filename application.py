@@ -22,19 +22,14 @@ dictionaries = list(discover_dictionaries())
 
 
 class DictionaryResource(Resource):
+    def __init__(self, dict_id, dictionary):
+        super(DictionaryResource, self).__init__()
+        self.dict_id = dict_id
+        self.dictionary = dictionary
+
     @lazy_property
     def args(self):
         return parser.parse_args()
-
-    @property
-    def dict_id(self):
-        """Dynamically set when creating subclass using type()"""
-        return None
-
-    @property
-    def dictionary(self):
-        """Dynamically set when creating subclass using type()"""
-        return None
 
     @staticmethod
     def get_serializable_entries(entries):
@@ -127,9 +122,10 @@ api_baseurl = '/api/v1/dictionaries'
 
 
 def add_resource(cname, url_template, dict_id, dictionary):
-    extra_props = {'dict_id': dict_id, 'dictionary': dictionary}
-    subclass = type(dict_id + cname.__name__, (cname,), extra_props)
-    api.add_resource(subclass, url_template.format(api_baseurl, dict_id))
+    endpoint = '{}_{}'.format(cname, dict_id)
+    url = url_template.format(api_baseurl, dict_id)
+    resource_class_args = (dict_id, dictionary)
+    api.add_resource(cname, url, endpoint=endpoint, resource_class_args=resource_class_args)
 
 
 def register_dictionary_endpoints():
