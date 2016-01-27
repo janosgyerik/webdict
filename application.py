@@ -18,7 +18,7 @@ parser.add_argument('similar', type=bool,
 parser.add_argument('list', type=bool,
                     help='Show list of matches instead of content')
 
-dictionaries = [_ for _ in discover_dictionaries()]
+dictionaries = list(discover_dictionaries())
 
 
 class DictionaryResource(Resource):
