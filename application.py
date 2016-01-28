@@ -70,7 +70,9 @@ class GetWord(FindExact):
 
 class FindByPrefix(DictionaryResource):
     def get(self, keyword):
-        entries = self.dictionary.find_by_prefix(keyword, find_similar=self.args['similar'])[:MAX_RESULTS]
+        entries = self.dictionary.find_by_prefix(
+            keyword, find_similar=self.args['similar']
+        )[:MAX_RESULTS]
         return self.get_response(entries, list_only=self.args['list'])
 
 
