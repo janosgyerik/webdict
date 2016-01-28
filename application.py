@@ -6,7 +6,6 @@ from flask.ext.restful import Resource, Api, reqparse
 from dictionary.base import lazy_property
 from util import discover_dictionaries
 
-
 MAX_RESULTS = 10
 
 app = Flask(__name__)
@@ -60,8 +59,7 @@ class DictionaryResource(Resource):
 
 class FindExact(DictionaryResource):
     def get(self, keyword):
-        entries = self.dictionary.find(keyword,
-                                       find_similar=self.args['similar'])
+        entries = self.dictionary.find(keyword, find_similar=self.args['similar'])
         return self.get_response(entries, list_only=self.args['list'])
 
 
@@ -71,8 +69,7 @@ class GetWord(FindExact):
 
 class FindByPrefix(DictionaryResource):
     def get(self, keyword):
-        entries = self.dictionary.find_by_prefix(keyword,
-                                                 find_similar=self.args['similar'])[:MAX_RESULTS]
+        entries = self.dictionary.find_by_prefix(keyword, find_similar=self.args['similar'])[:MAX_RESULTS]
         return self.get_response(entries, list_only=self.args['list'])
 
 
@@ -111,14 +108,15 @@ def docs():
 
 def dictionary_app_gen(dict_id, dictionary):
     def dictionary_app():
-        return render_template('dictionary.html', dictionaries=dictionaries,
-                               dict_id=dict_id, dictionary=dictionary)
+        return render_template(
+            'dictionary.html', dictionaries=dictionaries,
+            dict_id=dict_id, dictionary=dictionary
+        )
 
     return dictionary_app
 
 
 api_baseurl = '/api/v1/dictionaries'
-# api.add_resource(GetDictionaries, api_baseurl + '/')
 
 
 def add_resource(cname, url_template, dict_id, dictionary):
@@ -130,8 +128,7 @@ def add_resource(cname, url_template, dict_id, dictionary):
 
 def register_dictionary_endpoints():
     for dict_id, dictionary in dictionaries:
-        app.add_url_rule('/' + dict_id, dict_id,
-                         dictionary_app_gen(dict_id, dictionary))
+        app.add_url_rule('/' + dict_id, dict_id, dictionary_app_gen(dict_id, dictionary))
 
         add_resource(GetWord,
                      '{0}/{1}/words/<string:keyword>',
