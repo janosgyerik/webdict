@@ -6,6 +6,7 @@ from flask.ext.restful import Resource, Api, reqparse
 from dictionary.base import lazy_property
 from util import discover_dictionaries
 
+API_BASEURL = '/api/v1/dictionaries'
 MAX_RESULTS = 10
 
 app = Flask(__name__)
@@ -116,12 +117,9 @@ def dictionary_app_gen(dict_id, dictionary):
     return dictionary_app
 
 
-api_baseurl = '/api/v1/dictionaries'
-
-
 def add_resource(cname, url_template, dict_id, dictionary):
     endpoint = '{}_{}'.format(cname, dict_id)
-    url = url_template.format(api_baseurl, dict_id)
+    url = url_template.format(API_BASEURL, dict_id)
     resource_class_args = (dict_id, dictionary)
     api.add_resource(cname, url, endpoint=endpoint, resource_class_args=resource_class_args)
 
