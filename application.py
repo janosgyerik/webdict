@@ -25,6 +25,10 @@ parser.add_argument(
 dictionaries = list(discover_dictionaries())
 
 
+def format_endpoint(clazz, dict_id):
+    return '{}_{}'.format(clazz.__name__, dict_id)
+
+
 class DictionaryResource(Resource):
     def __init__(self, dict_id, dictionary):
         super(DictionaryResource, self).__init__()
@@ -123,11 +127,11 @@ def dictionary_app_gen(dict_id, dictionary):
     return dictionary_app
 
 
-def add_resource(cname, url_template, dict_id, dictionary):
-    endpoint = '{}_{}'.format(cname, dict_id)
+def add_resource(clazz, url_template, dict_id, dictionary):
+    endpoint = format_endpoint(clazz, dict_id)
     url = url_template.format(API_BASEURL, dict_id)
     resource_class_args = (dict_id, dictionary)
-    api.add_resource(cname, url, endpoint=endpoint, resource_class_args=resource_class_args)
+    api.add_resource(clazz, url, endpoint=endpoint, resource_class_args=resource_class_args)
 
 
 def register_dictionary_endpoints():
