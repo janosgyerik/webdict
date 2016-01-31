@@ -165,4 +165,5 @@ def register_dictionary_endpoints():
 
 if __name__ == '__main__':
     register_dictionary_endpoints()
+    app.debug = True
     app.run()
