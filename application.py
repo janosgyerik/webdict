@@ -13,10 +13,14 @@ app = Flask(__name__)
 api = Api(app)
 
 parser = reqparse.RequestParser()
-parser.add_argument('similar', type=bool,
-                    help='Try to find similar matches when there are no exact')
-parser.add_argument('list', type=bool,
-                    help='Show list of matches instead of content')
+parser.add_argument(
+    'similar', type=bool,
+    help='Try to find similar matches when there are no exact'
+)
+parser.add_argument(
+    'list', type=bool,
+    help='Show list of matches instead of content'
+)
 
 dictionaries = list(discover_dictionaries())
 
