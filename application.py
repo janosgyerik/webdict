@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, jsonify
 from flask.ext.restful import Resource, Api, reqparse
+from flask_restful import fields, marshal
 
 from dictionary.base import lazy_property
 from util import discover_dictionaries
@@ -39,9 +40,20 @@ class DictionaryResource(Resource):
     def args(self):
         return parser.parse_args()
 
-    @staticmethod
-    def get_serializable_entries(entries):
-        return [x.content for x in entries]
+    def get_serializable_entries(self, entries):
+        endpoint = format_endpoint(GetEntry, self.dict_id)
+        marshaled_entries = []
+        for entry in entries:
+            entry.content['entry_id'] = entry.content['id']
+            entry_fields = {
+                'content': fields.Raw(default=entry.content['content']),
+                'id': fields.String(),
+                'name': fields.String(),
+                'references': fields.Raw(default=entry.content['references']),
+                'url': fields.Url(endpoint=endpoint, absolute=True),
+            }
+            marshaled_entries.append(marshal(entry.content, entry_fields))
+        return marshaled_entries
 
     def get_json_entries(self, serializable_entries):
         return jsonify({
