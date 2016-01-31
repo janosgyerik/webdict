@@ -1,3 +1,66 @@
+Improve output format
+---------------------
+
+The current format is not intuitive, and requires specific interpretation logic by clients:
+
+        {
+          "content": [
+            [
+              "SYLLABICATION",
+              "hel-lo"
+            ],
+            [
+              "INTERJECTION",
+              "Used to greet someone, answer the telephone, or express surprise."
+            ],
+            [
+              "NOUN",
+              "Inflected forms: pl. **hel-los** A calling or greeting of \"hello.\""
+            ]
+          ],
+          "id": "60/H0136000.html",
+          "name": "hello",
+          "references": [
+            "ref:charts/A4elemen.html:element"
+          ],
+          "url": "http://localhost:5000/api/v1/dictionaries/ahd/entries/60/H0136000.html"
+        }
+
+Change it to make it self-explanatory:
+
+- json:
+    - definitions []
+        - name
+        - description
+
+- markdown: text rendered in markdown format
+
+- txt: plain text, with minimal markdown, suitable for CLI
+
+- references should be expressed as standard links, with attributes:
+    - title
+    - href
+    - rel (not too important)
+    - type (not too important)
+
+- update the JavaScript to use the new format of references
+
+---
+
+- probably id can be eliminated
+
+- add back ahd and make it the default. probably nobody cares
+
+---
+
+- make ahd#words/hello work
+- make ahd/words/hello work
+- make ahd/words/hello-1 work
+- make ahd/words/lead-1 work
+- make ahd/words/lead-2 work
+
+---
+
 - make wud (webster) more attractive
     - decorate poet names:
         - ` Shak.` -> `*--Shak.*`
@@ -7,7 +70,7 @@
         - "See Flame" (in inflame)
         - `Syn. -- To provoke; fire; kindle; irritate; exasperate; incense; enrage; anger; excite; arouse.`
 
------------------------------
+---
 
 - create restful cli
 
